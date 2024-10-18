@@ -37,7 +37,7 @@ GET SKY BUY is an innovative e-commerce platform that connects customers with lo
 
 ## License
 
-This project is licensed under the [Proprietary License](#) (replace with link or details of your proprietary license).
+This project is licensed under the [Proprietary License](https://github.com/GET-SKY-BUY/GSB_Company?tab=GPL-3.0-1-ov-file) (replace with link or details of your proprietary license).
 
 ## Contact Information
 
