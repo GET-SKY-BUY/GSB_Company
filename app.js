@@ -13,6 +13,7 @@ const app = express();
 dotenv.config();
 const PORT = process.env.PORT;
 
+app.set('view engine', 'pug');
 app.set('views', [
     path.join(__dirname, './Pug/Auth'),
     path.join(__dirname, './Pug/Common'),
