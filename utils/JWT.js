@@ -11,7 +11,6 @@ const Opt = {
     issuer: "getskybuy.in",
     audience: "customers",
     subject: "info@getskybuy.in",
-    maxAge: "60d",
     algorithm: "HS256",
 };
 

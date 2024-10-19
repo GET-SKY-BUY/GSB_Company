@@ -1,5 +1,4 @@
 require('dotenv').config();
-const NODE_ENV = process.env.NODE_ENV;
 const { Verify_Token } = require("../utils/JWT.js");
 const { User } = require("../Models.js");
 
@@ -8,7 +7,7 @@ const cookieOptions = {
     path: "/",
     httpOnly: true,
     maxAge: 1000 * 60 * 5,
-    secure: NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production',
     signed: true,
     sameSite: "strict",
 };

@@ -7,8 +7,9 @@ const Valid_Mobile = (mobile) => {
     return regex.test(mobile);
 };
 const Valid_Password = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
     return regex.test(password);
 };
+
 
 module.exports = { Valid_Email, Valid_Mobile , Valid_Password };

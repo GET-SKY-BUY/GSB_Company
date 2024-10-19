@@ -22,7 +22,7 @@ const UserSchema = new Schema({
         trim: true,
         lowercase: true,
     },
-    PersonalData:{
+    Personal_Data:{
         First_Name: {
             type: String,
         },
@@ -80,8 +80,8 @@ const UserSchema = new Schema({
         }
     },
     Cart:{type:Object},
-    BuyNow:{type:Object},
-    Order_IDs:{type:Object},
+    Buy_Now:{type:Object},
+    Orders:{type:Object},
     Address:{
         Active_ID:{type:String},
         List:{type:Object},

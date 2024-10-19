@@ -24,6 +24,7 @@
   "author": "Rick Sarkar, SKY TECH - RICK",
   "license": "GPL-3.0",
   "dependencies": {
+    "argon2": "^0.41.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
@@ -39,6 +40,7 @@
     "nodemon": "^3.1.7",
     "pug": "^3.0.3",
     "razorpay": "^2.9.4",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "zod": "^3.23.8"
   }
 }

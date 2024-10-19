@@ -4,9 +4,17 @@ const Valid_Email = (email) => {
 };
 
 const Valid_Password = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
     return regex.test(password);
 };
+
+
+
+const Valid_Mobile = (mobile) => {
+    const regex = /^[0-9]{10}$/;
+    return regex.test(mobile);
+};
+
 async function Next(n) {
     let FirstDiv = document.getElementById("FirstDiv");
     let LastDiv = document.getElementById("LastDiv");
@@ -55,7 +63,7 @@ async function Next(n) {
         }
     }else if(n==2){
         
-        if (String(Mobile_Number.value) == null || !validatePhoneNumber(Mobile_Number.value)) {
+        if (String(Mobile_Number.value) == null || !Valid_Mobile(Mobile_Number.value)) {
             Message("Please enter correct mobile number.","Warning")
 
         }else if (!Valid_Email(Email.value)) {
