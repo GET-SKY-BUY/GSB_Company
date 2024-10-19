@@ -7,10 +7,15 @@ const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
 const fs = require('fs');
+const pug = require('pug');
 
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT;
+
+app.set('views', [
+    path.join(__dirname, './Pug/Auth'),
+]);
 
 let Protocol = "http";
 if (process.env.NODE_ENV === 'production') {
@@ -21,9 +26,15 @@ if (process.env.NODE_ENV === 'production') {
 const Project_URL = `${Protocol}://${process.env.PROJECT_DOMAIN}`;
 
 // Setup static folder
-app.use(express.static(path.join(__dirname, './Public')));
+app.use("/verified/files", express.static(path.join(__dirname, './Public')));
 
-// Routes
+// Routes for the APIs
+app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
+
+// Render the pages
+app.use("/auth", require('./Pages_Routes/Authentication.js'));
+// app.use("/profile", require('./Pages_Routes/Authentication.js'));
+// app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 // Setup cors
 app.use(cors(
@@ -55,10 +66,10 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'"],
+            defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
             scriptSrc: ["'self'", "'unsafe-inline'"],
             styleSrc: ["'self'", "'unsafe-inline'"], 
-            StyleSheetListSrc: ["'self'", "fonts.googleapis.com"], // Allow stylesheets
+            StyleSheetListSrc: ["'self'"], // Allow stylesheets
             imgSrc: ["'self'", "data:"], // Allow images from self and data URIs
             connectSrc: ["'self'", Project_URL], // Allow connections to this API
             frameSrc: ["'none'"], // Prevent embedding in frames
@@ -75,21 +86,21 @@ app.use(helmet({
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    const File_Path = path.join(__dirname, 'logs', './error.log');
-    fs.appendFile(File_Path, err, (err) => {
+    const File_Path = path.join(__dirname, './Logs', 'error.log');
+    fs.appendFile( File_Path, err.stack , (err) => {
         if (err) {
             console.error(err.stack);
         };
     });
-    res.status(500).json({
+    return res.status(500).json({
         Status: "Error",
-        Message: "Something went wrong, please try again later",
+        Message: "Something happened. Please try again later.",
         Error_Type: "Internal Server Error.",
     });
 });
 
 app.get('/', (req, res) => {
-    res.status(200).json({
+    return res.status(200).json({
         Status: "Success",
         Message: "Server is running"
     });
