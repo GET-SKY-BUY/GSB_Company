@@ -7,26 +7,6 @@ const Valid_Password = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return regex.test(password);
 };
-
-function validatePhoneNumber(number) {
-    const re = /^[0-9]{10}$/;
-    return re.test(String(number));
-};
-document.getElementById("Cloose").addEventListener("click", () => {
-    document.getElementById("Message").style.display = "none";
-});
-
-function Message(n, W) {
-    let TextMessage = document.getElementById("TextMessage");
-    document.getElementById("Message").style.display = "flex";
-    document.getElementById("MainMsg").innerHTML = n;
-    if(W=="Warning"){
-        TextMessage.style.backgroundColor = "#ffbebe";        
-    }else if (W == "Success") {
-        TextMessage.style.backgroundColor = "#b7ffc4";
-    };
-};
-
 async function Next(n) {
     let FirstDiv = document.getElementById("FirstDiv");
     let LastDiv = document.getElementById("LastDiv");
@@ -142,31 +122,33 @@ async function Next(n) {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(Sent),
-            }).then(response=>{
+            }).then(res=>{
                 document.getElementById("Loading").style.display = "none";
-                if (response.ok) {
-                    return response.json();
+                if (res.ok) {
+                    return res.json();
+                } else if(res.status == 401){
+
                 } else {
                     return response.json().then(Error_Data => {
                         const error = new Error(Error_Data.Message);
                         error.Message = Error_Data.Message;
                         throw error;
                     });
-                }
+                };
             }).then(data =>{
                 Message(data.Message,"Success");
-                setTimeout(() => {
-                    window.location.href = "/verify/otp";
-                }, 2500);
+                // setTimeout(() => {
+                //     window.location.href = "/verify/otp";
+                // }, 2500);
             }).catch(e=>{
+                let Next_Btn = document.getElementById("Next_Btn");
                 if (e.Message) {
-                    let Next_Btn = document.getElementById("Next_Btn");
                     Next_Btn.disabled = false;
                     Message(e.Message,"Warning");
                 }else{
-                    Message("Connection error","Warning");
-
-                }
+                    Next_Btn.disabled = false;
+                    Message("Something happened, try again later.","Warning");
+                };
 
             });
             
