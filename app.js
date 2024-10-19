@@ -38,12 +38,34 @@ app.use("/auth", require('./Pages_Routes/Authentication.js'));
 // app.use("/profile", require('./Pages_Routes/Authentication.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
 
-// Setup cors
+// Helmet middleware for securing the app
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
+            scriptSrc: ["'self'", "'unsafe-inline'", Project_URL],
+            styleSrc: ["'self'", "'unsafe-inline'", Project_URL], 
+            StyleSheetListSrc: ["'self'", Project_URL], // Allow stylesheets
+            imgSrc: ["'self'", "data:", Project_URL],
+        }
+    },
+    frameguard: { action: 'deny' }, // Prevent clickjacking by denying framing
+    hsts: { maxAge: 31536000 }, // Enforce HTTPS for 1 year
+    xssFilter: true, // Enable XSS filter in browsers
+    noSniff: true, // Prevent MIME sniffing
+    hidePoweredBy: true,
+}));
+
+// Setup cors middleware for cross-origin requests
 app.use(cors(
     {
         origin: [
             Project_URL,
             "http://localhost:80",
+            "https://www.google.com",
+            "https://google.com",
+            "https://bing.com",
+            "https://www.bing.com",
         ],
         credentials: true,
         optionsSuccessStatus: 200,
@@ -55,6 +77,12 @@ app.use(cors(
     }
 ));
 
+app.use((req, res, next) => {
+    // res.removeHeader("X-Robots-Tag");
+    res.removeHeader('X-Robots-Tag');
+    res.set('X-Robots-Tag', 'index, follow'); 
+    next();
+});
 // Setup body-parser middleware for parsing JSON
 app.use(bodyParser.json()); // parse application/json
 
@@ -63,28 +91,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Cookie parser middleware for parsing cookies
 app.use(cookieParser(process.env.COOKIE_SECRET));
-
-// Helmet middleware for securing the app
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            styleSrc: ["'self'", "'unsafe-inline'"], 
-            StyleSheetListSrc: ["'self'"], // Allow stylesheets
-            imgSrc: ["'self'", "data:"], // Allow images from self and data URIs
-            connectSrc: ["'self'", Project_URL], // Allow connections to this API
-            frameSrc: ["'none'"], // Prevent embedding in frames
-            objectSrc: ["'none'"], // Prevent loading plugins
-            // reportUri: "/csp-violation-report-endpoint" // Report violations to this endpoint
-        }
-    },
-    frameguard: { action: 'deny' }, // Prevent clickjacking by denying framing
-    hsts: { maxAge: 31536000 }, // Enforce HTTPS for 1 year
-    xssFilter: true, // Enable XSS filter in browsers
-    noSniff: true, // Prevent MIME sniffing
-}));
-
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -106,6 +112,11 @@ app.get('/', (req, res) => {
         Status: "Success",
         Message: "Server is running"
     });
+});
+
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send(`User-agent: *\nDisallow: /private/`);
 });
 
 app.listen(PORT, () => {
