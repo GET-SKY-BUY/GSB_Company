@@ -1,6 +1,9 @@
 "use strict";
 const express = require('express');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 dotenv.config();
