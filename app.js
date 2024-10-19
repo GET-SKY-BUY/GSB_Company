@@ -17,12 +17,13 @@ if (process.env.NODE_ENV === 'production') {
     Protocol = 'https';
 };
 
+// Project URL
 const Project_URL = `${Protocol}://${process.env.PROJECT_DOMAIN}`;
 
 // Setup static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './Public')));
 
-// 
+// Routes
 
 // Setup cors
 app.use(cors(
@@ -38,7 +39,6 @@ app.use(cors(
         exposedHeaders: ['Content-Length', 'X-Knowledge-Base'],
         preflightContinue: false,
         optionsSuccessStatus: 204,
-
     }
 ));
 
@@ -60,10 +60,10 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'"], 
             StyleSheetListSrc: ["'self'", "fonts.googleapis.com"], // Allow stylesheets
             imgSrc: ["'self'", "data:"], // Allow images from self and data URIs
-            connectSrc: ["'self'", "api.example.com"], // Allow connections to this API
+            connectSrc: ["'self'", Project_URL], // Allow connections to this API
             frameSrc: ["'none'"], // Prevent embedding in frames
             objectSrc: ["'none'"], // Prevent loading plugins
-            reportUri: "/csp-violation-report-endpoint" // Report violations to this endpoint
+            // reportUri: "/csp-violation-report-endpoint" // Report violations to this endpoint
         }
     },
     frameguard: { action: 'deny' }, // Prevent clickjacking by denying framing
@@ -71,6 +71,7 @@ app.use(helmet({
     xssFilter: true, // Enable XSS filter in browsers
     noSniff: true, // Prevent MIME sniffing
 }));
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

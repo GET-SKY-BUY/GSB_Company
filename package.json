@@ -5,19 +5,36 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js"
   },
-  "author": "Rick Sarkar",
-  "license": "ISC",
+  "homepage": "https://github.com/GET-SKY-BUY/GSB_Company",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GET-SKY-BUY/GSB_Company.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GET-SKY-BUY/GSB_Company/issues"
+  },
+  "keywords": ["ecommerce", "express", "nodejs", "web"],
+  "author": "Rick Sarkar, SKY TECH - RICK",
+  "license": "GPL-3.0",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemon": "^3.1.7"
-  }
+    "mongoose": "^8.7.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15",
+    "nodemon": "^3.1.7",
+    "pug": "^3.0.3",
+    "razorpay": "^2.9.4",
+    "redis": "^4.7.0"
+  },
+  "devDependencies": {}
 }
