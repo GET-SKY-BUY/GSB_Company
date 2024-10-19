@@ -70,7 +70,15 @@ const UserSchema = new Schema({
             trim:true,
         }
     },
-    LoggedIn:{type:Object},
+    LoggedIn:{
+        Token:{
+            type: String,
+            trim:true,
+        },
+        Created:{
+            type: Date,
+        }
+    },
     Cart:{type:Object},
     BuyNow:{type:Object},
     Order_IDs:{type:Object},
