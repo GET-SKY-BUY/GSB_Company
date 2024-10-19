@@ -79,7 +79,6 @@ app.use(cors(
 
 app.use((req, res, next) => {
     // res.removeHeader("X-Robots-Tag");
-    res.removeHeader('X-Robots-Tag');
     res.set('X-Robots-Tag', 'index, follow'); 
     next();
 });
