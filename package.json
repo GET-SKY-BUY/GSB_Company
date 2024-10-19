@@ -15,7 +15,12 @@
   "bugs": {
     "url": "https://github.com/GET-SKY-BUY/GSB_Company/issues"
   },
-  "keywords": ["ecommerce", "express", "nodejs", "web"],
+  "keywords": [
+    "ecommerce",
+    "express",
+    "nodejs",
+    "web"
+  ],
   "author": "Rick Sarkar, SKY TECH - RICK",
   "license": "GPL-3.0",
   "dependencies": {
@@ -35,6 +40,5 @@
     "pug": "^3.0.3",
     "razorpay": "^2.9.4",
     "redis": "^4.7.0"
-  },
-  "devDependencies": {}
+  }
 }

@@ -1,4 +1,5 @@
 "use strict";
+// Importing the required modules
 const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
@@ -9,20 +10,28 @@ const path = require('path');
 const fs = require('fs');
 const pug = require('pug');
 
+// Initialize the express app
 const app = express();
 dotenv.config();
-const PORT = process.env.PORT;
 
+// Environment variables
+const PORT = process.env.PORT;
+const Cookie_Secret = process.env.COOKIE_SECRET;
+const NODE_ENV = process.env.NODE_ENV;
+
+
+// Protocol 
+let Protocol = "http";
+if (NODE_ENV === 'production') {
+    Protocol = 'https';
+};
+
+// Set the view engine to pug
 app.set('view engine', 'pug');
 app.set('views', [
     path.join(__dirname, './Pug/Auth'),
     path.join(__dirname, './Pug/Common'),
 ]);
-
-let Protocol = "http";
-if (process.env.NODE_ENV === 'production') {
-    Protocol = 'https';
-};
 
 // Project URL
 const Project_URL = `${Protocol}://${process.env.PROJECT_DOMAIN}`;
@@ -33,10 +42,21 @@ app.use("/verified/files", express.static(path.join(__dirname, './Public')));
 // Routes for the APIs
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
 
+//--------------------------------------------------------------
 // Render the pages
 app.use("/auth", require('./Pages_Routes/Authentication.js'));
 // app.use("/profile", require('./Pages_Routes/Authentication.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
+//--------------------------------------------------------------
+
+// Setup body-parser middleware for parsing JSON
+app.use(bodyParser.json()); // parse application/json
+
+// Setup body-parser middleware for parsing URL encoded data
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Cookie parser middleware for parsing cookies
+app.use(cookieParser(Cookie_Secret));
 
 // Helmet middleware for securing the app
 app.use(helmet({
@@ -77,19 +97,12 @@ app.use(cors(
     }
 ));
 
+// Setup middleware to remove the X-Robots-Tag header
 app.use((req, res, next) => {
     // res.removeHeader("X-Robots-Tag");
     res.set('X-Robots-Tag', 'index, follow'); 
     next();
 });
-// Setup body-parser middleware for parsing JSON
-app.use(bodyParser.json()); // parse application/json
-
-// Setup body-parser middleware for parsing URL encoded data
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Cookie parser middleware for parsing cookies
-app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
