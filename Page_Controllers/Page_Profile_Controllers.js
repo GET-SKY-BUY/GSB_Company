@@ -30,7 +30,7 @@ const Home = async (req, res, next) =>  {
             Joined:Joined,
             CartNumber: CartNumber,
             Login:"",
-            Logout: `<a title="Logout" href="/logout">Logout</a>`,
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
     } catch (error) {
         next(error);
@@ -60,16 +60,62 @@ const Setting = async (req, res, next) =>  {
             IFSC_Code: User.Bank.IFSC_Code,
             CartNumber: CartNumber,
             Login:"",
-            Logout: `<a title="Logout" href="/logout">Logout</a>`,
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
 
     }catch (err){
         next(err);
-    }
-}
+    };
+};
+
+const Coins = async (req, res, next) =>  {
+    try{
+        const Got_User = req.User;
+
+        const History = Got_User.GSBCoins.History;
+
+        return res.status(200).render("Profile_Coins",{
+            First_Name: Got_User.Personal_Data.First_Name,
+            Last_Name: Got_User.Personal_Data.Last_Name,
+            Email: Got_User.Email,
+
+            CoinsAvailable: Got_User.GSBCoins.Available,
+            CoinsEarned: Got_User.GSBCoins.Earned,
+            CoinsHistory: History,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+
+
+    }catch (err){
+        next(err);
+    };
+};
+
+const Profile_Wishlist = ( req , res , next )=> {
+    try{
+        const User = req.User;
+
+        const WishList = User.WishList;
+
+
+        return res.status(200).render("Profile_Wishlist",{
+            First_Name: User.Personal_Data.First_Name,
+            Last_Name: User.Personal_Data.Last_Name,
+            Email: User.Email,
+            WishList: WishList,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+    }catch (err){
+        next(err);
+    };
+};
 
 
 module.exports = {
     Home,
     Setting,
+    Coins,
+    Profile_Wishlist,
 }

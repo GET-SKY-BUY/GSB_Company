@@ -1,0 +1,147 @@
+ 
+.Product_Row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    background-color: rgba(255, 255, 255, 0.837);
+
+
+}
+
+.Product {
+    width: 200px;
+    margin: 3px 10px;
+    padding: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 4px #f6f6f6;
+}
+
+.Product:hover {
+    box-shadow: 0 0 10px #ccc;
+}
+.Product_Image {
+    width: 100%;
+}
+
+.Product_Image img{
+    width: 100%;
+}
+
+.Product_Title {
+    margin: 0px;
+    padding: 0px;
+    max-height: 61px;
+    overflow: hidden;
+    font-size: 13px;
+}
+
+.Product_Title a {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+}
+
+
+.Product_Title a:hover {
+    text-decoration: underline;
+}
+
+
+.Product_Pricing {
+    display: block;
+
+}
+
+.MRPP {
+    font-size: 12px;
+}
+
+.MRPPp {
+    font-size: 18px;
+}
+
+.Product_Offer {
+    font-size: 12px;
+    color: red;
+}
+
+
+
+.MRRP {
+    text-decoration: line-through;
+    font-size: 12px;
+    color: #747474;
+}   
+
+
+
+.Product_Buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Product_Buttons button:nth-child(1) {
+    font-size: 12px;
+    padding: 8px;
+    border: none;
+    background-color: #ff914d;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 200ms;
+    user-select: none;
+    width: 49%;
+}
+
+.Product_Buttons button:nth-child(1):hover {
+    background-color: #ff7c2b;
+    text-decoration: underline;
+}
+
+
+.Product_Buttons button:nth-child(2) {
+    font-size: 12px;
+    padding: 5px;
+    border: none;
+    background-color: white;
+    color: #ff914d;
+    border: 1px solid #ff914d;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 200ms;
+    user-select: none;
+    width: 49%;
+}
+
+
+.Product_Buttons button:nth-child(2):hover {
+    background-color: #fff1e8;
+    text-decoration: underline;
+}
+
+
+
+.Product_OneLine {
+    font-size: 12px;
+    margin: 5px 0px;
+    padding: 0px;
+    color: rgb(0, 141, 0);
+    text-align: center;
+    
+
+}
+
+
+
+
+
+
+
+
+
+
+
