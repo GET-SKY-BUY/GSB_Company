@@ -551,7 +551,14 @@ const Login = async ( req, res, next ) => {
                 Token: Save_Token
             });
             
-            await Found.save().then(()=>{
+            await Found.save().then(async ()=>{
+                let Status = await Send_Mail({
+                    from: "Login - GSB" + "<" + process.env.MAIL_ID + ">",
+                    to: Found.Email,
+                    subject: "Login Successful notification",
+                    html: `Hello ${Found.Personal_Data.First_Name}, <br>You have been logged in to your account, if not done by you please change your password immediately.`,
+                });
+                
                 res.clearCookie("Login_User",{
                     domain: process.env.PROJECT_DOMAIN,
                     path: "/",
