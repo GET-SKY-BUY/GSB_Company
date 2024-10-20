@@ -8,4 +8,8 @@ const Signup_User = zod.object({
     DOB: zod.string().min(3),
     Password: zod.string().min(8).max(50),
 });
-module.exports = { Signup_User };
+const Login_User = zod.object({
+    Email: zod.string().email(),
+    Password: zod.string().min(8).max(50),
+});
+module.exports = { Signup_User , Login_User};

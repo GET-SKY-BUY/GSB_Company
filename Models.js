@@ -73,7 +73,7 @@ const UserSchema = new Schema({
     LoggedIn:{
         Token:{
             type: String,
-            trim:true,
+            trim: true,
         },
         Created:{
             type: Date,

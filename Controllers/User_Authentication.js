@@ -1,9 +1,11 @@
 require("dotenv").config();
-const { Signup_User } = require("../utils/Zod_Schema.js");
+const { Signup_User , Login_User } = require("../utils/Zod_Schema.js");
 const { User } = require("../Models.js");
 const { Valid_Email, Valid_Password , Valid_Mobile} = require("../utils/Validations.js");
-const Send_Mail = require("../utils/Send_Mail.js");
 const { Verify_Token , Generate_Token }= require("../utils/JWT.js");
+const { Password_Hash, Password_Compare } = require("../utils/Password.js");
+const { Get_Token , Get_OTP } = require("../utils/Auth.js");
+const Send_Mail = require("../utils/Send_Mail.js");
 const Profile_ID = require("../utils/Profile_ID.js");
 
 const Cookie_Options_OTP = {
@@ -15,9 +17,16 @@ const Cookie_Options_OTP = {
     signed: true,
     sameSite: "strict",
 };
+const Cookie_Options_User = {
+    domain: process.env.PROJECT_DOMAIN,
+    path: "/",
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 30 * 2,
+    secure: process.env.NODE_ENV === 'production',
+    signed: true,
+    sameSite: "strict",
+};
 
-const { Password_Hash, Password_Compare } = require("../utils/Password.js");
-const { Get_Token , Get_OTP } = require("../utils/Auth.js");
 
 
 const Signup = async ( req, res, next ) => {
@@ -61,6 +70,14 @@ const Signup = async ( req, res, next ) => {
         if(!VER){
             return res.redirect("/");
         };
+        res.clearCookie("User",{
+            domain: process.env.PROJECT_DOMAIN,
+            path: "/",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: "strict",
+        });
 
         let New_Token = req.signedCookies.New_User;
         if(!New_Token){
@@ -144,7 +161,10 @@ const Signup = async ( req, res, next ) => {
                 OTP_Expiry: OTP_Expiry,
                 Token: Save_Token,
             },
-            LoggedIn:[],
+            LoggedIn:{
+                Token: "",
+                Created: new Date(),
+            },
             Cart:[],
             Buy_Now:[],
             Orders:[],
@@ -354,7 +374,7 @@ const OTP_Resend = async (req, res, next) => {
             let Status = await Send_Mail({
                 from: "OTP - GSB" + "<" + process.env.MAIL_ID + ">",
                 to: Search.Email,
-                subject: "OTP Verification",
+                subject: "Resent - OTP Verification",
                 html: `Hello ${Search.Personal_Data.First_Name}, <br>Your OTP is ${OTP}. <br><br>It is valid for 5 minutes.`,
             });
             if(!Status){
@@ -379,8 +399,185 @@ const OTP_Resend = async (req, res, next) => {
         next(error);
     };
 };
+
+
+
+const Login = async ( req, res, next ) => {
+    
+    try{
+        
+        let User1 = req.signedCookies.User;
+        let VER = false;
+        if(!User1) {
+            VER = true;
+            
+        };
+
+        let Verify = Verify_Token(User1);
+        if(!Verify && !VER){
+            VER = true;
+        };
+        
+        if(!VER){
+
+            await User.findById(Verify.ID).then( user => {
+                if (!user) {
+                    VER = true;
+                };
+                
+                if(!(user.LoggedIn.Token === Verify.Token)) {
+                    VER = true;
+                };
+                
+                if(user.Verified === "No") {
+                    VER = true;
+                };
+                
+                if(user.Ban === "Yes") {
+                    VER = true;
+                };
+                
+            });
+        };
+
+        if(!VER){
+            return res.redirect("/");
+        };
+        res.clearCookie("User",{
+            domain: process.env.PROJECT_DOMAIN,
+            path: "/",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: "strict",
+        });
+        let New_Token = req.signedCookies.Login_User;
+        if(!New_Token){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+        if(!(New_Token === "Yes")){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+
+        let Parse = Login_User.safeParse(req.body);
+
+        if(!Parse.success){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data.",
+            });
+        };
+
+        Parse = Parse.data;
+        Parse.Email = Parse.Email.toLowerCase();
+        if(!(Valid_Email(Parse.Email) && Valid_Password(Parse.Password))){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+        let Found = await User.findOne({Email: Parse.Email});
+        if(!Found){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "You don't have an account."
+            });
+        };
+        const Match_Password = await Password_Compare(Parse.Password, Found.Password);
+        if(!Match_Password){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid password."
+            });
+        };
+
+        if(Found.Verified === "No"){
+            let Save_Token = await Get_Token();
+            let OTP = await Get_OTP();
+            let OTP_Expiry = Number(Date.now() + (5 * 1000));
+            
+    
+            let Status = await Send_Mail({
+                from: "OTP - GSB" + "<" + process.env.MAIL_ID + ">",
+                to: Found.Email,
+                subject: "OTP Verification",
+                html: `Hello ${Found.Personal_Data.First_Name}, <br>Your OTP is ${OTP}. <br><br>It is valid for 5 minutes.`,
+            });
+            
+            if(!Status){
+                return res.status(400).json({
+                    Status: "Failed",
+                    Message: "Unable to sent OTP."
+                });
+            };
+            Found.Auth.OTP = OTP;
+            Found.Auth.OTP_Expiry = OTP_Expiry;
+            Found.Auth.Token = Save_Token;
+            const JWT_TOKEN = Generate_Token({
+                ID: Found._id,
+                Token: Save_Token
+            });
+            await Found.save().then(()=>{
+                res.clearCookie("Login_User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(201).cookie("OTP",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "Account not verified, OTP sent successfully."});
+            }).catch(err => { next(err) });
+
+            
+
+
+        }else{
+
+            let Save_Token = await Get_Token();
+            Found.LoggedIn.Token = Save_Token;
+            Found.LoggedIn.Created = new Date();
+
+            const JWT_TOKEN = Generate_Token({
+                ID: Found._id,
+                Token: Save_Token
+            });
+            
+            await Found.save().then(()=>{
+                res.clearCookie("Login_User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(201).cookie("User",JWT_TOKEN,Cookie_Options_User).json({Status: "Success", Message: "Login successfully."});
+            }).catch(err => { next(err) });
+        }
+    }catch (err) {
+        next(err)
+    };
+};
+
+
+
+
+
+
+
+
 module.exports = {
     Signup,
     Verify_OTP,
     OTP_Resend,
+    Login,
 };
