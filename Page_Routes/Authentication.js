@@ -8,9 +8,11 @@ Auth.use(cookieParser(Cookie_Secret));
 
 const  Verify_User  = require("../utils/Verify_User.js");
 
-const { Signup } = require("../Page_Controllers/Authentication.js");
+const { Signup, Verify_OTP , Login } = require("../Page_Controllers/Authentication.js");
 
 
 // User Authentication
 Auth.get("/signup", Signup);
+Auth.get("/verify-otp", Verify_OTP);
+Auth.get("/Login", Login);
 module.exports = Auth;

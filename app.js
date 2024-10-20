@@ -43,10 +43,12 @@ app.use("/verified/files", express.static(path.join(__dirname, './Public')));
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
 
 //--------------------------------------------------------------
+
 // Render the pages
 app.use("/auth", require('./Page_Routes/Authentication.js'));
 // app.use("/profile", require('./Pages_Routes/Authentication.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
+
 //--------------------------------------------------------------
 
 // Setup body-parser middleware for parsing JSON

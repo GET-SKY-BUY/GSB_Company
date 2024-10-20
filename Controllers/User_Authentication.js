@@ -209,6 +209,18 @@ const Signup = async ( req, res, next ) => {
         next(err)
     };
 };
+
+
+
+const Verify_OTP = async (req, res, next) => {
+    try {
+        console.log(req.body.OTP);
+        res.status(200).json({Status: "Success", Message: "OTP verified successfully."});        
+    } catch (error) {
+        next(error);
+    }
+};
 module.exports = {
     Signup,
-}
+    Verify_OTP,
+};
