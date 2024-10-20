@@ -75,10 +75,10 @@ async function Login() {
             
             document.getElementById("Loading").style.display = "none";
             Message(data.Message,"Success");
-            // setTimeout(() => {
-            //     document.getElementById("Loading").style.display = "none";
-            //     location.reload();
-            // }, 2000);
+            setTimeout(() => {
+                document.getElementById("Loading").style.display = "none";
+                location.reload();
+            }, 2000);
         }).catch(e=>{
             document.getElementById("Loading").style.display = "none";
             document.getElementById("Loading").style.display = "none";

@@ -20,8 +20,14 @@ const Update_User = z.object({
     DOB: z.string().min(3),
 });
 
+const Change_Password_User = z.object({
+    Current_Password: z.string().min(8).max(50),
+    New_Password: z.string().min(8).max(50),
+});
+
 module.exports = { 
     Signup_User ,
     Login_User ,
-    Update_User 
+    Update_User,
+    Change_Password_User,
 };

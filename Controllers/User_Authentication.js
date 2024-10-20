@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Signup_User , Login_User } = require("../utils/Zod_Schema.js");
+const { Signup_User , Login_User , Change_Password_User } = require("../utils/Zod_Schema.js");
 const { User } = require("../Models.js");
 const { Valid_Email, Valid_Password , Valid_Mobile} = require("../utils/Validations.js");
 const { Verify_Token , Generate_Token }= require("../utils/JWT.js");
@@ -575,7 +575,42 @@ const Login = async ( req, res, next ) => {
     };
 };
 
-
+const Change_Password = async (req, res, next) => {
+    try{
+        const Got_User = req.User;
+        let Parse = Change_Password_User.safeParse(req.body);
+        if(!Parse.success){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+        Parse = Parse.data;
+        if(!(Valid_Password(Parse.Current_Password) && Valid_Password(Parse.New_Password))){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+        const Match_Password = await Password_Compare(Parse.Current_Password, Got_User.Password);
+        if(!Match_Password){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid password."
+            });
+        };
+        let Hashed_Password = await Password_Hash(Parse.New_Password);
+        Got_User.Password = Hashed_Password;
+        Got_User.save().then(()=>{
+            return res.status(200).json({
+                Status: "Success",
+                Message: "Password changed successfully."
+            });
+        });
+    }catch(err){
+        next(err);
+    };
+};
 
 
 
@@ -587,4 +622,5 @@ module.exports = {
     Verify_OTP,
     OTP_Resend,
     Login,
+    Change_Password,
 };
