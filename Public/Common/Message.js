@@ -53,7 +53,7 @@ style.innerHTML = `
         display: flex;
         justify-content: center;
         align-items: center;
-        position: relative;
+        position: fixed;
         top: 100px;
     }
     #TextMessage span {

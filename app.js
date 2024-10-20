@@ -31,6 +31,7 @@ app.set('view engine', 'pug');
 app.set('views', [
     path.join(__dirname, './Pug/Auth'),
     path.join(__dirname, './Pug/Common'),
+    path.join(__dirname, './Pug/Profile'),
 ]);
 
 // Project URL
@@ -44,10 +45,15 @@ app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
 
 //--------------------------------------------------------------
 
-// Render the pages
+// Pages
 app.use("/auth", require('./Page_Routes/Authentication.js'));
+app.use("/profile", require('./Page_Routes/Profile.js'));
 // app.use("/profile", require('./Pages_Routes/Authentication.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
+
+//--------------------------------------------------------------
+// 
+app.get("/", require("./Links/Home.js"))
 
 //--------------------------------------------------------------
 
@@ -118,13 +124,6 @@ app.use((err, req, res, next) => {
         Status: "Error",
         Message: "Something happened. Please try again later.",
         Error_Type: "Internal Server Error.",
-    });
-});
-
-app.get('/', (req, res) => {
-    return res.status(200).json({
-        Status: "Success",
-        Message: "Server is running"
     });
 });
 

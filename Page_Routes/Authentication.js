@@ -6,7 +6,7 @@ const Auth = express.Router();
 const Cookie_Secret = process.env.COOKIE_SECRET;
 Auth.use(cookieParser(Cookie_Secret));
 
-const  Verify_User  = require("../utils/Verify_User.js");
+const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
 const { Signup, Verify_OTP , Login } = require("../Page_Controllers/Authentication.js");
 
@@ -14,5 +14,5 @@ const { Signup, Verify_OTP , Login } = require("../Page_Controllers/Authenticati
 // User Authentication
 Auth.get("/signup", Signup);
 Auth.get("/verify-otp", Verify_OTP);
-Auth.get("/Login", Login);
+Auth.get("/login", Login);
 module.exports = Auth;

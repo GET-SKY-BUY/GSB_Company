@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My account - GET SKY BUY</title>
+
+    
+    include ../Common/HeadPart.pug
+
+    <link rel="stylesheet" href="/verified/files/profile/css/Profile_Home.css">
+</head>
+<body>
+    include ../Common/Header.pug
+    <main class="Main">
+        <div class="CenterMain">
+            include ./Profile_Aside.pug
+
+
+            <div class="Side2">
+                <div class="H2Heading">
+                    <h2>My Account</h2>
+                </div>
+                <hr>
+
+                <div class="TopProfile">
+                    <div class="TopProfileImg">
+                        <img src="/verified/files/images/Profile_Image.webp" alt="Personal icon">
+                    </div>
+                    <div class="TopProfileData">
+                        <div><strong>#{First_Name} #{Last_Name}</strong></div>
+                        <div>#{Email}</div>
+                    </div>
+                </div>
+
+
+
+                <div class="table">
+                    <table>
+                        <tr>
+                            <td>First name:</td>
+                            <td>
+                                <input value="#{First_Name}" id="First_Name" type="text" placeholder="First name" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last name:</td>
+                            <td>
+                                <input value="#{Last_Name}" id="Last_Name" type="text" placeholder="Last name" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mobile number:</td>
+                            <td>
+                                <input value="#{Mobile_Number}" id="Mobile_Number" type="text" placeholder="Mobile number" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D.O.B:</td>
+                            <td>
+                                <input value="#{DOB}" id="DOB" type="date" placeholder="DOB" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <td>
+                                <input value="#{Gender}" id="Gender" type="text" placeholder="Gender" disabled>
+                            </td>
+                            <!-- <td>
+                                <select id="Gender" disabled>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </td> -->
+                        </tr>
+                        <tr>
+                            <td>GSB - Coins:</td>
+                            <td>
+                                <input value="#{Coins}" id="Coins" type="text" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Joined:</td>
+                            <td>
+                                <input value="#{Joined}" disabled >
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </main>
+    
+</body>
+</html>

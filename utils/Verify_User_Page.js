@@ -1,17 +1,14 @@
 const { Verify_Token } = require("./JWT.js");
 const { User } = require("../Models.js");
-const Verify_User = async ( req, res, next) => {
+const Verify_User_Page = async ( req, res, next) => {
     try {
         
-        if(!req.signedCookies){
-            return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
-        };
-        let User = req.signedCookies.User;
-        if(!User) {
+        let User1 = req.signedCookies.User;
+        if(!User1) {
             return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
         };
 
-        let Verify = Verify_Token(User);
+        let Verify = Verify_Token(User1);
         if(!Verify) {
             return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
         };
@@ -43,4 +40,4 @@ const Verify_User = async ( req, res, next) => {
         next(err);
     };
 };
-module.exports = Verify_User;
+module.exports = Verify_User_Page;
