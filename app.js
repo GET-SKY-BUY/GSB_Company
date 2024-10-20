@@ -42,6 +42,7 @@ app.use("/verified/files", express.static(path.join(__dirname, './Public')));
 
 // Routes for the APIs
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
+app.use("/api/v1/profile", require('./Routes/Profile.js'));
 
 //--------------------------------------------------------------
 

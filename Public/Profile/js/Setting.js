@@ -79,7 +79,7 @@ function Save() {
             DOB: DOB,
             Gender: Gender,
         };
-        fetch("/api/v1/profile/setting", {
+        fetch("/api/v1/profile/settings", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

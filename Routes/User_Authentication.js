@@ -1,18 +1,15 @@
 require('dotenv').config();
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const Auth = express.Router();
-
 const Cookie_Secret = process.env.COOKIE_SECRET;
-Auth.use(cookieParser(Cookie_Secret));
+const Auth = express.Router();
 const { Signup , Verify_OTP , OTP_Resend , Login } = require("../Controllers/User_Authentication.js");
-
 module.exports = Auth;
 
 
 
+Auth.use(cookieParser(Cookie_Secret));
 Auth.use(bodyParser.urlencoded({ extended: true }));
 Auth.use(bodyParser.json());
 // User Authentication
