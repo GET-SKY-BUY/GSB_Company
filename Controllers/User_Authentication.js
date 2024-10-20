@@ -466,7 +466,6 @@ const Login = async ( req, res, next ) => {
             });
         };
 
-
         let Parse = Login_User.safeParse(req.body);
 
         if(!Parse.success){
@@ -504,7 +503,6 @@ const Login = async ( req, res, next ) => {
             let OTP = await Get_OTP();
             let OTP_Expiry = Number(Date.now() + (5 * 1000));
             
-    
             let Status = await Send_Mail({
                 from: "OTP - GSB" + "<" + process.env.MAIL_ID + ">",
                 to: Found.Email,
@@ -536,9 +534,6 @@ const Login = async ( req, res, next ) => {
                 });
                 return res.status(201).cookie("OTP",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "Account not verified, OTP sent successfully."});
             }).catch(err => { next(err) });
-
-            
-
 
         }else{
 
@@ -601,7 +596,14 @@ const Change_Password = async (req, res, next) => {
         };
         let Hashed_Password = await Password_Hash(Parse.New_Password);
         Got_User.Password = Hashed_Password;
-        Got_User.save().then(()=>{
+        Got_User.save().then( async ()=>{
+            
+            let Status = await Send_Mail({
+                from: "Password alert" + "<" + process.env.MAIL_ID + ">",
+                to: New_User.Email,
+                subject: "Password changed",
+                html: `Hello ${Got_User.Personal_Data.First_Name}, <br>Your password changed successful, if not done by you please immediately change your password.`,
+            });
             return res.status(200).json({
                 Status: "Success",
                 Message: "Password changed successfully."
