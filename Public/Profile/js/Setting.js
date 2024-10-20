@@ -199,7 +199,7 @@ async function UpdateBank() {
             Account_Number: V_Account_Number,
             IFSC_Code: V_IFSC_Code
         };
-        await fetch("/api/v1/profile/update_bank", {
+        await fetch("/api/v1/profile/update-bank", {
             method:"PUT",
             headers: {
                 "Content-Type": "application/json",

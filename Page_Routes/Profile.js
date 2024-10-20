@@ -16,5 +16,5 @@ const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
 
 Profile.get("/", Verify_User_Page ,Home);
-Profile.get("/Setting", Verify_User_Page ,Setting);
+Profile.get("/setting", Verify_User_Page ,Setting);
 

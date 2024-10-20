@@ -25,9 +25,17 @@ const Change_Password_User = z.object({
     New_Password: z.string().min(8).max(50),
 });
 
+const Add_Bank = z.object({
+    Bank_Name: z.string().min(3),
+    Beneficiary_Name: z.string().min(3).max(50),
+    Account_Number: z.string().min(6).max(50),
+    IFSC_Code: z.string().min(6).max(50),
+})
+
 module.exports = { 
     Signup_User ,
     Login_User ,
     Update_User,
     Change_Password_User,
+    Add_Bank,
 };

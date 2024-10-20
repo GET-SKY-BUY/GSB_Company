@@ -1,7 +1,7 @@
 
 const { Update_User } = require("../utils/Zod_Schema.js");
 const { Valid_Mobile } = require("../utils/Validations.js");
-
+const { Add_Bank } = require("../utils/Zod_Schema.js");
 const Profile_Setting = async (req, res , next) => {
     try {
         const User = req.User;
@@ -39,4 +39,25 @@ const Profile_Setting = async (req, res , next) => {
     };
 };
 
-module.exports = { Profile_Setting };
+const Profile_Update_Bank = async (req, res , next) => {
+    try {
+        const Got_User = req.User;
+
+        const Valid = Add_Bank.safeParse(req.body);
+        if (!Valid.success) {
+            return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
+        };
+        Got_User.Bank = Valid.data;
+        Got_User.save().then(()=>{
+            return res.status(200).json({Message: "Updated Successfully"});
+        });
+    } catch (error) {
+        next(error);
+    };
+};
+
+
+module.exports = {
+    Profile_Setting,
+    Profile_Update_Bank,
+};
