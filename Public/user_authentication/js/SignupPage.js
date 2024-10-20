@@ -134,8 +134,6 @@ async function Next(n) {
                 document.getElementById("Loading").style.display = "none";
                 if (res.ok) {
                     return res.json();
-                } else if(res.status == 401){
-
                 } else {
                     return response.json().then(Error_Data => {
                         const error = new Error(Error_Data.Message);
@@ -145,9 +143,9 @@ async function Next(n) {
                 };
             }).then(data =>{
                 Message(data.Message,"Success");
-                // setTimeout(() => {
-                //     window.location.href = "/verify/otp";
-                // }, 2500);
+                setTimeout(() => {
+                    window.location.href = "/auth/verify-otp";
+                }, 2500);
             }).catch(e=>{
                 let Next_Btn = document.getElementById("Next_Btn");
                 if (e.Message) {

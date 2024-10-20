@@ -23,7 +23,7 @@ const { Get_Token , Get_OTP } = require("../utils/Auth.js");
 const Signup = async ( req, res, next ) => {
     
     try{
-
+        
         let User1 = req.signedCookies.User;
         let VER = false;
         if(!User1) {
@@ -32,28 +32,31 @@ const Signup = async ( req, res, next ) => {
         };
 
         let Verify = Verify_Token(User1);
-        if(!Verify) {
+        if(!Verify && !VER){
             VER = true;
         };
         
-        await User.findById(Verify.ID).then( user => {
-            if (!user) {
-                VER = true;
-            };
+        if(!VER){
 
-            if(!(user.LoggedIn.Token === Verify.Token)) {
-                VER = true;
-            };
-
-            if(user.Verified === "No") {
-                VER = true;
-            };
-
-            if(user.Ban === "Yes") {
-                VER = true;
-            };
-            
-        });
+            await User.findById(Verify.ID).then( user => {
+                if (!user) {
+                    VER = true;
+                };
+                
+                if(!(user.LoggedIn.Token === Verify.Token)) {
+                    VER = true;
+                };
+                
+                if(user.Verified === "No") {
+                    VER = true;
+                };
+                
+                if(user.Ban === "Yes") {
+                    VER = true;
+                };
+                
+            });
+        };
 
         if(!VER){
             return res.redirect("/");
@@ -178,7 +181,7 @@ const Signup = async ( req, res, next ) => {
         });
         
         if(!Status){
-            return res.status(500).json({
+            return res.status(400).json({
                 Status: "Failed",
                 Message: "Unable to sent OTP."
             });
