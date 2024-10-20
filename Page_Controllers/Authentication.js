@@ -14,18 +14,30 @@ const cookieOptions = {
 
 const Signup = async ( req, res, next ) => {
     try{
-        if(!req.signedCookies){
-            res.cookie("New_User","Yes", cookieOptions); 
-            return res.status(200).render('signup');
-        };
-        let User = req.signedCookies.User;
-        if(!User) {
+        let User1 = req.signedCookies.User;
+        if(!User1) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
             res.cookie("New_User","Yes", cookieOptions);
             return res.status(200).render('signup');
         };
 
-        let Verify = Verify_Token(User);
+        let Verify = Verify_Token(User1);
         if(!Verify) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
             res.cookie("New_User","Yes",cookieOptions);
             return res.status(200).render('signup');
         };
@@ -33,21 +45,53 @@ const Signup = async ( req, res, next ) => {
         // Check if the user exists
         await User.findById(Verify.ID).then( user => {
             if (!user) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
                 res.cookie("New_User","Yes",cookieOptions); 
                 return res.status(200).render('signup');
             };
 
             if(!(user.LoggedIn.Token === Verify.Token)) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
                 res.cookie("New_User","Yes",cookieOptions); 
                 return res.status(200).render('signup');    
             };
 
             if(user.Verified === "No") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
                 res.cookie("New_User","Yes",cookieOptions); 
                 return res.status(200).render('signup');
             };
 
             if(user.Ban === "Yes") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
                 res.cookie("New_User","Yes",cookieOptions); 
                 return res.status(200).render('signup');
             };

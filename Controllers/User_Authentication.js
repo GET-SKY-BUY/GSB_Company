@@ -3,8 +3,8 @@ const { Signup_User } = require("../utils/Zod_Schema.js");
 const { User } = require("../Models.js");
 const { Valid_Email, Valid_Password , Valid_Mobile} = require("../utils/Validations.js");
 const Send_Mail = require("../utils/Send_Mail.js");
-const { Generate_Token }= require("../utils/JWT.js");
-
+const { Verify_Token , Generate_Token }= require("../utils/JWT.js");
+const Profile_ID = require("../utils/Profile_ID.js");
 
 const Cookie_Options_OTP = {
     domain: process.env.PROJECT_DOMAIN,
@@ -18,9 +18,47 @@ const Cookie_Options_OTP = {
 
 const { Password_Hash, Password_Compare } = require("../utils/Password.js");
 const { Get_Token , Get_OTP } = require("../utils/Auth.js");
+
+
 const Signup = async ( req, res, next ) => {
     
     try{
+
+        let User1 = req.signedCookies.User;
+        let VER = false;
+        if(!User1) {
+            VER = true;
+            
+        };
+
+        let Verify = Verify_Token(User1);
+        if(!Verify) {
+            VER = true;
+        };
+        
+        await User.findById(Verify.ID).then( user => {
+            if (!user) {
+                VER = true;
+            };
+
+            if(!(user.LoggedIn.Token === Verify.Token)) {
+                VER = true;
+            };
+
+            if(user.Verified === "No") {
+                VER = true;
+            };
+
+            if(user.Ban === "Yes") {
+                VER = true;
+            };
+            
+        });
+
+        if(!VER){
+            return res.redirect("/");
+        };
+
         let New_Token = req.signedCookies.New_User;
         if(!New_Token){
             return res.status(401).json({
@@ -32,9 +70,9 @@ const Signup = async ( req, res, next ) => {
         if(!(New_Token === "Yes")){
             return res.status(401).json({
                 Status: "Failed",
-                Message: "Unauthorized access - Verify your account."
+                Message: "Unauthorized access."
             });
-        }
+        };
 
 
         let Parse = Signup_User.safeParse(req.body);
@@ -61,6 +99,23 @@ const Signup = async ( req, res, next ) => {
                 Message: "You already have an account."
             });
         };
+
+        let P_ID;
+        let Userss = await User.find({});
+        while(true){
+            let Check = true;
+            P_ID = Profile_ID();
+            for (let i = 0; i < Userss.length; i++) {
+                const element = Userss[i];
+                if(element._id === P_ID){
+                    Check = false;
+                    break;
+                };
+            }
+            if(Check){
+                break;
+            };
+        };
         
         let Hashed_Password = await Password_Hash(Parse.Password);
         let Save_Token = await Get_Token();
@@ -68,7 +123,7 @@ const Signup = async ( req, res, next ) => {
         let OTP_Expiry = Number(Date.now() + (5 * 1000)); // 5 minutes
         
         let New_User = {
-            _id: "123",
+            _id: P_ID,
             Personal_Data:{
                 First_Name: Parse.First_Name,
                 Last_Name: Parse.Last_Name,
@@ -137,7 +192,14 @@ const Signup = async ( req, res, next ) => {
 
         let Save = new User(New_User);
         await Save.save().then(()=>{
-            res.clearCookie("New_User",{path:"/"});
+            res.clearCookie("New_User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
             return res.status(201).cookie("OTP",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "OTP sent successfully."});
         }).catch(err => { next(err) });
     }catch (err) {
