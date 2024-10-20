@@ -111,6 +111,45 @@ const Profile_Wishlist = ( req , res , next )=> {
         next(err);
     };
 };
+const Profile_Favourite = ( req , res , next )=> {
+    try{
+        const User = req.User;
+
+        const Favourite = User.Favourite;
+
+
+        return res.status(200).render("Profile_Favourite",{
+            First_Name: User.Personal_Data.First_Name,
+            Last_Name: User.Personal_Data.Last_Name,
+            Email: User.Email,
+            Favourite: Favourite,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+    }catch (err){
+        next(err);
+    };
+};
+
+const Profile_Notification = ( req , res , next )=> {
+    try{
+        const User = req.User;
+
+        const Notification = User.Notification;
+
+
+        return res.status(200).render("Profile_Notification",{
+            First_Name: User.Personal_Data.First_Name,
+            Last_Name: User.Personal_Data.Last_Name,
+            Email: User.Email,
+            Notification: Notification,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+    }catch (err){
+        next(err);
+    };
+};
 
 
 module.exports = {
@@ -118,4 +157,6 @@ module.exports = {
     Setting,
     Coins,
     Profile_Wishlist,
+    Profile_Favourite,
+    Profile_Notification,
 }
