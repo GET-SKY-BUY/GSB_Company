@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address  - GET SKY BUY</title>
+
+    include ../Common/HeadPart.pug
+    
+    <link rel="stylesheet" href="/verified/files/profile/css/Profile_Address.css">
+</head>
+<body>
+    
+    include ../Common/Header.pug
+    <main class="Main">
+        <div class="CenterMain">
+
+        
+            include ./Profile_Aside.pug
+
+
+            <div class="Side2">
+                <div class="H2Heading">
+                    <h2>Address</h2>
+                </div>
+                <hr>
+
+                <div class="TopProfile">
+                    <div class="TopProfileImg">
+                        <img src="/verified/files/images/Profile_Image.webp" alt="Personal icon">
+                    </div>
+                    <div class="TopProfileData">
+                        <div><strong>#{First_Name} #{Last_Name}</strong></div>
+                        <div>#{Email}</div>
+                    </div>
+                </div>
+
+                <div class="MainnnnnBox">
+                    <div id="CreateAddress">
+                        <button id="CreateAddressBtn" type="button" class="material-symbols-outlined">add</button>
+                    </div>
+                    | !{Address_Cards}
+
+
+                    <div class="All_Addresses">
+                        <div class="Cards">
+                            <div class="Cards_Head">Rick Sarkar</div>
+                            <div class="Cards_Body">
+                                <div>Rick Sarkar</div>
+                                <div>8436431656</div>
+                                <div>9332525641 - (Alternative)</div>
+                                <div>Loknath Nagar, B.P Road,</div>
+                                <div>Bagdogra, Siliguri,</div>
+                                <div>734014,</div>
+                                <div>Darjeeling,</div>
+                                <div>West Bengal, India</div>
+                            </div>
+                            <div class="Cards_Footer">
+                                <button id="Delete_" onclick="Delete('123',1);" type="button" class="material-symbols-outlined">delete</button>
+                                <button>Set as default</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <aside id="Aside">
+        <div class="AddressAsideBox">
+            <div class="AsideBoxHeader">
+                <h3>Add Address</h3>
+                <div class="Aside_Close">
+                    <div id="Aside_Close" class="material-symbols-outlined">close</div>
+                </div>
+                
+            </div>
+
+            <div class="AsideBoxBody">
+                <form id="Aside_Form">
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </aside>
+    <script src="/verified/files/common/Message.js"></script>
+    <script src="/verified/files/profile/js/Profile_Address.js"></script>
+</body>
+</html>

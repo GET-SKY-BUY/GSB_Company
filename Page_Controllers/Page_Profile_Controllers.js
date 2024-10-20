@@ -152,6 +152,34 @@ const Profile_Notification = ( req , res , next )=> {
 };
 
 
+const Profile_Address = ( req , res , next )=> {
+    try{
+        const User = req.User;
+
+        let Address_Cards;
+        const Address = User.Address;
+
+        if(Address.Active_ID == ""){
+            Address_Cards = `<p>You haven't added any address.</p>`;
+        }else{
+            
+        };
+        
+        return res.status(200).render("Profile_Address",{
+            First_Name: User.Personal_Data.First_Name,
+            Last_Name: User.Personal_Data.Last_Name,
+            Email: User.Email,
+            Address_Cards: Address_Cards,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+    }catch (err){
+        next(err);
+    };
+};
+        
+
+
 module.exports = {
     Home,
     Setting,
@@ -159,4 +187,5 @@ module.exports = {
     Profile_Wishlist,
     Profile_Favourite,
     Profile_Notification,
+    Profile_Address,
 }
