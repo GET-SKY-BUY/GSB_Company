@@ -21,4 +21,3 @@ Profile.get("/coins", Verify_User_Page , Coins);
 Profile.get("/wishlist", Verify_User_Page , Profile_Wishlist);
 Profile.get("/favourite", Verify_User_Page , Profile_Favourite);
 Profile.get("/notification", Verify_User_Page , Profile_Notification);
-
