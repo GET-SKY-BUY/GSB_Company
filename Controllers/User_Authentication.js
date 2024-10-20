@@ -214,13 +214,173 @@ const Signup = async ( req, res, next ) => {
 
 const Verify_OTP = async (req, res, next) => {
     try {
-        console.log(req.body.OTP);
-        res.status(200).json({Status: "Success", Message: "OTP verified successfully."});        
+        let O = req.signedCookies.OTP;
+        if(!O){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+        let Verify = Verify_Token(O);
+        if(!Verify){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+
+        let Got_Token = Verify.Token;
+        let Got_ID = Verify.ID;
+        let Got = req.body.OTP;
+
+        if(!Got || !Got_Token || !Got_ID ){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+
+        if(Got.length !== 6){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+
+        let Search = await User.findById(Got_ID);
+        if(!Search){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+        if (Search.Auth.OTP_Expiry > Date.now()){
+            return res.status(400).json({Status: "Failed", Message: "Your OTP is expired."});
+        };
+
+        if(Search.Auth.Token !== Got_Token){
+            return res.status(400).json({Status: "Failed", Message: "Invalid Token."});
+        };
+
+        if(Search.Auth.OTP === Got){
+            Search.Verified = "Yes";
+            Search.Auth.OTP = "";
+            Search.Auth.OTP_Expiry = 0;
+            Search.Auth.Token = "";
+            await Search.save();
+            res.clearCookie("OTP",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
+            return res.status(200).json({Status: "Success", Message: "OTP verified successfully."});        
+        };
+        
+        return res.status(400).json({Status: "Failed", Message: "Invalid OTP."});
+        
+        
     } catch (error) {
         next(error);
-    }
+    };
+};
+
+
+const OTP_Resend = async (req, res, next) => {
+    try {
+        let O = req.signedCookies.OTP;
+        if(!O){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+        let Verify = Verify_Token(O);
+        if(!Verify){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+
+        let Got_Token = Verify.Token;
+        let Got_ID = Verify.ID;
+        let Got = req.body.Sent;
+        if (Got !== "Yes"){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        }
+        if(!Got_Token || !Got_ID ){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+
+        let Search = await User.findById(Got_ID);
+        if(!Search){
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access."
+            });
+        };
+
+        if(Search.Auth.Token !== Got_Token){
+            return res.status(400).json({Status: "Failed", Message: "Invalid Token."});
+        };
+
+        if (Search.Auth.OTP_Expiry > Date.now()){
+            return res.status(400).json({Status: "Failed", Message: "Your OTP is expired."});
+        };
+
+
+        let x = new Date(Search.Auth.OTP_Expiry)
+        const DatabaseTime = x.getTime()
+        const Time = (Date.now() - DatabaseTime);
+        if( Time > 90 * 1000){
+            let Save_Token = await Get_Token();
+            let OTP = await Get_OTP();
+            let OTP_Expiry = Number(Date.now() + (5 * 1000));
+            Search.Auth.OTP = OTP;
+            Search.Auth.OTP_Expiry = OTP_Expiry;
+            Search.Auth.Token = Save_Token;
+            let Status = await Send_Mail({
+                from: "OTP - GSB" + "<" + process.env.MAIL_ID + ">",
+                to: Search.Email,
+                subject: "OTP Verification",
+                html: `Hello ${Search.Personal_Data.First_Name}, <br>Your OTP is ${OTP}. <br><br>It is valid for 5 minutes.`,
+            });
+            if(!Status){
+                return res.status(400).json({
+                    Status: "Failed",
+                    Message: "Unable to sent OTP."
+                });
+            };
+            
+            const JWT_TOKEN = Generate_Token({
+                ID: Search._id,
+                Token: Save_Token
+            });
+            res.cookie("OTP",JWT_TOKEN,Cookie_Options_OTP)
+            await Search.save();
+            return res.status(200).json({Status: "Success", Message: "Resent OTP successfully."});        
+        };
+        return res.status(400).json({Status: "Failed", Message: "Wait for timer (After " + (90 - Math.floor(Time/1000)) + " Seconds)"});
+        
+        
+    } catch (error) {
+        next(error);
+    };
 };
 module.exports = {
     Signup,
     Verify_OTP,
+    OTP_Resend,
 };
