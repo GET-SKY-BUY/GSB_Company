@@ -95,28 +95,24 @@ const Profile_Address_Add = async (req, res , next) => {
                 Message: "Please enter a valid PIN code",
             });
         };
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
     } catch (error) {
         next(error);
     };
 };
 
+const Profile_Address_Edit = async (req, res , next) => {
+    try {
+        const Got_User = req.User;
+        const Valid = Add_Address.safeParse(req.body);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     Profile_Setting,
     Profile_Update_Bank,
     Profile_Address_Add,
+    Profile_Address_Edit,
 };
