@@ -123,43 +123,43 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-    
-    
-    
 });
 
-const Delete = (ID = "",n) => {
+const Delete = (ID,n) => {
 
-    
-    if(!ID || ID == "" || !n) {
-        Message("No ID provided","Warning");
-        return;
-    }
-
-    
-}
+    let Delete_ID = `Delete_${n}`;
+    document.getElementById(Delete_ID).disabled = true;
+    document.getElementById("Loading").style.display = "flex";
+    Message("Deleting, please wait...","Success");
+    fetch("/api/v1/profile/address",{
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ID: ID,
+        })
+    }).then(res=>{
+        document.getElementById("Loading").style.display = "none";
+        if(res.ok) {
+            return res.json();
+        }else {
+            return res.json().then(data=>{
+                let error = new Error(data.Message || "An error occured. Please try again later");
+                error.Message = data.Message;
+                throw error;
+            });
+        };
+    }).then(data=>{
+        Message(data.Message, "Success");
+        document.getElementById(Delete_ID).disabled = false;
+        document.getElementById(`Card_${n}`).remove();
+    }).catch(err=>{
+        if(err.Message) {
+            Message(err.Message, "Warning");
+        }else{
+            Message("An error occured. Please try again later")
+        };
+    });
+};
 

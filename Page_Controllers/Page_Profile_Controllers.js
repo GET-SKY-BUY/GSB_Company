@@ -196,30 +196,33 @@ const Profile_Address = async ( req , res , next )=> {
                     });
                 };
                 if(element.ID == Address.Active_ID){
-                    ZZ = `<div class="Cards">
-                        <div class="Cards_Head">Rick Sarkar</div>
-                        <div class="Cards_Body">
-                            <div>Rick Sarkar</div>
-                            <div>8436431656</div>
-                            <div>9332525641 - (Alternative)</div>
-                            <div>734014,</div>
-                            <div>Loknath Nagar, B.P Road,</div>
-                            <div>Bagdogra,</div>
-                            <div>West Bengal, India</div>
-                        </div>
-                        <div class="Cards_Footer">
-                            <button id="Edit_${i}" onclick="Edit('${element.ID}',${i});" type="button" class="material-symbols-outlined">edit</button>
-                            
-                        </div>
-                    </div>`;
+                    ZZ = `
+                        <div class="Cards" id="Card_${i}">
+                            <div class="Cards_Head">${element.Name}</div>
+                            <div class="Cards_Body">
+                                <div>${element.Name}</div>
+                                <div>${element.Mobile_Number}</div>
+                                <div>${element.Alternative_Number} - (Alternative)</div>
+                                <div>${element.PIN},</div>
+                                <div>${element.Landmark},</div>
+                                <div>${element.Address_Line}</div>
+                                <div>${Sent.Town},</div>
+                                <div>${Sent.State}, ${Sent.Country}</div>
+                            </div>
+                            <div class="Cards_Footer">
+                                <button id="Edit_${i}" onclick="Edit('${element.ID}',${i});" type="button" class="material-symbols-outlined">edit</button>
+                            </div>
+                        </div>`;
                 }else{
-                    let D = `<div class="Cards">
+                    let D = `
+                    <div class="Cards" id="Card_${i}">
                         <div class="Cards_Head">${element.Name}</div>
                         <div class="Cards_Body">
                             <div>${element.Name}</div>
                             <div>${element.Mobile_Number}</div>
                             <div>${element.Alternative_Number} - (Alternative)</div>
                             <div>${element.PIN},</div>
+                            <div>${element.Landmark},</div>
                             <div>${element.Address_Line}</div>
                             <div>${Sent.Town},</div>
                             <div>${Sent.State}, ${Sent.Country}</div>

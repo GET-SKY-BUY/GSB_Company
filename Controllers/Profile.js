@@ -110,9 +110,36 @@ const Profile_Address_Edit = async (req, res , next) => {
     }
 }
 
+const Profile_Address_Delete = async (req, res , next) => {
+    try {
+        const Got_User = req.User;
+        const ID = Number(req.body.ID);
+        if (ID == null || ID == "") {
+            return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
+        };
+        const Address = Got_User.Address.List;
+        const New_Address = [];
+        for (let i = 0; i < Address.length; i++) {
+            const element = Address[i];
+            if(element.ID !== ID) {
+                New_Address.push(element);
+            };
+        };
+        Got_User.Address.List = New_Address;
+        await Got_User.save().then(()=>{
+            return res.status(200).json({ Status: "Success" , Message: "Deleted Successfully."});
+        }).catch(err=>{
+            return res.status(400).json({ Status: "Failed" , Message: "Unable to delete address.."});
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     Profile_Setting,
     Profile_Update_Bank,
     Profile_Address_Add,
     Profile_Address_Edit,
+    Profile_Address_Delete,
 };
