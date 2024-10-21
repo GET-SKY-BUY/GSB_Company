@@ -80,7 +80,7 @@ const Profile_Address_Add = async (req, res , next) => {
             }
             
             const ID = Date.now();
-            Valid.data.ID = ID;
+            Valid.data.ID = String(ID);
             Got_User.Address.Active_ID = ID;
             Got_User.Address.List = [...Got_User.Address.List,...[Valid.data]];
             Got_User.save().then(()=>{
@@ -122,7 +122,7 @@ const Profile_Address_Edit = async (req, res , next) => {
                     Message: "Please enter a valid PIN code",
                 });
             }
-            let ID = req.body.ID
+            let ID = req.body.ID;
             let A = Got_User.Address.List;
             let Found = false;
             let New_List = [];
@@ -143,7 +143,12 @@ const Profile_Address_Edit = async (req, res , next) => {
                     New_List.push(element);
                 };
             };
-
+            if(!Found) {
+                return res.status(401).json({
+                    Status: "Failed",
+                    Message: "Unauthorized access",
+                });
+            };
             Got_User.Address.List = New_List;
             await Got_User.save().then(()=>{
                 return res.status(200).json({ Status: "Success" , Message: "Added Successfully."});
@@ -157,16 +162,15 @@ const Profile_Address_Edit = async (req, res , next) => {
                 Message: "Please enter a valid PIN code",
             });
         };
-
     } catch (error) {
         next(error);
     };
-}
+};
 
 const Profile_Address_Delete = async (req, res , next) => {
     try {
         const Got_User = req.User;
-        const ID = Number(req.body.ID);
+        const ID = req.body.ID;
         if (ID == null || ID == "") {
             return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
         };
@@ -189,10 +193,45 @@ const Profile_Address_Delete = async (req, res , next) => {
     };
 };
 
+const Profile_Address_Active_Status = async (req, res , next) => {
+    try {
+        const Got_User = req.User;
+        const ID = req.body.ID;
+        if (ID == null || ID == "") {
+            return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
+        };
+
+        const Address = Got_User.Address.List;
+        let Found = false;
+        for (let i = 0; i < Address.length; i++) {
+            const element = Address[i];
+            if(element.ID == ID) {
+                Found = true;
+                break;
+            };
+        };
+        if(!Found) {
+            return res.status(401).json({
+                Status: "Failed",
+                Message: "Unauthorized access",
+            });
+        };
+        Got_User.Address.Active_ID = ID;
+        await Got_User.save().then(()=>{
+            return res.status(200).json({ Status: "Success" , Message: "Changed active address Successfully."});
+        }).catch(err=>{
+            return res.status(400).json({ Status: "Failed" , Message: "Unable to update address.."});
+        });
+
+    } catch (error) {
+        next(error);
+    };
+};
 module.exports = {
     Profile_Setting,
     Profile_Update_Bank,
     Profile_Address_Add,
     Profile_Address_Edit,
     Profile_Address_Delete,
+    Profile_Address_Active_Status,
 };

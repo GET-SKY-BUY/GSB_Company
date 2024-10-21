@@ -248,3 +248,43 @@ const Delete = (ID,n) => {
         };
     });
 };
+
+const Set = (ID,n) => {
+
+    let Element = `Set_${n}`;
+    document.getElementById(Element).disabled = true;
+    document.getElementById("Loading").style.display = "flex";
+    Message("Activating address, please wait...","Info");
+    fetch("/api/v1/profile/address",{
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ID: ID,
+        })
+    }).then(res=>{
+        document.getElementById(Element).disabled = false;
+        document.getElementById("Loading").style.display = "none";
+        if(res.ok) {
+            return res.json();
+        }else {
+            return res.json().then(data=>{
+                let error = new Error(data.Message || "An error occured. Please try again later");
+                error.Message = data.Message;
+                throw error;
+            });
+        };
+    }).then(data=>{
+        Message(data.Message, "Success");
+        setTimeout(() => {
+            location.reload();
+        }, 100);
+    }).catch(err=>{
+        if(err.Message) {
+            Message(err.Message, "Warning");
+        }else{
+            Message("An error occured. Please try again later")
+        };
+    });
+};
