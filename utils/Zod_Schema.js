@@ -32,10 +32,20 @@ const Add_Bank = z.object({
     IFSC_Code: z.string().min(6).max(50),
 })
 
+const Add_Address = z.object({
+    Name: z.string().min(3).max(50),
+    Mobile_Number: z.string().min(10).max(10),
+    Alternative_Number: z.string().min(10).max(10),
+    PIN: z.string().min(6).max(6),
+    Address_Line: z.string().min(5),
+    Landmark: z.string().min(3),
+});
+
 module.exports = { 
     Signup_User ,
     Login_User ,
     Update_User,
     Change_Password_User,
     Add_Bank,
+    Add_Address,
 };

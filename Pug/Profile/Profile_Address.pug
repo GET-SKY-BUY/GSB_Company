@@ -49,10 +49,9 @@
                                 <div>Rick Sarkar</div>
                                 <div>8436431656</div>
                                 <div>9332525641 - (Alternative)</div>
-                                <div>Loknath Nagar, B.P Road,</div>
-                                <div>Bagdogra, Siliguri,</div>
                                 <div>734014,</div>
-                                <div>Darjeeling,</div>
+                                <div>Loknath Nagar, B.P Road,</div>
+                                <div>Bagdogra,</div>
                                 <div>West Bengal, India</div>
                             </div>
                             <div class="Cards_Footer">
@@ -68,6 +67,7 @@
 
     </main>
     <aside id="Aside">
+        <div class="AsideBackground"></div>
         <div class="AddressAsideBox">
             <div class="AsideBoxHeader">
                 <h3>Add Address</h3>
@@ -92,70 +92,33 @@
                         <input maxlength="10" type="text" class="Input__Text_Box" id="Alternative_Number" placeholder=" ">
                         <label for="Alternative_Number" class="Input_Label_Div">Alt. no.</label>
                     </div>
-                    <div class="Input_Box">
-                        <input type="text" class="Input__Text_Box" id="Locality" placeholder=" ">
-                        <label for="Locality" class="Input_Label_Div">Locality/Road</label>
+
+                    <div id="Main_Address_Box">
+
+                        <div class="Input_Box">
+                            <input maxlength="6" type="text" class="Input__Text_Box" id="PIN" placeholder=" ">
+                            <label for="PIN" class="Input_Label_Div">PIN</label>
+                        </div>
+                        
+                        <div class="Input_Box" id="State">
+                            <div id="Town"></div>
+                            <div id="State_Country"></div>
+                        </div>
                     </div>
-                    <div class="Input_Box">
+
+                    <div class="Input_Box" style="width: 100%;">
+                        <textarea  class="Input__Text_Box" id="Address_Line" placeholder=" "></textarea>
+                        <label for="Address_Line" class="Input_Label_Div">Address line</label>
+                    </div>
+                    <br>
+                    <div class="Input_Box" style="width: 100%;">
                         <input type="text" class="Input__Text_Box" id="Landmark" placeholder=" ">
                         <label for="Landmark" class="Input_Label_Div">Landmark</label>
                     </div>
-                    <div class="Input_Box">
-                        <input type="text" class="Input__Text_Box" id="Town_Village" placeholder=" ">
-                        <label for="Town_Village" class="Input_Label_Div">Town/Village</label>
+
+                    <div id="Add_Btn">
+                        <button id="Add_Final_BTN" onclick="Add_Final_Submit();" type="button">Add Address</button>
                     </div>
-                    <div class="Input_Box">
-                        <input type="text" class="Input__Text_Box" id="City" placeholder=" ">
-                        <label for="City" class="Input_Label_Div">City</label>
-                    </div>
-                    <div class="Input_Box">
-                        <input type="text" class="Input__Text_Box" id="PIN" placeholder=" ">
-                        <label for="PIN" class="Input_Label_Div">PIN</label>
-                    </div>
-                    <div class="Input_Box">
-                        <select  id="State" class="Input__Text_Box">    
-                            <option value="SelectState">Select State</option>
-                            <option value="Andra Pradesh">Andra Pradesh</option>
-                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                            <option value="Assam">Assam</option>
-                            <option value="Bihar">Bihar</option>
-                            <option value="Chhattisgarh">Chhattisgarh</option>
-                            <option value="Goa">Goa</option>
-                            <option value="Gujarat">Gujarat</option>
-                            <option value="Haryana">Haryana</option>
-                            <option value="Himachal Pradesh">Himachal Pradesh</option>
-                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                            <option value="Jharkhand">Jharkhand</option>
-                            <option value="Karnataka">Karnataka</option>
-                            <option value="Kerala">Kerala</option>
-                            <option value="Madya Pradesh">Madya Pradesh</option>
-                            <option value="Maharashtra">Maharashtra</option>
-                            <option value="Manipur">Manipur</option>
-                            <option value="Meghalaya">Meghalaya</option>
-                            <option value="Mizoram">Mizoram</option>
-                            <option value="Nagaland">Nagaland</option>
-                            <option value="Orissa">Orissa</option>
-                            <option value="Punjab">Punjab</option>
-                            <option value="Rajasthan">Rajasthan</option>
-                            <option value="Sikkim">Sikkim</option>
-                            <option value="Tamil Nadu">Tamil Nadu</option>
-                            <option value="Telangana">Telangana</option>
-                            <option value="Tripura">Tripura</option>
-                            <option value="Uttaranchal">Uttaranchal</option>
-                            <option value="Uttar Pradesh">Uttar Pradesh</option>
-                            <option value="West Bengal">West Bengal</option>
-                            <option disabled style="background-color:#aaa; color:#fff">UNION Territories</option>
-                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                            <option value="Chandigarh">Chandigarh</option>
-                            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
-                            <option value="Daman and Diu">Daman and Diu</option>
-                            <option value="Delhi">Delhi</option>
-                            <option value="Lakshadeep">Lakshadeep</option>
-                            <option value="Pondicherry">Pondicherry</option>
-                        </select>
-                        <label for="State" class="Input_Label_Div">State</label>
-                    </div>
-                    
 
 
 

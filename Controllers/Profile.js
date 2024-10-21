@@ -1,5 +1,7 @@
 
-const { Update_User } = require("../utils/Zod_Schema.js");
+const axios = require("axios");
+
+const { Update_User , Add_Address } = require("../utils/Zod_Schema.js");
 const { Valid_Mobile } = require("../utils/Validations.js");
 const { Add_Bank } = require("../utils/Zod_Schema.js");
 const Profile_Setting = async (req, res , next) => {
@@ -55,9 +57,66 @@ const Profile_Update_Bank = async (req, res , next) => {
         next(error);
     };
 };
+const Profile_Address_Add = async (req, res , next) => {
+    try {
+        const Got_User = req.User;
+        const Valid = Add_Address.safeParse(req.body);
+        if (!Valid.success) {
+            return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
+        };
+        
 
+
+        
+        try{
+
+            let recieved = await axios.get(`https://api.postalpincode.in/pincode/${Valid.data.PIN}`);
+            
+            if(recieved.status !== 200) {
+                return res.status(400).json({
+                    Status: "Failed",
+                    Message: "Please enter a valid PIN code",
+                });
+            }
+            
+            const ID = Date.now();
+            Valid.data.ID = ID;
+            Got_User.Address.Active_ID = ID;
+            Got_User.Address.List = [...Got_User.Address.List,...[Valid.data]];
+            Got_User.save().then(()=>{
+                return res.status(200).json({ Status: "Success" , Message: "Added Successfully."});
+            }).catch(err=>{
+                return res.status(400).json({ Status: "Failed" , Message: "Unable to add address.."});
+            });
+        
+        }catch(error) {
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Please enter a valid PIN code",
+            });
+        };
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+    } catch (error) {
+        next(error);
+    };
+};
 
 module.exports = {
     Profile_Setting,
     Profile_Update_Bank,
+    Profile_Address_Add,
 };

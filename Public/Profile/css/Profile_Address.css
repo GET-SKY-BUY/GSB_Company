@@ -369,20 +369,32 @@
 
 #Aside {
     /* display: none; */
+    z-index: 100;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(0, 0, 0, 0.141); */
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+.AsideBackground {
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.141);
-
+    z-index: 2;
 }
-
 .AddressAsideBox {
-    width: 250px;
+    z-index: 100;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    position: relative;
+    top: 100px;
+    width: 280px;
     min-height: 300px;
     background-color: white;
     border-radius: 15px;
@@ -446,6 +458,74 @@
 
 
 .AsideBoxBody {
-    padding: 10px;
+    padding: 15px;
     font-size: 14px;
+}
+
+#Address_Line {
+    resize: vertical;
+    min-height: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#Main_Address_Box {
+    position: relative;
+    display: flex;
+    justify-content: first baseline;
+    align-items: center;
+    /* top: -5px; */
+}
+
+#State {
+    /* height: 45px; */
+    /* position: relative; */
+    /* top: 10px; */
+    /* display: none; */
+    display: flex;
+    justify-content: left;
+    /* align-items: center; */
+    flex-direction: column;
+}
+#State div {
+    display: flex;
+    justify-content: left;
+}
+
+#Town {
+    font-size: 14px;
+
+
+}
+
+#State_Country {
+    font-size: 9px;
+}
+
+
+
+
+
+
+
+
+#Add_Btn {
+    margin: 5px 0px;
+}
+
+#Add_Final_BTN {
+    display: block;
+    margin: auto;
+    border: none;
+    transition: 200ms;
+    background-color: var(--secondary-color);
+    border-radius: 50px;
+    padding: 8px 20px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
+
+#Add_Final_BTN:focus,
+#Add_Final_BTN:hover {
+    background-color: var(--Seconday-primary-color);
 }
