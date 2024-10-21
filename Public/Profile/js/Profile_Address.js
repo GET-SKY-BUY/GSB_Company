@@ -1,4 +1,72 @@
+const Edit = (ID,n) => {
+    let AddressCard = `Card_${n}`;
+    document.getElementById("Aside1").style.display = "flex";
+    
+    document.getElementById("Edit_Btn1").innerHTML = `
+        <button id="EditFinal" onclick="EditFinal1('${ID}');" type="button">Edit Address</button>
+    `;
 
+    let A = document.getElementById(AddressCard).querySelectorAll("div");
+    document.getElementById("Edit_Name").value = A[2].innerHTML;
+    document.getElementById("Edit_Mobile_Number").value = A[3].innerHTML;
+    document.getElementById("Edit_Alternative_Number").value = A[4].innerHTML.split(" - ")[0];
+    document.getElementById("Edit_Landmark").value = A[6].innerHTML;
+    document.getElementById("Edit_Address_Line").innerText = A[7].innerHTML;
+
+    setTimeout(() => {
+        document.getElementById("Edit_PIN").value = A[5].innerHTML.split(",")[0];
+    }, 50);
+
+
+};
+
+function EditFinal1 (ID) {
+    
+    if(!confirm("Are you sure to edit this address?")) {
+        return;
+    }
+    document.getElementById("Loading").style.display = "flex";
+    Message("Updating, please wait...","Info");
+    fetch("/api/v1/profile/address",{
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ID: ID,
+            Name: document.getElementById("Edit_Name").value,
+            Mobile_Number: document.getElementById("Edit_Mobile_Number").value,
+            Alternative_Number: document.getElementById("Edit_Alternative_Number").value,
+            PIN: document.getElementById("Edit_PIN").value,
+            Address_Line: document.getElementById("Edit_Address_Line").value,
+            Landmark: document.getElementById("Edit_Landmark").value,
+        })
+    }).then(res=>{
+        document.getElementById("Loading").style.display = "none";
+        if(res.ok) {
+            return res.json();
+        }else {
+            return res.json().then(data=>{
+                let error = new Error(data.Message || "An error occured. Please try again later");
+                error.Message = data.Message;
+                throw error;
+            });
+        };
+    }).then(data=>{
+        Message(data.Message, "Success");
+        
+        document.getElementById("Aside1").style.display = "none";
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    }).catch(err=>{
+        if(err.Message) {
+            Message(err.Message, "Warning");
+        }else{
+            Message("An error occured. Please try again later")
+        };
+    });
+}
 
 
 
@@ -102,11 +170,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("Aside").style.display = "none";
         document.getElementById("Aside_Form").reset();
     });
+    document.getElementById("Aside_Close1").addEventListener("click", () => {
+        document.getElementById("Aside1").style.display = "none";
+        document.getElementById("Aside_Form1").reset();
+    });
     
     document.getElementById("CreateAddressBtn").addEventListener("click", () => {
         document.getElementById("Aside").style.display = "flex";
-        
-        
     });
 
 
@@ -119,7 +189,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             document.getElementById("Town").innerHTML = data.Town;
             document.getElementById("State_Country").innerHTML = data.State + ", " + data.Country;
-            Message(data.Message, "Success");
+            
+        };
+        
+    });
+    document.getElementById("Edit_PIN").addEventListener("input", async (e) => {
+        let code = e.target.value;
+        if(code.length == 6) {
+            let data = await Verify_Code(code);
+            if(!data) {
+                return;
+            }
+            document.getElementById("Town1").innerHTML = data.Town;
+            document.getElementById("State_Country1").innerHTML = data.State + ", " + data.Country;
+            
         };
         
     });
@@ -127,10 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const Delete = (ID,n) => {
 
+    if(!confirm("Are you sure you want to delete this address?")) {
+        return;
+    }
     let Delete_ID = `Delete_${n}`;
     document.getElementById(Delete_ID).disabled = true;
     document.getElementById("Loading").style.display = "flex";
-    Message("Deleting, please wait...","Success");
+    Message("Deleting, please wait...","Info");
     fetch("/api/v1/profile/address",{
         method: "DELETE",
         headers: {
@@ -162,4 +248,3 @@ const Delete = (ID,n) => {
         };
     });
 };
-

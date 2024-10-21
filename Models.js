@@ -25,9 +25,11 @@ const UserSchema = new Schema({
     Personal_Data:{
         First_Name: {
             type: String,
+            trim: true,
         },
         Last_Name: {
             type: String,
+            trim: true,
         },
         Mobile_Number: {
             type: String,
@@ -98,10 +100,10 @@ const UserSchema = new Schema({
     Wishlist:{type:Object},
     Notification:{type:Object},
     Bank:{
-        Bank_Name:{type: String},
-        Beneficiary_Name:{type: String},
-        Account_Number:{type: String},
-        IFSC_Code:{type: String},
+        Bank_Name:{type: String, trim:true},
+        Beneficiary_Name:{type: String, trim:true},
+        Account_Number:{type: String, trim:true},
+        IFSC_Code:{type: String, trim:true},
     },
     Refund:{type:Object},
     Overview:{type:Object},

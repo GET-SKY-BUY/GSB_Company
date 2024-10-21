@@ -43,22 +43,6 @@
                     
                     <div class="All_Addresses">
                         | !{Address_Cards}
-                        <!-- <div class="Cards">
-                            <div class="Cards_Head">Rick Sarkar</div>
-                            <div class="Cards_Body">
-                                <div>Rick Sarkar</div>
-                                <div>8436431656</div>
-                                <div>9332525641 - (Alternative)</div>
-                                <div>734014,</div>
-                                <div>Loknath Nagar, B.P Road,</div>
-                                <div>Bagdogra,</div>
-                                <div>West Bengal, India</div>
-                            </div>
-                            <div class="Cards_Footer">
-                                <button id="Delete_" onclick="Delete('123',1);" type="button" class="material-symbols-outlined">delete</button>
-                                <button>Set as default</button>
-                            </div>
-                        </div> -->
 
                     </div>
                 </div>
@@ -80,23 +64,23 @@
             <div class="AsideBoxBody">
                 <form id="Aside_Form">
                     <div class="Input_Box" style="width: 100%;">
-                        <input type="text" class="Input__Text_Box" id="Name" placeholder=" ">
+                        <input value="" type="text" class="Input__Text_Box" id="Name" placeholder=" ">
                         <label for="Name" class="Input_Label_Div">Name</label>
                     </div>
                     <br>
                     <div class="Input_Box">
-                        <input maxlength="10" type="text" class="Input__Text_Box" id="Mobile_Number" placeholder=" ">
+                        <input value="" maxlength="10" type="text" class="Input__Text_Box" id="Mobile_Number" placeholder=" ">
                         <label for="Mobile_Number" class="Input_Label_Div">Mobile no.</label>
                     </div>
                     <div class="Input_Box">
-                        <input maxlength="10" type="text" class="Input__Text_Box" id="Alternative_Number" placeholder=" ">
+                        <input value="" maxlength="10" type="text" class="Input__Text_Box" id="Alternative_Number" placeholder=" ">
                         <label for="Alternative_Number" class="Input_Label_Div">Alt. no.</label>
                     </div>
 
                     <div id="Main_Address_Box">
 
                         <div class="Input_Box">
-                            <input maxlength="6" type="text" class="Input__Text_Box" id="PIN" placeholder=" ">
+                            <input value="" maxlength="6" type="text" class="Input__Text_Box" id="PIN" placeholder=" ">
                             <label for="PIN" class="Input_Label_Div">PIN</label>
                         </div>
                         
@@ -118,6 +102,67 @@
 
                     <div id="Add_Btn">
                         <button id="Add_Final_BTN" onclick="Add_Final_Submit();" type="button">Add Address</button>
+                    </div>
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </aside>
+    <aside id="Aside1">
+        <div class="AsideBackground"></div>
+        <div class="AddressAsideBox">
+            <div class="AsideBoxHeader">
+                <h3>Edit Address</h3>
+                <div class="Aside_Close">
+                    <div id="Aside_Close1" class="material-symbols-outlined">close</div>
+                </div>
+                
+            </div>
+
+            <div class="AsideBoxBody">
+                <form id="Aside_Form1">
+                    <div class="Input_Box" style="width: 100%;">
+                        <input type="text" class="Input__Text_Box" id="Edit_Name" placeholder=" ">
+                        <label for="Edit_Name" class="Input_Label_Div">Name</label>
+                    </div>
+                    <br>
+                    <div class="Input_Box">
+                        <input maxlength="10" type="text" class="Input__Text_Box" id="Edit_Mobile_Number" placeholder=" ">
+                        <label for="Edit_Mobile_Number" class="Input_Label_Div">Mobile no.</label>
+                    </div>
+                    <div class="Input_Box">
+                        <input maxlength="10" type="text" class="Input__Text_Box" id="Edit_Alternative_Number" placeholder=" ">
+                        <label for="Edit_Alternative_Number" class="Input_Label_Div">Alt. no.</label>
+                    </div>
+
+                    <div id="Main_Address_Box">
+
+                        <div class="Input_Box">
+                            <input maxlength="6" type="text" class="Input__Text_Box" id="Edit_PIN" placeholder=" ">
+                            <label for="Edit_PIN" class="Input_Label_Div">PIN</label>
+                        </div>
+                        
+                        <div class="Input_Box" id="State1">
+                            <div id="Town1"></div>
+                            <div id="State_Country1"></div>
+                        </div>
+                    </div>
+
+                    <div class="Input_Box" style="width: 100%;">
+                        <textarea  class="Input__Text_Box" id="Edit_Address_Line" placeholder=" "></textarea>
+                        <label for="Edit_Address_Line" class="Input_Label_Div">Address line</label>
+                    </div>
+                    <br>
+                    <div class="Input_Box" style="width: 100%;">
+                        <input type="text" class="Input__Text_Box" id="Edit_Landmark" placeholder=" ">
+                        <label for="Edit_Landmark" class="Input_Label_Div">Landmark</label>
+                    </div>
+
+                    <div id="Edit_Btn1">
+                        
                     </div>
 
 

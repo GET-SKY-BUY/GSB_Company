@@ -203,8 +203,8 @@ const Profile_Address = async ( req , res , next )=> {
                                 <div>${element.Name}</div>
                                 <div>${element.Mobile_Number}</div>
                                 <div>${element.Alternative_Number} - (Alternative)</div>
-                                <div>${element.PIN},</div>
-                                <div>${element.Landmark},</div>
+                                <div>${element.PIN}</div>
+                                <div>${element.Landmark}</div>
                                 <div>${element.Address_Line}</div>
                                 <div>${Sent.Town},</div>
                                 <div>${Sent.State}, ${Sent.Country}</div>
@@ -221,8 +221,8 @@ const Profile_Address = async ( req , res , next )=> {
                             <div>${element.Name}</div>
                             <div>${element.Mobile_Number}</div>
                             <div>${element.Alternative_Number} - (Alternative)</div>
-                            <div>${element.PIN},</div>
-                            <div>${element.Landmark},</div>
+                            <div>${element.PIN}</div>
+                            <div>${element.Landmark}</div>
                             <div>${element.Address_Line}</div>
                             <div>${Sent.Town},</div>
                             <div>${Sent.State}, ${Sent.Country}</div>

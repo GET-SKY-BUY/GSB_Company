@@ -105,9 +105,62 @@ const Profile_Address_Edit = async (req, res , next) => {
     try {
         const Got_User = req.User;
         const Valid = Add_Address.safeParse(req.body);
+        if (!Valid.success) {
+            return res.status(400).json({ Status: "Failed" , Message: "Invalid data." });
+        };
+        
+
+
+        
+        try{
+
+            let recieved = await axios.get(`https://api.postalpincode.in/pincode/${req.body.PIN}`);
+            
+            if(recieved.status !== 200) {
+                return res.status(400).json({
+                    Status: "Failed",
+                    Message: "Please enter a valid PIN code",
+                });
+            }
+            let ID = req.body.ID
+            let A = Got_User.Address.List;
+            let Found = false;
+            let New_List = [];
+            for (let i = 0; i < A.length; i++) {
+                const element = A[i];
+                if(element.ID == ID) {
+                    New_List.push({
+                        ID: ID,
+                        Name: Valid.data.Name,
+                        Mobile_Number: Valid.data.Mobile_Number,
+                        Alternative_Number: Valid.data.Alternative_Number,
+                        PIN: Valid.data.PIN,
+                        Address_Line: Valid.data.Address_Line,
+                        Landmark: Valid.data.Landmark,
+                    })
+                    Found = true;
+                }else{
+                    New_List.push(element);
+                };
+            };
+
+            Got_User.Address.List = New_List;
+            await Got_User.save().then(()=>{
+                return res.status(200).json({ Status: "Success" , Message: "Added Successfully."});
+            }).catch(err=>{
+                return res.status(400).json({ Status: "Failed" , Message: "Unable to add address.."});
+            });
+        
+        }catch(error) {
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Please enter a valid PIN code",
+            });
+        };
+
     } catch (error) {
         next(error);
-    }
+    };
 }
 
 const Profile_Address_Delete = async (req, res , next) => {
@@ -133,8 +186,8 @@ const Profile_Address_Delete = async (req, res , next) => {
         });
     } catch (error) {
         next(error);
-    }
-}
+    };
+};
 
 module.exports = {
     Profile_Setting,
