@@ -5,30 +5,72 @@ const Verify_User_Page = async ( req, res, next) => {
         
         let User1 = req.signedCookies.User;
         if(!User1) {
-            return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
+            return res.status(401).clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            }).redirect("/auth/login");
         };
 
         let Verify = Verify_Token(User1);
         if(!Verify) {
-            return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
+            return res.status(401).clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            }).redirect("/auth/login");
         };
         
         // Check if the user exists
         await User.findById(Verify.ID).then( user => {
             if (!user) {
-                return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
+                return res.status(401).clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                }).redirect("/auth/login");
             };
 
             if(!(user.LoggedIn.Token === Verify.Token)) {
-                return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");    
+                return res.status(401).clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                }).redirect("/auth/login");    
             };
 
             if(user.Verified === "No") {
-                return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
+                return res.status(401).clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                }).redirect("/auth/login");
             };
 
             if(user.Ban === "Yes") {
-                return res.status(401).clearCookie("User",{path:"/"}).redirect("/auth/login");
+                return res.status(401).clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                }).redirect("/auth/login");
             };
 
             req.User = user;
