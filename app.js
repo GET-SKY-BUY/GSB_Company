@@ -43,14 +43,17 @@ app.use("/verified/files", express.static(path.join(__dirname, './Public')));
 // Routes for the APIs
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
 app.use("/api/v1/profile", require('./Routes/Profile.js'));
-app.use("/api/v1/additional/", require('./Routes/Additional.js'));
+app.use("/api/v1/additional", require('./Routes/Additional.js'));
+// app.use("/api/v1/cart", require('./Routes/Additional.js'));
+// app.use("/api/v1/order", require('./Routes/Additional.js'));
+app.use("/api/v1/secure/payment", require('./Routes/Payment_System.js'));
 
 //--------------------------------------------------------------
 
 // Pages
 app.use("/auth", require('./Page_Routes/Authentication.js'));
 app.use("/profile", require('./Page_Routes/Profile.js'));
-// app.use("/profile", require('./Pages_Routes/Authentication.js'));
+// app.use("/product", require('./Pages_Routes/Authentication.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 //--------------------------------------------------------------
