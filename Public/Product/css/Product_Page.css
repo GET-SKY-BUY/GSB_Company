@@ -870,3 +870,22 @@
 .FavINImage img:hover {
     content: url("/verified/files/images/Fav_Selected.png");
 }
+
+
+
+
+#Varieties_Box {
+    margin: 6px;
+}
+#Varieties {
+    display: flex;
+}
+.BoxV {
+    width: max-content;
+    margin: 0px 5px;
+    padding: 5px 15px;
+    border: 1px solid #aaa;
+    border-radius: 50px;
+    transition: 200ms;
+}
+/* margin: 10px 0px; */

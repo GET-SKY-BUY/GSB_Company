@@ -50,7 +50,17 @@ const Products_Page = async ( req , res , next ) => {
         Description = Description.replace(/\n/g, '<br>')
         
         let Offer = Math.floor(((Product.Price.MRP - Product.Price.Our_Price)/Product.Price.MRP)*100);
+
+        let Varieties = Product.Varieties;
+        let AA = "";
+        for(let i=0; i< Varieties.length; i++){
+            if(Varieties[i].Quantity > 0){
+                AA +=`<div class="BoxV">${Varieties[i].Type}</div>`;
+            };
+        };
+
         let Product_Object = {
+            Varieties: AA,
             Title : Product.Title,
             IMG,
             Shop_Name,
@@ -67,6 +77,10 @@ const Products_Page = async ( req , res , next ) => {
         
         const User = req.User;
         if ( User ) {
+
+            if(Product.COD == "Yes"){
+                Product_Object["CODD"] = `<li><span class="material-symbols-outlined selll_IC">sell</span>Cash on delivery available.</li>`;
+            };
             const Favourite = User.Favourite;
             let Fav = false;
             for (let i = 0; i < Favourite.length; i++) {
@@ -82,6 +96,8 @@ const Products_Page = async ( req , res , next ) => {
                 Product_Object["Fav_Icon"] = "Fav.png";
                 Product_Object["Fav_Function"] = `Favourite('${Product._id}')`;  
             };
+            Product_Object["NumberOfGSBCoins"] = Product.GSBCoins;
+
             Product_Object["CartNumber"] = User.Cart.length;
             Product_Object["Login"] = "";
             Product_Object["Logout"] =  `<a title="Logout" href="/logout">Logout</a>`;

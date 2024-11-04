@@ -93,5 +93,9 @@ function Message(n, W) {
     }else{
         TextMessage.style.backgroundColor = "#ffbebe";
     };
+    setTimeout(() => {
+        
+        document.getElementById("Message").style.display = "none";
+    }, 2500);
 };
 
