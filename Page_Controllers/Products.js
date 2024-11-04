@@ -67,7 +67,21 @@ const Products_Page = async ( req , res , next ) => {
         
         const User = req.User;
         if ( User ) {
-            
+            const Favourite = User.Favourite;
+            let Fav = false;
+            for (let i = 0; i < Favourite.length; i++) {
+                if(Favourite[i].Product_ID == Product._id){
+                    Fav = true;
+                    break;
+                };
+            };
+            if(Fav){
+                Product_Object["Fav_Icon"] = "Fav_Selected.png";
+                Product_Object["Fav_Function"] = `UnFavourite('${Product._id}')`;
+            } else {
+                Product_Object["Fav_Icon"] = "Fav.png";
+                Product_Object["Fav_Function"] = `Favourite('${Product._id}')`;  
+            };
             Product_Object["CartNumber"] = User.Cart.length;
             Product_Object["Login"] = "";
             Product_Object["Logout"] =  `<a title="Logout" href="/logout">Logout</a>`;
