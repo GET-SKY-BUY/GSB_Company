@@ -17,14 +17,7 @@ dotenv.config();
 // Environment variables
 const PORT = process.env.PORT;
 const Cookie_Secret = process.env.COOKIE_SECRET;
-const NODE_ENV = process.env.NODE_ENV;
 
-
-// Protocol 
-let Protocol = "http";
-if (NODE_ENV === 'production') {
-    Protocol = 'https';
-};
 
 // Set the view engine to pug
 app.set('view engine', 'pug');
@@ -32,13 +25,21 @@ app.set('views', [
     path.join(__dirname, './Pug/Auth'),
     path.join(__dirname, './Pug/Common'),
     path.join(__dirname, './Pug/Profile'),
+    path.join(__dirname, './Pug/Product'),
 ]);
 
+
+// Protocol 
+let Protocol = "http";
+if (process.env.NODE_ENV === 'production') {
+    Protocol = 'https';
+};
 // Project URL
 const Project_URL = `${Protocol}://${process.env.PROJECT_DOMAIN}`;
 
 // Setup static folder
 app.use("/verified/files", express.static(path.join(__dirname, './Public')));
+app.use("/product/files/image", express.static(path.join(__dirname, '../GSB_Admin/Converted_Images')));
 
 // Routes for the APIs
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
@@ -53,7 +54,7 @@ app.use("/api/v1/secure/payment", require('./Routes/Payment_System.js'));
 // Pages
 app.use("/auth", require('./Page_Routes/Authentication.js'));
 app.use("/profile", require('./Page_Routes/Profile.js'));
-// app.use("/product", require('./Pages_Routes/Authentication.js'));
+app.use("/products", require('./Page_Routes/Products.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 //--------------------------------------------------------------
@@ -76,9 +77,9 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
-            scriptSrc: ["'self'", "'unsafe-inline'", Project_URL],
-            styleSrc: ["'self'", "'unsafe-inline'", Project_URL], 
-            StyleSheetListSrc: ["'self'", Project_URL], // Allow stylesheets
+            scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
+            styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
+            StyleSheetListSrc: ["'self'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
             imgSrc: ["'self'", "data:", Project_URL],
         }
     },
@@ -135,6 +136,10 @@ app.use((err, req, res, next) => {
 app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
     res.send(`User-agent: *\nDisallow: /private/`);
+});
+
+app.get("*", (req, res)=>{
+    return res.status(404).render("404");
 });
 
 app.listen(PORT, () => {
