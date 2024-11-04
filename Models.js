@@ -96,7 +96,7 @@ const UserSchema = new Schema({
         Earned:{type:Number},
         History:{type:Object},
     },
-    Favourite:{type:Object},
+    Favourite:{type:Object, default:[]},
     Wishlist:{type:Object},
     Notification:{type:Object},
     Bank:{

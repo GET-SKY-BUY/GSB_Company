@@ -62,9 +62,12 @@ Cart_Route.use(cookieParser(Cookie_Secret));
 Cart_Route.use(bodyParser.urlencoded({ extended: true }));
 Cart_Route.use(bodyParser.json());
 
-const { Add_To_Cart } = require("../Controllers/Cart.js");
+const { Add_To_Cart , Buy_Now , Favourite_Add , Favourite_Add_Remove } = require("../Controllers/Cart.js");
 
 Cart_Route.post("/add", Verify_User_API , Add_To_Cart );
+Cart_Route.post("/buy_now", Verify_User_API , Buy_Now );
+Cart_Route.post("/favourite", Verify_User_API , Favourite_Add );
+Cart_Route.post("/favourite/remove", Verify_User_API , Favourite_Add_Remove );
 
 
 

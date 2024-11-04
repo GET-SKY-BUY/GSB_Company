@@ -847,5 +847,26 @@
 
 
 
+.FavINImage {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    color: #000000;
+    font-size: 24px;
+}
 
+.FavINImage button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
 
+.FavINImage img {
+    width: 26px;
+}
+
+.FavINImage img:hover {
+    content: url("/verified/files/images/Fav_Selected.png");
+}
