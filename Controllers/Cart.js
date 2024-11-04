@@ -10,7 +10,19 @@ const Add_To_Cart = async ( req , res , next ) => {
         const Product1 = await Products.findById(req.body.ID.toUpperCase());
                 if(Product1){
                     if (Product1.Verified == "Yes") {
+
+                        let Found = false;
+                        Product1.Varieties.forEach(element => { 
+                            if(element.Quantity >= 0){
+                                Found = true;
+                                return;
+                            };
+                        });
                         
+                        if(Found){
+                            return res.status(401).json({Message:"Product is out of stock."});
+                        };
+
                         let a = Got_User.Cart;
                         let b = false;
                         for (let index = 0; index < a.length; index++) {
@@ -27,8 +39,7 @@ const Add_To_Cart = async ( req , res , next ) => {
                                 Variety: null,
                                 Last_Update: Date.now(),
                             });
-
-
+                            
                             await User.updateOne({_id:Got_User._id},{$set:{Cart:a}});
                             return res.status(200).json({Message:"Product added to cart", Len:a.length});
                         }else{
