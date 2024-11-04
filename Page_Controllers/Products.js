@@ -60,6 +60,7 @@ const Products_Page = async ( req , res , next ) => {
             Table,
             Offer,
             Description,
+            ID: Product._id
 
         };
         

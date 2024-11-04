@@ -1,23 +1,24 @@
 async function AddToCart(n){
-    // document.getElementById("Add_To_Cart").disabled = true;
-    if (n.length != 8) {
-        Message("Unauthorized Access");
+    if (n.length < 9) {
+        Message("Unauthorized Access", "Warning");
         return;
     }
     let Send = {
         ID: n,
     };
-    await fetch("/products/add_to_cart", {
+    document.getElementById("AddToCart").disabled = true;
+    document.getElementById("Loading").style.display = "flex";
+    await fetch("/api/v1/cart/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(Send),
     }).then((res) => {
+        document.getElementById("Loading").style.display = "none";
+        document.getElementById("AddToCart").disabled = false;
         if(res.ok){
             return res.json();
-        }else if(res.status == 307){
-            window.location.href = "/login";
         }else{
             return res.json().then((data) => {
                 let error = new Error(data.Message);
@@ -40,52 +41,51 @@ async function AddToCart(n){
         }else{
             Message("Something went wrong", "Warning");
         };
-        // document.getElementById("Add_To_Cart").disabled = false;
     });
+};
 
-}
 async function BuyNow(n){
     // document.getElementById("Buy_Now").disabled = true;
-    if (n.length != 8) {
-        Message("Unauthorized Access");
+    if (n.length < 8) {
+        Message("Unauthorized Access", "Warning");
         return;
     }
     let Send = {
         ID: n,
     };
-    await fetch("/products/buy_now", {
+    document.getElementById("Loading").style.display = "flex";
+    document.getElementById("BuyNow").disabled = true;
+        
+    await fetch("/api/v1/cart/buy_now", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(Send),
     }).then((res) => {
+        document.getElementById("Loading").style.display = "none";
+        document.getElementById("BuyNow").disabled = false;
         if(res.ok){
             return res.json();
-        }else if(res.status == 307){
-            window.location.href = "/login";
-        }else{
-            return res.json().then((data) => {
-                let error = new Error(data.Message);
-                error.Message = data.Message;
-                throw error;
-            });
         }
+        return res.json().then((data) => {
+            let error = new Error(data.Message);
+            error.Message = data.Message;
+            throw error;
+        });
     }).then((data) => {
         Message(data.Message, "Success");
         // document.getElementById("Buy_Now").disabled = false;
         setTimeout(() => {
             window.location.href = "/buy_now";
-        }, 2000);
+        }, 500);
         
     }).catch((err) => {
-        console.log(err);
         if(err.Message){
             Message(err.Message, "Warning");
         }else{
             Message("Something went wrong", "Warning");
         };
-        // document.getElementById("Buy_Now").disabled = false;
     });
 
 }
