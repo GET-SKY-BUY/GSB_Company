@@ -45,6 +45,7 @@ app.use("/product/files/image", express.static(path.join(__dirname, '../GSB_Admi
 app.use("/api/v1/auth", require('./Routes/User_Authentication.js'));
 app.use("/api/v1/profile", require('./Routes/Profile.js'));
 app.use("/api/v1/additional", require('./Routes/Additional.js'));
+app.use("/api/v1/product", require('./Routes/Product.js'));
 app.use("/api/v1/cart", require('./Routes/Cart.js'));
 // app.use("/api/v1/order", require('./Routes/Additional.js'));
 app.use("/api/v1/secure/payment", require('./Routes/Payment_System.js'));

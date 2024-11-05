@@ -19,7 +19,7 @@ const Add_To_Cart = async ( req , res , next ) => {
                             };
                         });
                         
-                        if(Found){
+                        if(!Found){
                             return res.status(401).json({Message:"Product is out of stock."});
                         };
 
@@ -71,7 +71,7 @@ const Buy_Now = async ( req , res , next ) => {
                     };
                 });
                 
-                if(Found){
+                if(!Found){
                     return res.status(401).json({Message:"Product is out of stock."});
                 };
                 
@@ -89,7 +89,7 @@ const Buy_Now = async ( req , res , next ) => {
             };
         } else {
             return res.status(404).json({Message:"Product not found"});
-        }
+        };
     } catch (error) {
         next(error);
     };

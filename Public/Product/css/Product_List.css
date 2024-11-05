@@ -5,13 +5,16 @@
     flex-direction: row;
     justify-content: left;
     background-color: rgba(255, 255, 255, 0.837);
-
-
+    overflow: scroll;
+}
+.Product_Row::-webkit-scrollbar {
+    display: none;
 }
 
 .Product {
-    width: 200px;
-    margin: 3px 10px;
+    min-width: 180px;
+    width: 100%;
+    margin: 3px 5px;
     padding: 6px;
     box-sizing: border-box;
     background-color: #fff;
