@@ -26,6 +26,7 @@ app.set('views', [
     path.join(__dirname, './Pug/Common'),
     path.join(__dirname, './Pug/Profile'),
     path.join(__dirname, './Pug/Product'),
+    path.join(__dirname, './Pug/Checkout'),
 ]);
 
 
@@ -56,6 +57,7 @@ app.use("/api/v1/secure/payment", require('./Routes/Payment_System.js'));
 app.use("/auth", require('./Page_Routes/Authentication.js'));
 app.use("/profile", require('./Page_Routes/Profile.js'));
 app.use("/products", require('./Page_Routes/Products.js'));
+app.use("/Checkout", require('./Page_Routes/Checkout.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 //--------------------------------------------------------------
@@ -80,7 +82,7 @@ app.use(helmet({
             defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
             scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
-            StyleSheetListSrc: ["'self'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
+            scriptSrcAttr: ["'self'", "'unsafe-inline'", Project_URL],
             imgSrc: ["'self'", "data:", Project_URL],
         }
     },
@@ -139,7 +141,7 @@ app.get('/robots.txt', (req, res) => {
     res.send(`User-agent: *\nDisallow: /private/`);
 });
 
-app.get("*", (req, res)=>{
+app.get("*", (req, res, next)=>{
     return res.status(404).render("404");
 });
 

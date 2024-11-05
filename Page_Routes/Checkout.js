@@ -1,14 +1,11 @@
 require("dotenv").config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const Cookie_Secret = process.env.COOKIE_SECRET;
-const Verify_User_API = require("../utils/Verify_User_API.js");
-const Cart_Route = express.Router();
-const helmet = require('helmet');
-const cors = require('cors');
-module.exports = Cart_Route;
+const express = require("express");
+const Checkout = express.Router();
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
+
+require("dotenv").config();
 // Protocol 
 let Protocol = "http";
 if (process.env.NODE_ENV === 'production') {
@@ -17,14 +14,18 @@ if (process.env.NODE_ENV === 'production') {
 // Project URL
 const Project_URL = `${Protocol}://${process.env.PROJECT_DOMAIN}`;
 
+
+const helmet = require('helmet');
+const cors = require('cors');
+
 // Helmet middleware for securing the app
-Cart_Route.use(helmet({
+Checkout.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
+            defaultSrc: ["'self'" , "'unsafe-inline'", Project_URL], // Allow resources from the same origin
             scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
-            StyleSheetListSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
+            scriptSrcAttr: ["'self'", "'unsafe-inline'", Project_URL],
             imgSrc: ["'self'", "data:", Project_URL],
         }
     },
@@ -36,7 +37,7 @@ Cart_Route.use(helmet({
 }));
 
 // Setup cors middleware for cross-origin requests
-Cart_Route.use(cors(
+Checkout.use(cors(
     {
         origin: [
             Project_URL,
@@ -58,20 +59,15 @@ Cart_Route.use(cors(
 
 
 
-Cart_Route.use(cookieParser(Cookie_Secret));
-Cart_Route.use(bodyParser.urlencoded({ extended: true }));
-Cart_Route.use(bodyParser.json());
 
-const { Add_To_Cart , Buy_Now , Favourite_Add , Favourite_Add_Remove } = require("../Controllers/Cart.js");
+Checkout.use(bodyParser.json());
+Checkout.use(bodyParser.urlencoded({ extended: true }));
+Checkout.use(cookieParser(process.env.COOKIE_SECRET));
 
-Cart_Route.post("/add", Verify_User_API , Add_To_Cart );
-Cart_Route.post("/buy_now", Verify_User_API , Buy_Now );
-Cart_Route.post("/favourite", Verify_User_API , Favourite_Add );
-Cart_Route.post("/favourite/remove", Verify_User_API , Favourite_Add_Remove );
+module.exports = Checkout;
 
+const { Checkout_Cart } = require("../Page_Controllers/Checkout.js");
 
+const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
-
-
-
-// Cart_Route.post("//buy_now", Verify_User_API , Add_To_Cart );
+Checkout.get("/cart", Verify_User_Page , Checkout_Cart );

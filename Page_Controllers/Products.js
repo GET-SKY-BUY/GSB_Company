@@ -100,11 +100,12 @@ const Products_Page = async ( req , res , next ) => {
 
             Product_Object["CartNumber"] = User.Cart.length;
             Product_Object["Login"] = "";
-            Product_Object["Logout"] =  `<a title="Logout" href="/logout">Logout</a>`;
+            Product_Object["Logout"] =  `<a title="Logout" href="/auth/logout">Logout</a>`;
         }else{
-            
+            Product_Object["Fav_Icon"] = "Fav.png";
+            Product_Object["Fav_Function"] = `Favourite('${Product._id}')`;  
             Product_Object["CartNumber"] = 0;
-            Product_Object["Login"] = `<a title="login" href="/login">Login</a>`;
+            Product_Object["Login"] = `<a title="login" href="/auth/login">Login</a>`;
             Product_Object["Logout"] =  ``;
         };
         return res.status(200).render("Product_Page" , Product_Object );

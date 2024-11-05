@@ -28,7 +28,7 @@ Auth.use(helmet({
             defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
             scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
-            StyleSheetListSrc: ["'self'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
+            StyleSheetListSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
             imgSrc: ["'self'", "data:", Project_URL],
         }
     },

@@ -30,6 +30,7 @@ const Home = async (req, res, next) =>  {
             Coins:Coins,
             Joined:Joined,
             CartNumber: CartNumber,
+            
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -83,6 +84,8 @@ const Coins = async (req, res, next) =>  {
             CoinsAvailable: Got_User.GSBCoins.Available,
             CoinsEarned: Got_User.GSBCoins.Earned,
             CoinsHistory: History,
+            
+            CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -104,6 +107,8 @@ const Profile_Wishlist = ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             WishList: WishList,
+            
+            CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -115,7 +120,7 @@ const Profile_Favourite = ( req , res , next )=> {
     try{
         const User = req.User;
 
-        const Favourite = User.Favourite;
+        const Favourite = JSON.stringify(User.Favourite);
 
 
         return res.status(200).render("Profile_Favourite",{
@@ -123,6 +128,7 @@ const Profile_Favourite = ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             Favourite: Favourite,
+            CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -143,6 +149,7 @@ const Profile_Notification = ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             Notification: Notification,
+            CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -246,6 +253,7 @@ const Profile_Address = async ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             Address_Cards: Address_Cards,
+            CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });

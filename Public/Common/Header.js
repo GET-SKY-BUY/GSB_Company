@@ -131,7 +131,7 @@ function NavClicked(n) {
     if (n == 1) {   
         window.open("/store_shops");
     }else if (n == 4) {
-        window.open("/favourite");
+        window.open("/profile/favourite");
         
     }else if (n == 98) {
         window.open("/profile/setting");
@@ -140,7 +140,7 @@ function NavClicked(n) {
         window.open("/");
 
     }else if (n == 5) {
-        window.open("/cart");
+        window.open("/checkout/cart");
         
     }
     
