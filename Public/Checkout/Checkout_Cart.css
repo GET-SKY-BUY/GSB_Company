@@ -1,0 +1,114 @@
+.Main {
+    width: 100%;
+    display: block;
+}
+
+.Main_Center {
+    width: 90%;
+    margin: 40px auto;
+    padding: 10px;
+    box-shadow: 0 0 5px #ccc;
+    border-radius: 15px;
+}
+
+.MainCenterCenter {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    
+}
+
+.Address_Box h3 {
+    margin: 6px 0;
+    padding: 0px;
+}
+
+.Address_Box address {
+    margin-left: 20px;
+}
+
+.Payment_Box h3 {
+    margin: 6px 0;
+    padding: 0px;
+}
+
+.Payment_Box_Options {
+    margin-left: 20px;
+}
+
+.Payment_Box_Options_Item {
+    padding: 10px;
+    padding-left: 0px;
+    cursor: pointer;
+}
+
+.Product_List h3{
+    
+    margin: 6px 0;
+    padding: 0px;
+
+}
+
+.Product_List_Table {
+    margin-left: 20px;
+}
+
+.Product_Table {
+    text-wrap: balance;
+    font-size: 13px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+.Product_Table td,
+.Product_Table th{
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+
+
+
+
+
+.Aside_1 {
+    width: 70%;
+}
+.Aside_2 {
+    
+    padding-left: 30px;
+    border-left: 1px solid #ccc;
+    width: 30%;
+}
+
+
+
+.Final_Box {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.Final_Main {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+
+
+}
+.Final_Main tr td{
+    border: 1px solid #ccc;
+    padding: 10px;
+
+
+}
+.Final_Main tr>td:nth-child(1){
+    text-align: right;
+    width: 50%;
+    font-weight: bold;
+}
+.Final_Main tr>td:nth-child(2){
+    text-align: left;
+    width: 50%;
+}

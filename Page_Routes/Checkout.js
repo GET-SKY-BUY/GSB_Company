@@ -66,8 +66,9 @@ Checkout.use(cookieParser(process.env.COOKIE_SECRET));
 
 module.exports = Checkout;
 
-const { Checkout_Cart } = require("../Page_Controllers/Checkout.js");
+const { Checkout_Proceed } = require("../Page_Controllers/Checkout.js");
 
 const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
-Checkout.get("/cart", Verify_User_Page , Checkout_Cart );
+Checkout.get("/proceed", Verify_User_Page , Checkout_Proceed );
+// Checkout.get("/cart", Verify_User_Page , Checkout_Cart );

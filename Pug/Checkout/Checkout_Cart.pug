@@ -3,17 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart  - GET SKY BUY</title>
+    <title>Proceed Checkout - GET SKY BUY</title>
 
     include ../Common/HeadPart.pug
     
-    <link rel="stylesheet" href="/verified/files/profile/css/Profile_Address.css">
+    <link rel="stylesheet" href="/verified/files/Checkout/Checkout_Cart.css">
 </head>
 <body>
     
     include ../Common/Header.pug
+
+    <main class="Main">
+        <div class="Main_Center">
+            <div class="MainCenterCenter">
+
+
+                <div class="Aside_1">
+                        
+                    <div class="Address_Box">
+                        <h3>1. Address <a href="/profile/address">(Change Address)</a></h3>
+                        <address>
+                            | !{Address}
+                        </address>
+
+                    </div>
+
+                    <div class="Payment_Box">
+                        <h3>2. Payment Method</h3>
+                        <div class="Payment_Box_Options">
+                            <div class="Payment_Box_Options_Item">
+                                <input type="radio" name="payment" id="payment1"checked>
+                                <label for="payment1">UPI / Credit Card / Debit Card / Wallet / New Banking / EMI</label>
+                            </div>
+                            <div class="Payment_Box_Options_Item">
+                                <input type="radio" name="payment" id="payment2">
+                                <label for="payment2">Cash on Delivery</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="Product_List">
+                        <h3>3. Products</h3>
+                        <div class="Product_List_Table">
+                            <table class="Product_Table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Delivery</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr>
+                                        <td><a href="/products/">Samsung galaxy S20 Pro</a></td>
+                                        <td>₹ 1000</td>
+                                        <td>Free</td>
+                                        <td>1</td>
+                                        <td>₹ 1000</td>
+                                        
+                                    </tr> -->
+                                | !{Table}
+                                    
+                                </tbody>
+                                <tfoot>
+
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="Aside_2">
+                    <h3>4. Billing and payment</h3>
+
+                    <div class="Final_Box">
+                        <table class="Final_Main">
+                            <tr>
+                                <td>Total MRP:</td>
+                                <td>₹#{TOTAL_MRP}</td>
+                            </tr>
+                            <tr>
+                                <td>Discount:</td>
+                                <td>#{DISCOUNT}% off</td>
+                            </tr>
+                            <tr>
+                                <td>Total Price:</td>
+                                <td>₹#{TOTAL_PRICE}</td>
+                            </tr>
+                            <tr>
+                                <td>Total shipping:</td>
+                                <td>₹#{Total_Shipping}</td>
+                            </tr>
+                            <tr>
+                                <td>Grand Total:</td>
+                                <td>₹#{Grand_Total}</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    
+
+
+
     <script src="/verified/files/common/Message.js"></script>
-    <script src="/verified/files/profile/js/Checkout_Cart.js"></script>
+    <script src="/verified/files/Checkout/Checkout_Cart.js"></script>
 </body>
 </html>
 

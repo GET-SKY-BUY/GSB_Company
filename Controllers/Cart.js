@@ -35,8 +35,8 @@ const Add_To_Cart = async ( req , res , next ) => {
                         if(!b){
                             a.push({
                                 Product_ID: req.body.ID.toUpperCase(),
-                                Quantity: null,
-                                Variety: null,
+                                Quantity: 0,
+                                Variety: "",
                                 Last_Update: Date.now(),
                             });
 
@@ -77,9 +77,9 @@ const Buy_Now = async ( req , res , next ) => {
                 
                 const Buy_Now = {
                     Product_ID: req.body.ID.toUpperCase(),
-                    Quantity: null,
-                    Variety: null,
-                    Last_Update: Date.now(),
+                    Quantity: 0,
+                    Variety: "",
+                    Last_Update: String(Date.now()),
                 };
                 await User.updateOne({_id:Got_User._id},{$set:{Buy_Now:Buy_Now}});
                 return res.status(200).json({Message:"Redirecting to checkout"});
