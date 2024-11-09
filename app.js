@@ -49,7 +49,7 @@ app.use("/api/v1/additional", require('./Routes/Additional.js'));
 app.use("/api/v1/product", require('./Routes/Product.js'));
 app.use("/api/v1/cart", require('./Routes/Cart.js'));
 // app.use("/api/v1/order", require('./Routes/Additional.js'));
-app.use("/api/v1/secure/payment", require('./Routes/Payment_System.js'));
+app.use("/api/v1/checkout", require('./Routes/Checkout.js'));
 
 //--------------------------------------------------------------
 

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
+const { boolean } = require('zod');
 const URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_SUBDOMAIN}.mongodb.net/${process.env.DB_NAME}`;
 mongoose.connect(URL);
 const db = mongoose.connection;
@@ -639,6 +640,67 @@ const Search_History_Schema = new Schema({
     },
 });
 
+
+
+const Orders_Schema = new Schema({
+    _id: {
+        type: String,
+    },
+    Connection_ID: {
+        type: String,
+    },
+    User_ID: {
+        type: String,
+        ref: 'Users',
+    },
+    Completed:{
+        type: Boolean,
+        default: false,
+    },
+    Status:{
+        type: String,
+    },
+    Payment_Type: {
+        type: String,
+        enum: ['COD', 'Prepaid'],
+    },
+    Payment_Info:{
+        type: Object,
+        default: {},
+    },
+    Return_Refund:{
+        type: Object,
+        default: {},
+    },
+    Product: {
+        type: Object,
+    },
+    Variety: {
+        type: String,
+    },
+    Quantity: {
+        type: Number,
+    },
+    Address: {
+        type: Object,
+    },
+    GSB_Coins:{
+        type: Object,
+    },
+    Total_Bill: {
+        type: Object,
+    },
+    
+    createdAt: {
+        type: Date,
+        default: new Date(),
+    },
+})
+
+
+
+
+
 const User = Model("User", UserSchema);
 const Admin_User = Model("Admin", Admin_User_Schema);
 const Assistants = Model("Assistants", Admin_Assistant_Schema);
@@ -647,6 +709,7 @@ const Sellers = Model("Sellers", Seller_Schema);
 const Products = Model("Products", Product_Schema);
 const Categories = Model("Categories", categorySchema);
 const Searched_History = Model("Searched_Panel", Search_History_Schema);
+const Orders = Model("Orders", Orders_Schema);
 
 
 
@@ -661,4 +724,5 @@ module.exports = {
     Products,
     Categories,
     Searched_History,
+    Orders,
 };

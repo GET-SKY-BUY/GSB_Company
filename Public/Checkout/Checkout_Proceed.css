@@ -40,7 +40,6 @@
 .Payment_Box_Options_Item {
     padding: 10px;
     padding-left: 0px;
-    cursor: pointer;
 }
 
 .Product_List h3{
@@ -111,4 +110,38 @@
 .Final_Main tr>td:nth-child(2){
     text-align: left;
     width: 50%;
+}
+
+
+.Payment_Box_Options_Item label{
+    cursor: pointer;
+}
+
+#Final_Payment_Button {
+    display: flex;
+    justify-content: center;
+    
+}
+
+#Final_Payment_Button button{
+    margin: 5px 0px;
+    background-color: #ffb362;
+    outline: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 200ms;
+    border-radius: 50px;
+    width: 150px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    user-select: none;
+}
+#Final_Payment_Button button:hover, #Final_Payment_Button button:focus{
+    background-color: #ff9c33;
+    text-decoration: underline;
+}
+#Final_Payment_Button button:active{
+    background-color: var(--secondaryActiv-color);    
 }

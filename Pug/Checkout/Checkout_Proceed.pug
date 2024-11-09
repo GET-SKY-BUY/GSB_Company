@@ -7,7 +7,7 @@
 
     include ../Common/HeadPart.pug
     
-    <link rel="stylesheet" href="/verified/files/Checkout/Checkout_Cart.css">
+    <link rel="stylesheet" href="/verified/files/Checkout/Checkout_Proceed.css">
 </head>
 <body>
     
@@ -32,12 +32,12 @@
                         <h3>2. Payment Method</h3>
                         <div class="Payment_Box_Options">
                             <div class="Payment_Box_Options_Item">
-                                <input type="radio" name="payment" id="payment1"checked>
-                                <label for="payment1">UPI / Credit Card / Debit Card / Wallet / New Banking / EMI</label>
+                                <input type="radio" name="payment" id="UPI"checked>
+                                <label for="UPI">UPI / Credit Card / Debit Card / Wallet / New Banking / EMI</label>
                             </div>
                             <div class="Payment_Box_Options_Item">
-                                <input type="radio" name="payment" id="payment2">
-                                <label for="payment2">Cash on Delivery</label>
+                                <input type="radio" name="payment" id="COD">
+                                <label for="COD">Cash on Delivery</label>
                             </div>
                         </div>
 
@@ -105,6 +105,9 @@
                         </table>
 
                     </div>
+                    <div id="Final_Payment_Button">
+                        <button type="button" onclick="Final_Button('UPI')">Pay now</button>
+                    </div>
                 </div>
 
             </div>
@@ -113,13 +116,14 @@
 
     </main>
 
+    
 
     
 
 
 
     <script src="/verified/files/common/Message.js"></script>
-    <script src="/verified/files/Checkout/Checkout_Cart.js"></script>
+    <script src="/verified/files/Checkout/Checkout_Proceed.js"></script>
 </body>
 </html>
 

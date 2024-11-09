@@ -142,7 +142,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         };
-        return res.status(200).render("Checkout_Cart", Options);
+        return res.status(200).render("Checkout_Proceed", Options);
     }catch (error) {
         next(error);
     };
