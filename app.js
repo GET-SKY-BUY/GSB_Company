@@ -61,8 +61,6 @@ app.use("/Checkout", require('./Page_Routes/Checkout.js'));
 // app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 //--------------------------------------------------------------
-// 
-app.get("/", require("./Links/Home.js"))
 
 //--------------------------------------------------------------
 
@@ -140,6 +138,10 @@ app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
     res.send(`User-agent: *\nDisallow: /private/`);
 });
+
+const Check_User = require("./utils/Check_User.js");
+app.get("/", Check_User ,require("./Links/Home.js"))
+
 
 app.get("*", (req, res, next)=>{
     return res.status(404).render("404");

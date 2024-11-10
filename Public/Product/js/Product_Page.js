@@ -143,3 +143,7 @@ if (window.innerWidth > 440) {
     DownArrow.style.left = (Number( width.split("px")[0])-40) + "px";
 
 }
+(async () => {
+    PRODUCT_LIST = await call(window.innerWidth, "Section1");
+    console.log(PRODUCT_LIST);
+})();
