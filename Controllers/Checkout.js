@@ -222,14 +222,26 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
             return res.status(400).json({Message:"Cart is empty"});
         };
 
-        let New_Orders = [];
+        
+        
+        
+        
 
-
-
-
-
+        
+        // console.log(Order_Details);
+        
+        let TotalA = 0;
+        for (let i = 0; i < Cart.length; i++) {
+            const Product = await Products.findById(Cart[i].Product_ID);
+            if(Product){
+                if(Product.Verified == "Yes"){
+                    TotalA += Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery;
+                };
+            };
+        };
+        
         const Order_Details = await Payment_Instance.orders.create({
-            amount: 10000,
+            amount: TotalA * 100,
             currency: "INR",
             receipt: Connection_Key,
             notes:{
@@ -237,16 +249,10 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                 Products: Cart,
                 date: new Date(),
             },
-
-
         });
         
-        // console.log(Order_Details);
         
-        
-        
-        
-
+        let New_Orders = [];
         for (let i = 0; i < Cart.length; i++) {
             const Product = await Products.findById(Cart[i].Product_ID);
             if(Product){
@@ -362,9 +368,6 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         const razorpay_payment_id = req.body.razorpay_payment_id;
         const razorpay_signature = req.body.razorpay_signature;
 
-
-
-
         if(!(razorpay_order_id && 
             razorpay_payment_id &&
             razorpay_signature)){
@@ -379,9 +382,6 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         if(razorpay_signature == ""){
             return res.status(400).json({Message:"Invalid Signature"});
         };
-
-
-
 
         let Got_Order_By_Id = await Payment_Instance.orders.fetch(razorpay_order_id);
 
@@ -398,9 +398,6 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         if(Got_Order_By_Id.amount_paid !== Got_Order_By_Id.amount){
             return res.status(400).json({Message:"Unauthorized Access."});
         };
-
-
-
 
         let User_Orders = Got_User.Orders;
         if(User_Orders.length < 1){
@@ -447,12 +444,10 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
             await Order.save();
         };
         return res.status(200).json({Message:"Payment Successful - Order placed successful.",Redirect:"/profile/orders"});
-        
     } catch (error) {
         next(error);
     };
 };
-
 
 module.exports = {
     Checkout_Proceed_COD,
