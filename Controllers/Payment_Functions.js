@@ -6,20 +6,6 @@ const Payment_Instance = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-const Get_Payment_By_Id = async ( ID ) => {
-    try {
-        const Payment = await Payment_Instance.payments.fetch( ID );
-        return Payment;
-    } catch (error) {
-        return null;
-    };
-};
-
-const Create_Order_Id = async ( Order_Details ) => {
-    const Order = await Payment_Instance.orders.create( Order_Details );
-    return Order;
-};
-
 const Verify_Signature = async ( order_id , razorpay_payment_id , Recieved_Signature ) => {
     try {
         const data = order_id + '|' + razorpay_payment_id;
@@ -32,8 +18,6 @@ const Verify_Signature = async ( order_id , razorpay_payment_id , Recieved_Signa
     };
 };
 module.exports = {
-    Get_Payment_By_Id,
-    Create_Order_Id,
     Verify_Signature,
-
+    Payment_Instance,
 };

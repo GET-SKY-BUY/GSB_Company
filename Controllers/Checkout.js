@@ -2,16 +2,11 @@ const axios = require("axios");
 const { Products , User , Orders , Sellers , Assistants } = require("../Models.js");
 const crypto = require('crypto');
 require("dotenv").config();
-const Razorpay = require("razorpay");
-const Payment_Instance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
 const Order_ID = () => {
     return crypto.randomInt(1000, 99999999999999).toString();
 };
 
-const { Create_Order_Id } = require("./Payment_Functions.js");
+const { Payment_Instance , Verify_Signature } = require("./Payment_Functions.js");
 
 const Checkout_Proceed_COD = async ( req , res , next ) => {
     try {
@@ -115,15 +110,16 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                         Payment_Type: "COD",
                         Payment_Info: {
                             Order_ID: null,
-                            Payment_Success: false,
                             Payment_ID: null,
+                            Payment_Success: false,
+                            Payment_Status: null,
                         },
                         Return_Refund:{
                             Request_Type: null,
                             Accepted: false,
                             Reason: null,
                             Refund_Amount: 0,
-                            Status: null,
+                            Completed: false,
                         },
                         Address: Final_Address,
                         Quantity: Cart[i].Quantity,
@@ -285,12 +281,12 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                         Connection_ID: Connection_Key,
                         User_ID: Got_User._id,
                         Completed: false,
-                        Status: "Order Placed",
+                        Status: "Order created - Payment Pending",
                         Payment_Type: "Prepaid",
                         Payment_Info: {
                             Order_ID: Order_Details.id,
-                            Payment_Success: false,
                             Payment_ID: null,
+                            Payment_Success: false,
                             Payment_Status: "Created",
                         },
                         Return_Refund:{
@@ -298,7 +294,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                             Accepted: false,
                             Reason: null,
                             Refund_Amount: 0,
-                            Status: null,
+                            Completed: false,
                         },
                         Address: Final_Address,
                         Quantity: Cart[i].Quantity,
@@ -330,7 +326,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
             amount: Order_Details.amount,
             currency: Order_Details.currency,
             name: Got_User.Personal_Data.First_Name + " " + Got_User.Personal_Data.Last_Name,
-            description: `Payment for${New_Orders.length} orders and Order ID: ${Connection_Key}`,
+            description: `Payment for ${New_Orders.length} orders and Order ID: ${Connection_Key}`,
             image: "/verified/files/images/GSB - Full-Txt.jpg",
             order_id: Order_Details.id,
             prefill: {
@@ -340,7 +336,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
             },
             notes: Order_Details.notes,
             theme: {
-                "color": "#ff914d"
+                color: "#ff914d"
             }
         };
 
@@ -353,15 +349,113 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                 return res.status(200).json({Message:"Order Created successfully.", Option_For_Order: Option_For_Order});
             });
         });
+    } catch (error) {
+        next(error);
+    };
+};
 
+const Checkout_Final_Signature_Check = async ( req , res , next ) => {
+    try {
+
+        const Got_User = req.User;
+        const razorpay_order_id = req.body.razorpay_order_id;
+        const razorpay_payment_id = req.body.razorpay_payment_id;
+        const razorpay_signature = req.body.razorpay_signature;
+
+
+
+
+        if(!(razorpay_order_id && 
+            razorpay_payment_id &&
+            razorpay_signature)){
+            return res.status(400).json({Message:"Invalid Request"});
+        };
+        if(razorpay_order_id == ""){
+            return res.status(400).json({Message:"Invalid Order ID"});
+        };
+        if(razorpay_payment_id == ""){
+            return res.status(400).json({Message:"Invalid Payment ID"});
+        };
+        if(razorpay_signature == ""){
+            return res.status(400).json({Message:"Invalid Signature"});
+        };
+
+
+
+
+        let Got_Order_By_Id = await Payment_Instance.orders.fetch(razorpay_order_id);
+
+        if(!Got_Order_By_Id){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+        // console.log(Got_Order_By_Id);
+        if(Got_Order_By_Id.status !== "paid"){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+        if(Got_Order_By_Id.amount_due !== 0){
+            return res.status(400).json({Message:"Haven't paid the full amount."});
+        };
+        if(Got_Order_By_Id.amount_paid !== Got_Order_By_Id.amount){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+
+
+
+
+        let User_Orders = Got_User.Orders;
+        if(User_Orders.length < 1){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+
+        let Order_Found = false;
+        let Actual_Connection_ID = null;
+        for(let i = 0; i < User_Orders.length; i++){
+            let Order_Details = await Orders.find({Connection_ID: User_Orders[i]});
+            if(Order_Details.length < 1){
+                return res.status(400).json({Message:"Unauthorized Access."});
+            };
+            for(let j = 0; j < Order_Details.length; j++){
+                const Order = Order_Details[j];
+                if(Order.Payment_Info.Order_ID == razorpay_order_id){
+                    Order_Found = true;
+                    Actual_Connection_ID = Order_Details;
+                    break;
+                };
+            }
+            if(Order_Found){
+                break;
+            };
+        };
+
+        if(!Actual_Connection_ID){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+
+        let Check = await Verify_Signature(razorpay_order_id , razorpay_payment_id , razorpay_signature);
+
+        if(!Check){
+            return res.status(400).json({Message:"Unauthorized Access."});
+        };
+
+
+        for(let i = 0; i < Actual_Connection_ID.length; i++){
+            const Order = Actual_Connection_ID[i];
+            Order.Payment_Info.Payment_ID = razorpay_payment_id;
+            Order.Payment_Info.Payment_Success = true;
+            Order.Payment_Info.Payment_Status = "Success";
+            Order.Status = "Order placed - Payment Success";
+            await Order.save();
+        };
+        return res.status(200).json({Message:"Payment Successful - Order placed successful.",Redirect:"/profile/orders"});
+        
     } catch (error) {
         next(error);
     };
 };
 
 
-
 module.exports = {
     Checkout_Proceed_COD,
     Checkout_Proceed_Pay,
+    Checkout_Final_Signature_Check,
 };

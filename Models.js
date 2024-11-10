@@ -665,12 +665,25 @@ const Orders_Schema = new Schema({
         enum: ['COD', 'Prepaid'],
     },
     Payment_Info:{
-        type: Object,
-        default: {},
+        Order_ID: {
+            type: String,
+        },
+        Payment_ID: {
+            type: String,
+        },
+        Payment_Success: {
+            type: Boolean,
+        },
+        Payment_Status: {
+            type: String,
+        },
     },
     Return_Refund:{
-        type: Object,
-        default: {},
+        Request_Type: {type: String},
+        Accepted: {type: Boolean},
+        Reason: {type: String},
+        Refund_Amount: {type: String},
+        Completed: {type: Boolean},
     },
     Product: {
         type: Object,

@@ -43,15 +43,7 @@ function Final_Button(Payment_Method) {
             Message(data.Message, "Success");
             console.log(data.Option_For_Order);
             let Opt = data.Option_For_Order;
-            Opt["handler"] = function (response){
-                console.log("response");
-                console.log(response);
-                alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature);
-                alert("Done");
-            };
-
+            Opt["handler"] = Verify_Signature;
             setTimeout(() => {
                 const rzp = new Razorpay(Opt);
                 rzp.open();
@@ -67,6 +59,7 @@ function Final_Button(Payment_Method) {
 
 
     } else if(Payment_Method == "COD") {
+        
         // COD Payment
         document.getElementById("Loading").style.display = "flex";
         fetch("/api/v1/checkout/proceed/cod", {
@@ -104,3 +97,40 @@ function Final_Button(Payment_Method) {
 };
 
 
+async function Verify_Signature(Response){
+
+    document.getElementById("Loading").style.display = "flex";
+    fetch("/api/v1/checkout/proceed/signature", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Response),
+    }).then(response => {
+        document.getElementById("Loading").style.display = "none";
+        if(response.status == 200) {
+            return response.json();
+        };
+        return response.json().then(data => {
+            let E = new Error(data.Message);
+            E.Message = data.Message;
+            throw E;
+        });
+    }).then(data => {
+        Message(data.Message, "Success");
+        setTimeout(() => {
+            window.location.href = "/profile/orders";
+        }, 1200);
+    }).catch(error => {
+        if(error.Message){
+            Message(error.Message, "Warning");
+        } else {
+            Message("Failed to place order", "Warning");
+        }
+    });
+};
+
+
+// alert(response.razorpay_payment_id);
+// alert(response.razorpay_order_id);
+// alert(response.razorpay_signature);
