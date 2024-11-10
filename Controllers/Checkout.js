@@ -349,7 +349,6 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
 
         // console.log(New_Orders);
         await Orders.insertMany(New_Orders).then( async () => {
-            Got_User.Cart = [];
             Got_User.Orders = [...Got_User.Orders, ...[Connection_Key]];
             await Got_User.save().then(() => {
                 return res.status(200).json({Message:"Order Created successfully.", Option_For_Order: Option_For_Order});
@@ -443,6 +442,7 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
             Order.Status = "Order placed - Payment Success";
             await Order.save();
         };
+        Got_User.Cart = [];
         return res.status(200).json({Message:"Payment Successful - Order placed successful.",Redirect:"/profile/orders"});
     } catch (error) {
         next(error);

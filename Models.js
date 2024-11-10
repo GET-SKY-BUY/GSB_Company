@@ -116,7 +116,6 @@ const UserSchema = new Schema({
     },
 });
 
-
 const Admin_User_Schema = new Schema({
     _id:{
         type: String,
@@ -153,7 +152,6 @@ const Admin_Assistant_Schema = new Schema({
         Name: {type:String},
         Mobile: {type:String},
         WhatsApp: {type:String},
-
     },
     Employee_Type:{type:String},
     Employee_Work_Alloted:{type:Object, default:[]},
@@ -185,7 +183,6 @@ const Admin_Assistant_Schema = new Schema({
     createdAt: {
         type: Date,
     },
-
     LoggedIn:{
         Token:{
             type: String,
@@ -194,7 +191,10 @@ const Admin_Assistant_Schema = new Schema({
             type: Date,
         },
     },
-    Payment:{type:Object, default:[]},
+    Payment:{
+        type:Object,
+        default:[]
+    },
     Auth:{
         OTP: {
             type: String,
@@ -212,8 +212,6 @@ const Admin_Assistant_Schema = new Schema({
     Acode:{type:String},
     Address:{type:Object},
 });
-
-
 
 const Seller_Schema = new Schema({
     _id: {
@@ -421,11 +419,7 @@ const Seller_Schema = new Schema({
     },
     Overview:{type:Object},
     Payment:{type:Object},
-
-})
-
-
-
+});
 
 const Qrs = new Schema({
     _id: {
@@ -457,9 +451,6 @@ const Qrs = new Schema({
     },
 });
 
-
-
-
 const Product_Schema = new Schema({
     _id: {
         type: String,
@@ -468,7 +459,6 @@ const Product_Schema = new Schema({
         type: String,
         required: true,
         unique: true,
-        
     },
     Varieties:[
         {
@@ -679,11 +669,21 @@ const Orders_Schema = new Schema({
         },
     },
     Return_Refund:{
-        Request_Type: {type: String},
-        Accepted: {type: Boolean},
-        Reason: {type: String},
-        Refund_Amount: {type: String},
-        Completed: {type: Boolean},
+        Request_Type: {
+            type: String
+        },
+        Accepted: {
+            type: Boolean
+        },
+        Reason: {
+            type: String
+        },
+        Refund_Amount: {
+            type: String
+        },
+        Completed: {
+            type: Boolean
+        },
     },
     Product: {
         type: Object,

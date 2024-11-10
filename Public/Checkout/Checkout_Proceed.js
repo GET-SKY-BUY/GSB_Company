@@ -43,10 +43,12 @@ function Final_Button(Payment_Method) {
             Message(data.Message, "Success");
             console.log(data.Option_For_Order);
             let Opt = data.Option_For_Order;
-            Opt["handler"] = Verify_Signature;
+            // Opt["handler"] = Verify_Signature;
             setTimeout(() => {
                 const rzp = new Razorpay(Opt);
                 rzp.open();
+                rzp.on('payment.success', Verify_Signature);
+                rzp.on('payment.failed', Paymant_Failed);
             }, 1000);
         }).catch(error => {
             console.log(error);
@@ -130,6 +132,9 @@ async function Verify_Signature(Response){
     });
 };
 
+function Paymant_Failed(response) {
+    Message("Payment failed, try again.", "Warning");
+};
 
 // alert(response.razorpay_payment_id);
 // alert(response.razorpay_order_id);
