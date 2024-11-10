@@ -79,7 +79,7 @@ app.use(cookieParser(Cookie_Secret));
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
+            defaultSrc: ["'self'" , Project_URL],
             scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
             scriptSrcAttr: ["'self'", "'unsafe-inline'", Project_URL],

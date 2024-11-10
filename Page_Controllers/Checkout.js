@@ -80,6 +80,10 @@ const Checkout_Proceed = async ( req , res , next ) => {
         `;
 
 
+        
+        if(Cart.length <= 0){
+            return res.status(307).redirect("/profile/cart?message=Cart+is+empty&redirect=/checkout/proceed");
+        };
 
         let Table = "";
         for (let i = 0; i < Cart.length; i++) {
@@ -90,13 +94,13 @@ const Checkout_Proceed = async ( req , res , next ) => {
 
                     try{
                         if(Cart[i].Quantity < 1){
-                            return res.status(307).redirect("/checkout/cart");
+                            return res.status(307).redirect("/checkout/cart?message=Product+Quantity+is+not+available");
                         };
                         if(Cart[i].Variety == ""){
-                            return res.status(307).redirect("/checkout/cart");
+                            return res.status(307).redirect("/checkout/cart?message=Product+Variety+is+not+available");
                         };
                     }catch(error){
-                        return res.status(307).redirect("/checkout/cart");
+                        return res.status(307).redirect("/checkout/cart?message=Product+Quantity+is+not+available");
                     };
 
                     if(Cart[i].Quantity > Product.Quantity){
@@ -118,6 +122,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
                     Table += `
                     <tr>
                         <td><a href="/products/${Product.URL}">${Product.Title}</a></td>
+                        <td>${Cart[i].Variety}</td>
                         <td>₹${INR(String(Product.Price.Our_Price))}</td>
                         <td>${DEL_Text}</td>
                         <td>${Cart[i].Quantity}</td>

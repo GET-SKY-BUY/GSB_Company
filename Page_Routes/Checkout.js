@@ -22,11 +22,22 @@ const cors = require('cors');
 Checkout.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'" , "'unsafe-inline'", Project_URL], // Allow resources from the same origin
-            scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
+            defaultSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                Project_URL,  
+                "*.razorpay.com",
+            ],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                Project_URL,
+                "https://fonts.googleapis.com", 
+                "*.razorpay.com",
+            ],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
-            scriptSrcAttr: ["'self'", "'unsafe-inline'", Project_URL],
             imgSrc: ["'self'", "data:", Project_URL],
+            "script-src-attr": ["'unsafe-inline'"]
         }
     },
     frameguard: { action: 'deny' }, // Prevent clickjacking by denying framing

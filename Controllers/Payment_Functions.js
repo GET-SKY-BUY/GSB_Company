@@ -16,12 +16,8 @@ const Get_Payment_By_Id = async ( ID ) => {
 };
 
 const Create_Order_Id = async ( Order_Details ) => {
-    try {
-        const Order = await Payment_Instance.orders.create( Order_Details );
-        return Order;
-    } catch (error) {
-        return null;
-    };
+    const Order = await Payment_Instance.orders.create( Order_Details );
+    return Order;
 };
 
 const Verify_Signature = async ( order_id , razorpay_payment_id , Recieved_Signature ) => {

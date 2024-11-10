@@ -26,7 +26,13 @@ Checkout.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'" , Project_URL], // Allow resources from the same origin
-            scriptSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"],
+            scriptSrc: [
+                "'self'",
+                "'unsafe-inline'",
+                Project_URL,
+                "https://fonts.googleapis.com", 
+                "https://checkout.razorpay.com",
+            ],
             styleSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], 
             StyleSheetListSrc: ["'self'", "'unsafe-inline'", Project_URL , "https://fonts.googleapis.com"], // Allow stylesheets
             imgSrc: ["'self'", "data:", Project_URL],
@@ -67,5 +73,6 @@ Checkout.use(cookieParser(Cookie_Secret));
 Checkout.use(bodyParser.urlencoded({ extended: true }));
 Checkout.use(bodyParser.json());
 
-const { Checkout_Proceed } = require("../Controllers/Checkout.js");
-Checkout.post("/proceed/cod", Verify_User_API, Checkout_Proceed);
+const { Checkout_Proceed_COD , Checkout_Proceed_Pay } = require("../Controllers/Checkout.js");
+Checkout.post("/proceed/cod", Verify_User_API, Checkout_Proceed_COD);
+Checkout.post("/proceed/pay", Verify_User_API, Checkout_Proceed_Pay);
