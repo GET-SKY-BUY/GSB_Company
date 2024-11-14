@@ -155,6 +155,34 @@ const Checkout_Proceed = async ( req , res , next ) => {
 
 const Checkout_Cart = async ( req , res , next ) => {
     try {
+        const Got_User = req.User;
+        const Cart = Got_User.Cart;
+
+        let Total_MRP = 0;
+        let Total_Shipping_Cost = 0;
+        let Total_Quantity = 0;
+        let Grand_Total = 0;
+
+
+        
+
+        if(Cart.length <= 0){
+            return res.status(200).render("Checkout_Cart", {
+
+                CartNumber:Got_User.Cart.length,
+                Login:"",
+                Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+                Data_Of_Cart: "Cart is empty",
+            })
+        };
+
+        
+
+        return res.status(200).render("Checkout_Cart", {
+            CartNumber:Got_User.Cart.length,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
 
     } catch (error) {
         next(error);
@@ -163,4 +191,5 @@ const Checkout_Cart = async ( req , res , next ) => {
 
 module.exports = {
     Checkout_Proceed,
+    Checkout_Cart,
 }
