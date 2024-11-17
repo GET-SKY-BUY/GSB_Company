@@ -31,6 +31,7 @@ handleMessageKeyFromWindow();
 async function Remove_Cart(n, ID) {
 
     try {
+        document.getElementById("Loading").style.display = "flex";
         const response = await fetch('/api/v1/cart/remove', {
             method: 'DELETE',
             headers: {
@@ -41,19 +42,81 @@ async function Remove_Cart(n, ID) {
             }),
         });
 
+        
+        document.getElementById("Loading").style.display = "none";
         if (response.status === 200) {
             const data = await response.json();
             Message(data.Message, "Success");
             document.getElementById(`Cart_Number_${n}`).remove();
 
-            
             let a = document.getElementById("CartNumber");
             let b = document.getElementById("CartNumber1");
             a.innerHTML = data.N;
             b.innerHTML = data.N;
-        }
+        };
     } catch (error) {
-        Message("Failed to remove cart", "Error");
-    }
+        
+        document.getElementById("Loading").style.display = "none";
+        Message("Failed to remove cart", "Warning");
+    };
+};
 
-}
+async function Option_Change(n, ID) {
+
+    try {
+        
+        document.getElementById("Loading").style.display = "flex";
+        const response = await fetch('/api/v1/cart/update/option', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Option: document.getElementById(`Choose_${n}`).value,
+                ID: ID,
+            }),
+        });
+
+        document.getElementById("Loading").style.display = "none";
+        if (response.status === 200) {
+            
+            const data = await response.json();
+            Message(data.Message, "Success");
+        };
+    } catch (error) {
+        
+        document.getElementById("Loading").style.display = "none";
+        Message("Failed to update option", "Warning");
+    };
+};
+
+
+async function Qty_Change(n, ID) {
+
+    try {
+        
+        document.getElementById("Loading").style.display = "flex";
+        const response = await fetch('/api/v1/cart/update/quantity', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Quantity: document.getElementById(`Qt_${n}`).value,
+                ID: ID,
+            }),
+        });
+
+        document.getElementById("Loading").style.display = "none";
+        if (response.status === 200) {
+            
+            const data = await response.json();
+            Message(data.Message, "Success");
+        };
+    } catch (error) {
+        
+        document.getElementById("Loading").style.display = "none";
+        Message("Failed to update option", "Warning");
+    };
+};
+

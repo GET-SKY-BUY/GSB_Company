@@ -16,6 +16,44 @@ document.getElementById("COD").addEventListener("click", function() {
     `;
 });
 
+
+
+async function Verify_Signature(Response){
+    console.log('a')
+    document.getElementById("Loading").style.display = "flex";
+    fetch("/api/v1/checkout/proceed/signature", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Response),
+    }).then(response => {
+        document.getElementById("Loading").style.display = "none";
+        if(response.status == 200) {
+            return response.json();
+        };
+        return response.json().then(data => {
+            let E = new Error(data.Message);
+            E.Message = data.Message;
+            throw E;
+        });
+    }).then(data => {
+        Message(data.Message, "Success");
+        setTimeout(() => {
+            window.location.href = "/profile/orders";
+        }, 1200);
+    }).catch(error => {
+        if(error.Message){
+            Message(error.Message, "Warning");
+        } else {
+            Message("Failed to place order", "Warning");
+        }
+    });
+};
+
+
+
+
 function Final_Button(Payment_Method) {
     if(Payment_Method == "UPI") {
         // UPI Payment
@@ -43,12 +81,11 @@ function Final_Button(Payment_Method) {
             Message(data.Message, "Success");
             console.log(data.Option_For_Order);
             let Opt = data.Option_For_Order;
-            // Opt["handler"] = Verify_Signature;
+            Opt["handler"] = Verify_Signature;
             setTimeout(() => {
                 const rzp = new Razorpay(Opt);
                 rzp.open();
-                rzp.on('payment.success', Verify_Signature);
-                rzp.on('payment.failed', Paymant_Failed);
+                rzp.on('payment.failed', Payment_Failed);
             }, 1000);
         }).catch(error => {
             console.log(error);
@@ -98,44 +135,43 @@ function Final_Button(Payment_Method) {
     };
 };
 
-
-async function Verify_Signature(Response){
-
-    document.getElementById("Loading").style.display = "flex";
-    fetch("/api/v1/checkout/proceed/signature", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Response),
-    }).then(response => {
-        document.getElementById("Loading").style.display = "none";
-        if(response.status == 200) {
-            return response.json();
-        };
-        return response.json().then(data => {
-            let E = new Error(data.Message);
-            E.Message = data.Message;
-            throw E;
+async function Payment_Failed(response){
+    console.log("Payment failed: " + response);
+    setTimeout(async () => {
+        document.getElementById("Loading").style.display = "flex";
+        await fetch("/api/v1/checkout/proceed/payment_failed", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                Payment_Method: "UPI",
+            }),
+        }).then(response => {
+            
+            document.getElementById("Loading").style.display = "none";
+            if(response.status == 200) {
+                return response.json();
+            };
+            return response.json().then(data => {
+                let E = new Error(data.Message);
+                E.Message = data.Message;
+                throw E;
+            });
+        }).then(data => {
+            Message(data.Message, "Success");
+        }).catch(error => {
+            console.log(error);
+            if(error.Message){
+                Message(error.Message, "Warning");
+                return;
+            };
+            Message("Failed to place order.", "Warning");
         });
-    }).then(data => {
-        Message(data.Message, "Success");
-        setTimeout(() => {
-            window.location.href = "/profile/orders";
-        }, 1200);
-    }).catch(error => {
-        if(error.Message){
-            Message(error.Message, "Warning");
-        } else {
-            Message("Failed to place order", "Warning");
-        }
-    });
-};
 
-function Paymant_Failed(response) {
-    Message("Payment failed, try again.", "Warning");
+        Message("Payment failed, " + response.error.description, "Warning");
+    }, 4000);
+    setTimeout(() => {
+        Message("Payment failed, try again." + response.error.description, "Warning");
+    }, 10000);
 };
-
-// alert(response.razorpay_payment_id);
-// alert(response.razorpay_order_id);
-// alert(response.razorpay_signature);

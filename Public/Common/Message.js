@@ -96,6 +96,6 @@ function Message(n, W) {
     setTimeout(() => {
         
         document.getElementById("Message").style.display = "none";
-    }, 2500);
+    }, 5000);
 };
 

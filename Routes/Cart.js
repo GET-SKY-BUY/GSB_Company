@@ -62,7 +62,7 @@ Cart_Route.use(cookieParser(Cookie_Secret));
 Cart_Route.use(bodyParser.urlencoded({ extended: true }));
 Cart_Route.use(bodyParser.json());
 
-const { Add_To_Cart , Buy_Now , Favourite_Add , Favourite_Add_Remove , Cart_Remove_Product } = require("../Controllers/Cart.js");
+const { Add_To_Cart , Buy_Now , Favourite_Add , Favourite_Add_Remove , Cart_Remove_Product , Cart_Update_Option , Cart_Update_Quantity } = require("../Controllers/Cart.js");
 
 Cart_Route.post("/add", Verify_User_API , Add_To_Cart );
 Cart_Route.post("/buy_now", Verify_User_API , Buy_Now );
@@ -70,6 +70,8 @@ Cart_Route.post("/favourite", Verify_User_API , Favourite_Add );
 Cart_Route.post("/favourite/remove", Verify_User_API , Favourite_Add_Remove );
 
 Cart_Route.delete("/remove", Verify_User_API , Cart_Remove_Product );
+Cart_Route.patch("/update/option", Verify_User_API , Cart_Update_Option );
+Cart_Route.patch("/update/quantity", Verify_User_API , Cart_Update_Quantity );
 
 
 

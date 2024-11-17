@@ -233,7 +233,7 @@ const Checkout_Cart = async ( req , res , next ) => {
                             
                             <div>
                                 <label class="Choose_Label" for="Qt_${i}">Choose Quantity: </label>
-                                <select class="Choose_Select" id="Q1_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
+                                <select class="Choose_Select" id="Qt_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
                                     ${GGG}
                                 </select>
 

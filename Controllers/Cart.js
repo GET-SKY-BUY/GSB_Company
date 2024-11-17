@@ -190,10 +190,93 @@ const Cart_Remove_Product = async ( req , res , next ) => {
     };
 };
 
+const Cart_Update_Option = async ( req , res , next ) => {
+    try {
+        const Got_User = req.User;
+        let a = Got_User.Cart;
+        let b = false;
+        let ne = [];
+        for (let index = 0; index < a.length; index++) {
+            const element = a[index];
+            if(element.ID == req.body.ID){
+                b = true;
+
+                let hg = await Products.findById(element.Product_ID);
+                let Found = false;
+                for (let i = 0; i < hg.Varieties.length; i++) {
+                    const element1 = hg.Varieties[i];
+                    if(element1.Type == req.body.Option){
+                        Found = true;
+                        break;
+                    };
+                };
+                if(!Found){
+                    return res.status(401).json({Message:"Option not found"});
+                };
+                
+                element.Variety = req.body.Option;
+            };
+            ne.push(element);
+        };
+        if(b){
+            await User.updateOne({_id:Got_User._id},{$set:{Cart:ne}});
+            return res.status(200).json({Message:"Updated cart option"});
+        } else{
+            return res.status(401).json({Message:"No product found in cart"});
+        };
+    } catch (error) {
+        next(error);
+    };
+};
+
+const Cart_Update_Quantity = async ( req , res , next ) => {
+    try {
+        const Got_User = req.User;
+        let a = Got_User.Cart;
+        let b = false;
+        let ne = [];
+        for (let index = 0; index < a.length; index++) {
+            const element = a[index];
+            if(element.ID == req.body.ID){
+
+                let hg = await Products.findById(element.Product_ID);
+                let Found = false;
+                for (let i = 0; i < hg.Varieties.length; i++) {
+                    const element1 = hg.Varieties[i];
+                    if(element1.Type == element.Variety){
+                        if(element1.Quantity < Number(req.body.Quantity)){
+                            return res.status(401).json({Message:"Quantity not available"});
+                        };
+                        Found = true;
+                        break;
+                    };
+                };
+                if(!Found){
+                    return res.status(401).json({Message:"Option not found"});
+                };
+
+                b = true;
+                element.Quantity = Number(req.body.Quantity);
+            };
+            ne.push(element);
+        };
+        if(b){
+            await User.updateOne({_id:Got_User._id},{$set:{Cart:ne}});
+            return res.status(200).json({Message:"Updated cart quantity"});
+        } else{
+            return res.status(401).json({Message:"No product found in cart"});
+        };
+    } catch (error) {
+        next(error);
+    };
+};
+
 module.exports = {
     Add_To_Cart ,
     Buy_Now ,
     Favourite_Add ,
     Favourite_Add_Remove ,
     Cart_Remove_Product ,
+    Cart_Update_Option ,
+    Cart_Update_Quantity ,
 };
