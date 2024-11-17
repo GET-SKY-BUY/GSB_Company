@@ -83,7 +83,24 @@ const UserSchema = new Schema({
             type: Date,
         }
     },
-    Cart:{type:Object},
+    Cart:[
+        {
+            Product_ID: {
+                type: String,
+                ref: 'Products',
+            },
+            Quantity: {
+                type: Number,
+            },
+            Variety: {
+                type: String,
+            },
+            ID:{
+                type: String,
+            },
+            _id: false,
+        }
+    ],
     Buy_Now:{type:Object},
     Orders:{type:Object},
     Address:{

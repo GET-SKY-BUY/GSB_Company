@@ -22,7 +22,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
         const Active_Address = Addresses.Active_ID;
 
         if(Active_Address == "" || Active_Address == " "){
-            return res.status(307).redirect("/profile/cart?message=First+add+an+address&redirect=/checkout/proceed");
+            return res.status(307).redirect("/profile/address?message=First+add+an+address&redirect=/checkout/proceed");
         };
 
         const Address_List = Addresses.List;
@@ -65,7 +65,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
 
         let P = recieved;
         if (!(typeof recieved === "string")) {
-            P = `${recieved.Town}, <br>Dist: ${recieved.District},,
+            P = `${recieved.Town}, <br>Dist: ${recieved.District},
             <br> ${recieved.State}, ${recieved.Country}`;
         };
         
@@ -82,7 +82,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
 
         
         if(Cart.length <= 0){
-            return res.status(307).redirect("/profile/cart?message=Cart+is+empty&redirect=/checkout/proceed");
+            return res.status(307).redirect("/checkout/cart?message=Cart+is+empty&redirect=/checkout/proceed");
         };
 
         let Table = "";
@@ -158,12 +158,6 @@ const Checkout_Cart = async ( req , res , next ) => {
         const Got_User = req.User;
         const Cart = Got_User.Cart;
 
-        let Total_MRP = 0;
-        let Total_Shipping_Cost = 0;
-        let Total_Quantity = 0;
-        let Grand_Total = 0;
-
-
         
 
         if(Cart.length <= 0){
@@ -176,9 +170,91 @@ const Checkout_Cart = async ( req , res , next ) => {
             })
         };
 
+
+
+
+        let p = "";
+        let FF = false;
+        for (let i = 0; i < Cart.length; i++) {
+            const Product = await Products.findById(Cart[i].Product_ID);
+            // console.log(Product);
+            if(Product){
+                if(Product.Verified == "Yes"){
+
+
+                // console.log(Product.Varieties);
+                let Options = "<option value=" + Cart[i].Variety + ">" + Cart[i].Variety + "</option>";
+                for (let i = 0; i < Product.Varieties.length; i++) {
+                    Options += `<option value="${Product.Varieties[i].Type}">${Product.Varieties[i].Type}</option>`;
+                };
+            
+                let Opt = Options;
+
+                let Qt = `<option value="${Cart[i].Quantity}">${Cart[i].Quantity}</option>`;
+                let FFF = "";
+                for (let v = 0; v < Product.Varieties.length; v++) {
+                    if (Product.Varieties[v].Type == Cart[i].Variety) {
+                        let total_len = Product.Varieties[v].Quantity;
+                        // console.log(total_len);
+                        for (let i = 1; i <= total_len; i++) {
+                            FFF += `<option value="${i}">${i}</option>`;
+                        };
+                        break;
+                    };
+
+                };
+                Qt = Qt + FFF;
+            
+            
+            
+
+
+                let GGG = Qt;
+                p += `
+                    <div class="Cart_Product" id="Cart_Number_${i}">
+                        <div class="Cart_Image_Box">
+                            <a href="/products/${Product.URL}">
+                                <img src="/product/files/image/${Product.Image_Videos.Image[0]}" alt="Product Image">
+                            </a>
+                        </div>
+
+                        <div class="Cart_Main_Body">
+                            <h4>${Product.Title}</h4>
+                            <div class="Cart_Price">₹ ${INR(String(Product.Price.Our_Price))}</div>
+
+                            <div class="Cart_MRP">MRP: ${INR(String(Product.Price.MRP))}</div>
+
+                            <div>
+                                <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
+                                <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
+                                    ${Opt}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="Choose_Label" for="Qt_${i}">Choose Quantity: </label>
+                                <select class="Choose_Select" id="Q1_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
+                                    ${GGG}
+                                </select>
+
+                            </div>
+                            <div class="Remove_Div">
+                                <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
+                            </div>
+
+                            
+                        </div>
+
+                    </div>
+                    `;
+                };
+            };
+        };
+
         
 
         return res.status(200).render("Checkout_Cart", {
+            Data_Of_Cart: p,
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,

@@ -12,14 +12,17 @@ const Add_To_Cart = async ( req , res , next ) => {
                     if (Product1.Verified == "Yes") {
 
                         let Found = true;
-                        Product1.Varieties.forEach(element => { 
-                            if(element.Quantity >= 0){
-                                Found = false;
-                                return;
+                        let Var_T;
+                        for (let index = 0; index < Product1.Varieties.length; index++) {
+                            const element = Product1.Varieties[index];
+                            if(element.Quantity > 0){
+                                Found = true;
+                                Var_T = element.Type;
+                                break;
                             };
-                        });
+                        };
                         
-                        if(Found){
+                        if(!Found){
                             return res.status(401).json({Message:"Product is out of stock."});
                         };
 
@@ -27,9 +30,9 @@ const Add_To_Cart = async ( req , res , next ) => {
                         
                         a.push({
                             Product_ID: req.body.ID.toUpperCase(),
-                            Quantity: 0,
-                            Variety: "",
-                            Last_Update: Date.now(),
+                            Quantity: 1,
+                            Variety: Var_T,
+                            ID: Date.now(),
                         });
                         
                         await User.updateOne({_id:Got_User._id},{$set:{Cart:a}});
@@ -53,22 +56,25 @@ const Buy_Now = async ( req , res , next ) => {
             if (Product1.Verified == "Yes") {
                 
                 let Found = false;
-                Product1.Varieties.forEach(element => { 
-                    if(element.Quantity >= 0){
+                let Var_T;
+
+                for (let index = 0; index < Product1.Varieties.length; index++) {
+                    const element = Product1.Varieties[index];
+                    if(element.Quantity > 0){
                         Found = true;
-                        return;
+                        Var_T = element.Type;
+                        break;
                     };
-                });
-                
+                };
                 if(!Found){
                     return res.status(401).json({Message:"Product is out of stock."});
                 };
                 
                 const Buy_Now = {
                     Product_ID: req.body.ID.toUpperCase(),
-                    Quantity: 0,
-                    Variety: "",
-                    Last_Update: String(Date.now()),
+                    Quantity: 1,
+                    Variety: Var_T,
+                    ID: String(Date.now()),
                 };
                 await User.updateOne({_id:Got_User._id},{$set:{Buy_Now:Buy_Now}});
                 return res.status(200).json({Message:"Redirecting to checkout"});
@@ -158,9 +164,36 @@ const Favourite_Add_Remove = async ( req , res , next ) => {
     };
 };
 
+const Cart_Remove_Product = async ( req , res , next ) => {
+    try {
+        const Got_User = req.User;
+        let a = Got_User.Cart;
+        let b = false;
+        let ne = [];
+        for (let index = 0; index < a.length; index++) {
+            const element = a[index];
+            if(element.ID == req.body.ID){
+                b = true;
+                continue;
+            };
+            ne.push(element);
+        };
+        if(b){
+            await User.updateOne({_id:Got_User._id},{$set:{Cart:ne}});
+            return res.status(200).json({Message:"Removed from cart",N: ne.length});
+        } else{
+            return res.status(401).json({Message:"No product found in cart"});
+        };
+
+    } catch (error) {
+        next(error);
+    };
+};
+
 module.exports = {
     Add_To_Cart ,
     Buy_Now ,
     Favourite_Add ,
     Favourite_Add_Remove ,
+    Cart_Remove_Product ,
 };

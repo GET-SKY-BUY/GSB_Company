@@ -1,3 +1,66 @@
+
+
+function handleMessageKeyFromWindow() {
+    const queryString = window.location.search;
+
+    if (queryString) {
+        const urlParams = new URLSearchParams(queryString);
+
+        console.log('Parsed Query Parameters:', Object.fromEntries(urlParams.entries()));
+
+        // Check if 'message' key exists
+        if (urlParams.has('message')) {
+            const message = urlParams.get('message');
+            console.log('Message key exists:', message);
+            Message(message, "Warning");
+        } else {
+            console.log('Message key does not exist');
+        }
+    } else {
+        console.log('No query string found');
+    }
+}
+
+
+handleMessageKeyFromWindow();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const Edit = (ID,n) => {
     let AddressCard = `Card_${n}`;
     document.getElementById("Aside1").style.display = "flex";
