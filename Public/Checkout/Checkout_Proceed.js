@@ -138,15 +138,16 @@ function Final_Button(Payment_Method) {
 async function Payment_Failed(response){
     console.log("Payment failed: " + response);
     setTimeout(async () => {
+        
+        Message("Payment failed, " + response.error.description, "Warning");
+        
         document.getElementById("Loading").style.display = "flex";
         await fetch("/api/v1/checkout/proceed/payment_failed", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                Payment_Method: "UPI",
-            }),
+            body: JSON.stringify(response),
         }).then(response => {
             
             document.getElementById("Loading").style.display = "none";
@@ -169,9 +170,6 @@ async function Payment_Failed(response){
             Message("Failed to place order.", "Warning");
         });
 
-        Message("Payment failed, " + response.error.description, "Warning");
     }, 4000);
-    setTimeout(() => {
-        Message("Payment failed, try again." + response.error.description, "Warning");
-    }, 10000);
+    
 };

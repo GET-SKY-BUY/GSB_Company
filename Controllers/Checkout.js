@@ -472,6 +472,62 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
 const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
     try {
 
+        const Got_User = req.User;
+
+
+
+        console.log(req.body);
+
+
+
+
+
+        let User_Orders = Got_User.Orders;
+        if(User_Orders.length < 1){
+            return res.status(400).json({Message:"4. Unauthorized Access."});
+        };
+
+        let Order_Found = false;
+        let Actual_Connection_ID = null;
+        for(let i = 0; i < User_Orders.length; i++){
+
+            let Order_Details = await Orders.find({Connection_ID: User_Orders[i]});
+            
+            if(Order_Details.length < 1){
+                return res.status(400).json({Message:"5. Unauthorized Access."});
+            };
+            for(let j = 0; j < Order_Details.length; j++){
+                const Order = Order_Details[j];
+                if(Order.Payment_Info.Order_ID == req.body.error.metadata.order_id){
+                    Order_Found = true;
+                    Actual_Connection_ID = Order_Details;
+                    break;
+                };
+            }
+            if(Order_Found){
+                break;
+            };
+        };
+
+        if(!Actual_Connection_ID){
+            return res.status(400).json({Message:"6. Unauthorized Access."});
+        };
+
+
+        for(let i = 0; i < Actual_Connection_ID.length; i++){
+            let Order = Actual_Connection_ID[i];
+            Order.Payment_Info = {
+                Order_ID: req.body.error.metadata.order_id,
+                Payment_ID : req.body.error.metadata.payment_id,
+                Payment_Success : false,
+                Payment_Status : "Payment failed",
+            }
+            Order.Status = "Payment failed";
+            await Order.save();
+        };
+        Got_User.Cart = [];
+        // await Got_User.save(); // Uncomment this line if you want to save the cart
+        return res.status(200).json({Message:"Failed to make payment."});
     } catch (error) {
         next(error);
     };

@@ -73,7 +73,8 @@ Checkout.use(cookieParser(Cookie_Secret));
 Checkout.use(bodyParser.urlencoded({ extended: true }));
 Checkout.use(bodyParser.json());
 
-const { Checkout_Proceed_COD , Checkout_Proceed_Pay , Checkout_Final_Signature_Check } = require("../Controllers/Checkout.js");
+const { Checkout_Proceed_COD , Checkout_Proceed_Pay , Checkout_Final_Signature_Check , Checkout_Proceed_Payment_Failed } = require("../Controllers/Checkout.js");
 Checkout.post("/proceed/cod", Verify_User_API, Checkout_Proceed_COD);
 Checkout.post("/proceed/pay", Verify_User_API, Checkout_Proceed_Pay);
 Checkout.post("/proceed/signature", Verify_User_API, Checkout_Final_Signature_Check );
+Checkout.post("/proceed/payment_failed", Verify_User_API, Checkout_Proceed_Payment_Failed );
