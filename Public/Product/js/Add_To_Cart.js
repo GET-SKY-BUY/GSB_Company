@@ -6,7 +6,6 @@ async function AddToCart(n){
     let Send = {
         ID: n,
     };
-    document.getElementById("AddToCart").disabled = true;
     document.getElementById("Loading").style.display = "flex";
     await fetch("/api/v1/cart/add", {
         method: "POST",
@@ -16,7 +15,6 @@ async function AddToCart(n){
         body: JSON.stringify(Send),
     }).then((res) => {
         document.getElementById("Loading").style.display = "none";
-        document.getElementById("AddToCart").disabled = false;
         if(res.ok){
             return res.json();
         }else{
@@ -32,9 +30,6 @@ async function AddToCart(n){
         let b = document.getElementById("CartNumber1");
         a.innerHTML = data.Len;
         b.innerHTML = data.Len;
-        // document.getElementById("Add_To_Cart").disabled = false;
-
-        
     }).catch((err) => {
         if(err.Message){
             Message(err.Message, "Warning");
@@ -54,7 +49,6 @@ async function BuyNow(n){
         ID: n,
     };
     document.getElementById("Loading").style.display = "flex";
-    document.getElementById("BuyNow").disabled = true;
         
     await fetch("/api/v1/cart/buy_now", {
         method: "POST",
@@ -64,7 +58,6 @@ async function BuyNow(n){
         body: JSON.stringify(Send),
     }).then((res) => {
         document.getElementById("Loading").style.display = "none";
-        document.getElementById("BuyNow").disabled = false;
         if(res.ok){
             return res.json();
         }
@@ -78,7 +71,7 @@ async function BuyNow(n){
         // document.getElementById("Buy_Now").disabled = false;
         setTimeout(() => {
             window.location.href = "/buy_now";
-        }, 500);
+        }, 800);
         
     }).catch((err) => {
         if(err.Message){

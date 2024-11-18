@@ -162,7 +162,6 @@ const Checkout_Cart = async ( req , res , next ) => {
 
         if(Cart.length <= 0){
             return res.status(200).render("Checkout_Cart", {
-
                 CartNumber:Got_User.Cart.length,
                 Login:"",
                 Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -182,71 +181,77 @@ const Checkout_Cart = async ( req , res , next ) => {
                 if(Product.Verified == "Yes"){
 
 
-                // console.log(Product.Varieties);
-                let Options = "<option value=" + Cart[i].Variety + ">" + Cart[i].Variety + "</option>";
-                for (let i = 0; i < Product.Varieties.length; i++) {
-                    Options += `<option value="${Product.Varieties[i].Type}">${Product.Varieties[i].Type}</option>`;
-                };
-            
-                let Opt = Options;
-
-                let Qt = `<option value="${Cart[i].Quantity}">${Cart[i].Quantity}</option>`;
-                let FFF = "";
-                for (let v = 0; v < Product.Varieties.length; v++) {
-                    if (Product.Varieties[v].Type == Cart[i].Variety) {
-                        let total_len = Product.Varieties[v].Quantity;
-                        // console.log(total_len);
-                        for (let i = 1; i <= total_len; i++) {
-                            FFF += `<option value="${i}">${i}</option>`;
-                        };
-                        break;
+                    // console.log(Product.Varieties);
+                    let Options = "<option value=" + Cart[i].Variety + ">" + Cart[i].Variety + "</option>";
+                    for (let i = 0; i < Product.Varieties.length; i++) {
+                        Options += `<option value="${Product.Varieties[i].Type}">${Product.Varieties[i].Type}</option>`;
                     };
-
-                };
-                Qt = Qt + FFF;
-            
-            
-            
+                
+                    let Opt = Options;
 
 
-                let GGG = Qt;
-                p += `
-                    <div class="Cart_Product" id="Cart_Number_${i}">
-                        <div class="Cart_Image_Box">
-                            <a href="/products/${Product.URL}">
-                                <img src="/product/files/image/${Product.Image_Videos.Image[0]}" alt="Product Image">
-                            </a>
+
+
+
+                    let Qt = `<option value="${Cart[i].Quantity}">${Cart[i].Quantity}</option>`;
+                    let FFF = "";
+                    for (let v = 0; v < Product.Varieties.length; v++) {
+                        if (Product.Varieties[v].Type == Cart[i].Variety) {
+
+                            // if(Product.Varieties[v].Quantity < Cart[i].Quantity){
+                            //     Cart[i].Quantity = Product.Varieties[v].Quantity;
+                            // };
+
+                            let total_len = Product.Varieties[v].Quantity;
+                            // console.log(total_len);
+                            for (let i = 1; i <= total_len; i++) {
+                                FFF += `<option value="${i}">${i}</option>`;
+                            };
+                            break;
+                        };
+
+                    };
+                    Qt = Qt + FFF;
+                
+                
+                
+
+
+                    let GGG = Qt;
+                    p += `
+                        <div class="Cart_Product" id="Cart_Number_${i}">
+                            <div class="Cart_Image_Box">
+                                <a href="/products/${Product.URL}">
+                                    <img src="/product/files/image/${Product.Image_Videos.Image[0]}" alt="Product Image">
+                                </a>
+                            </div>
+
+                            <div class="Cart_Main_Body">
+                                <h4>${Product.Title}</h4>
+                                <div class="Cart_Price">₹ ${INR(String(Product.Price.Our_Price))}</div>
+
+                                <div class="Cart_MRP">MRP: ${INR(String(Product.Price.MRP))}</div>
+
+                                <div>
+                                    <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
+                                    <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
+                                        ${Opt}
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="Choose_Label" for="Qt_${i}">Choose Quantity: </label>
+                                    <select class="Choose_Select" id="Qt_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
+                                        ${GGG}
+                                    </select>
+
+                                </div>
+                                <div class="Remove_Div">
+                                    <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="Cart_Main_Body">
-                            <h4>${Product.Title}</h4>
-                            <div class="Cart_Price">₹ ${INR(String(Product.Price.Our_Price))}</div>
-
-                            <div class="Cart_MRP">MRP: ${INR(String(Product.Price.MRP))}</div>
-
-                            <div>
-                                <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
-                                <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
-                                    ${Opt}
-                                </select>
-                            </div>
-                            
-                            <div>
-                                <label class="Choose_Label" for="Qt_${i}">Choose Quantity: </label>
-                                <select class="Choose_Select" id="Qt_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
-                                    ${GGG}
-                                </select>
-
-                            </div>
-                            <div class="Remove_Div">
-                                <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
-                            </div>
-
-                            
-                        </div>
-
-                    </div>
-                    `;
+                        `;
                 };
             };
         };

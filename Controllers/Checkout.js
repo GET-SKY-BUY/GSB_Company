@@ -474,14 +474,6 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
 
         const Got_User = req.User;
 
-
-
-        console.log(req.body);
-
-
-
-
-
         let User_Orders = Got_User.Orders;
         if(User_Orders.length < 1){
             return res.status(400).json({Message:"4. Unauthorized Access."});
