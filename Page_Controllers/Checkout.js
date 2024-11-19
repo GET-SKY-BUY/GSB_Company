@@ -14,21 +14,13 @@ const Checkout_Proceed = async ( req , res , next ) => {
         let Total_Quantity = 0;
         let Grand_Total = 0;
 
-        // for (let i = 0; i < Cart.length; i++) {
-        // }
-
-        const Addresses = Got_User.Address;
-        
+        const Addresses = Got_User.Address;        
         const Active_Address = Addresses.Active_ID;
-
         if(Active_Address == "" || Active_Address == " "){
             return res.status(307).redirect("/profile/address?message=First+add+an+address&redirect=/checkout/proceed");
         };
-
         const Address_List = Addresses.List;
-
         let Final_Address = null;
-
         for (let i = 0; i < Address_List.length; i++) {
             if (Address_List[i].ID == Active_Address) {
                 Final_Address = Address_List[i];
@@ -36,18 +28,12 @@ const Checkout_Proceed = async ( req , res , next ) => {
             };
         };
 
-        
-        
-        // Final_Address
 
         let recieved = null;
         try{
-            
             recieved = await axios.get(`https://api.postalpincode.in/pincode/${Final_Address.PIN}`);
-            
             if(recieved.status == 200) {
                 recieved = recieved.data[0].PostOffice[0];
-                
                 recieved = {
                     Town: recieved.Name,
                     District: recieved.District,
@@ -80,6 +66,12 @@ const Checkout_Proceed = async ( req , res , next ) => {
         `;
 
 
+
+
+
+
+
+
         
         if(Cart.length <= 0){
             return res.status(307).redirect("/checkout/cart?message=Cart+is+empty&redirect=/checkout/proceed");
@@ -87,50 +79,55 @@ const Checkout_Proceed = async ( req , res , next ) => {
 
         let Table = "";
         for (let i = 0; i < Cart.length; i++) {
-            const Product = await Products.findById(Cart[i].Product_ID);
+            let Cart_Selected = Cart[i]
+            const Product = await Products.findById(Cart_Selected.Product_ID);
             if(Product){
                 if(Product.Verified == "Yes"){
 
 
-                    try{
-                        if(Cart[i].Quantity < 1){
-                            return res.status(307).redirect("/checkout/cart?message=Product+Quantity+is+not+available");
-                        };
-                        if(Cart[i].Variety == ""){
-                            return res.status(307).redirect("/checkout/cart?message=Product+Variety+is+not+available");
-                        };
-                    }catch(error){
+                    if(Cart_Selected.Quantity < 1){
                         return res.status(307).redirect("/checkout/cart?message=Product+Quantity+is+not+available");
                     };
-
-                    if(Cart[i].Quantity > Product.Quantity){
-                        return res.status(307).redirect("/checkout/cart?message=Product+Quantity+is+not+available");
+                    if(Cart_Selected.Variety == ""){
+                        return res.status(307).redirect("/checkout/cart?message=Product+Variety+is+not+available");
                     };
 
+                    for (let v = 0; v < Product.Varieties.length; v++) {
+                        if(Product.Varieties[v].Type == Cart_Selected.Variety){
+                            if(Product.Varieties[v].Quantity < 1){
+                                return res.status(307).redirect("/checkout/cart?message=Your+cart+contains+products+which+are+out+of+stock.+Please+remove+them+to+proceed+or+change+the+option.");
+                            };
+                            break;
+                        };
+                    }
 
 
                     let DEL = Product.Delivery;
+
                     let DEL_Text = "Free";
+
                     let Total_Product_Price = Product.Price.Our_Price;
                     Total_Shipping_Cost += 0;
-                    Total_Product_Price = Cart[i].Quantity*Product.Price.Our_Price;
+                    Total_Product_Price = Cart_Selected.Quantity*Total_Product_Price;
                     if (DEL != 0) {
-                        DEL_Text = `₹${INR(String(DEL))}`;
+                        DEL_Text = `₹${INR(String(DEL))}/item`;
                         Total_Product_Price += DEL;
-                        Total_Shipping_Cost += DEL;
+                        Total_Shipping_Cost += DEL*Cart_Selected.Quantity;
                     };
+
+
                     Table += `
                     <tr>
                         <td><a href="/products/${Product.URL}">${Product.Title}</a></td>
-                        <td>${Cart[i].Variety}</td>
+                        <td>${Cart_Selected.Variety}</td>
                         <td>₹${INR(String(Product.Price.Our_Price))}</td>
                         <td>${DEL_Text}</td>
-                        <td>${Cart[i].Quantity}</td>
+                        <td>${Cart_Selected.Quantity}</td>
                         <td>₹${INR(String(Total_Product_Price))}</td>
                     </tr>`;
                     Grand_Total+=Total_Product_Price;
-                    Total_MRP += Cart[i].Quantity*Product.Price.MRP;
-                    Total_Quantity+=Cart[i].Quantity;
+                    Total_MRP += Cart_Selected.Quantity*Product.Price.MRP;
+                    Total_Quantity+=Cart_Selected.Quantity;
                 };
             };
         };
@@ -143,6 +140,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
             TOTAL_MRP: INR(String(Total_MRP)),
             Table: Table,
             Address:Address,
+
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -234,10 +232,8 @@ const Checkout_Cart = async ( req , res , next ) => {
                                 </select>
                             </div>
                             
-                            <div>
-                                <label class="Choose_Label" for="Qt_${i}">Quantity: </label>
-                                <span> OUT OF STOCK</span>
-                            </div>
+                            <div style="color: red; font-size: 18px; font-weight: bold; ">Selected option is "OUT OF STOCK" </div>
+                            
                             <div class="Remove_Div">
                                 <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
                             </div>

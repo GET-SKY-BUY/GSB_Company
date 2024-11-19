@@ -100,15 +100,15 @@ async function Option_Change(n, ID) {
             });
         }).then((data) => {
             Message(data.Message, "Success");
-            location.reload();
+            window.location.href = "/checkout/cart";
         }).catch((err) => {
             if(err.Message){
                 Message(err.Message, "Warning");
-                location.reload();
+                window.location.href = "/checkout/cart";
                 return 
             };
             Message("Something went wrong", "Warning");
-            location.reload();
+            window.location.href = "/checkout/cart";
         });
     } catch (error) {
         
@@ -145,15 +145,15 @@ async function Qty_Change(n, ID) {
             });
         }).then((data) => {
             Message(data.Message, "Success");
-            location.reload();
+            window.location.href = "/checkout/cart";
         }).catch((err) => {
             if(err.Message){
                 Message(err.Message, "Warning");
-                location.reload();
+                window.location.href = "/checkout/cart";
                 return 
             };
             Message("Something went wrong", "Warning");
-            location.reload();
+            window.location.href = "/checkout/cart";
         });
     } catch (error) {
         
