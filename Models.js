@@ -490,7 +490,6 @@ const Product_Schema = new Schema({
             },
             Quantity:{
                 type:Number,
-                min: 1,
             },
         },
     ],

@@ -313,7 +313,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                     
                     
                     for (let v = 0; v < Product.Varieties.length; v++) {
-                        if(Product.Varieties[v].Type == Cart_Selected.Variety){
+                        if(Product.Varieties[v].Type == Cart[i].Variety){
                             if(Product.Varieties[v].Quantity < 1){
                                 return res.status(400).json({Message:"One of the product in your cart is out of stock, remove the item from the cart then place your order."});
                             };
@@ -468,7 +468,7 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
 
         let User_Orders = Got_User.Orders;
         if(User_Orders.length < 1){
-            return res.status(400).json({Message:"Unauthorized Access."});
+            return res.status(400).json({Message:"2Unauthorized Access."});
         };
 
         let Order_Found = false;
@@ -476,10 +476,12 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
 
         for(let i = 0; i < User_Orders.length; i++){
 
+            
+
             let Order_Details = await Orders.find({Connection_ID: User_Orders[i].Key});
             
             if(Order_Details.length < 1){
-                return res.status(400).json({Message:"Unauthorized Access."});
+                return res.status(400).json({Message:"3Unauthorized Access."});
             };
 
             for(let j = 0; j < Order_Details.length; j++){
@@ -496,7 +498,7 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         };
 
         if(!Actual_Connection_ID){
-            return res.status(400).json({Message:"Unauthorized Access."});
+            return res.status(400).json({Message:"4Unauthorized Access."});
         };
 
         let Check = await Verify_Signature(razorpay_order_id , razorpay_payment_id , razorpay_signature);
@@ -565,7 +567,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
         let Actual_Connection_ID = null;
         for(let i = 0; i < User_Orders.length; i++){
 
-            let Order_Details = await Orders.find({Connection_ID: User_Orders[i]});
+            let Order_Details = await Orders.find({Connection_ID: User_Orders[i].Key});
             
             if(Order_Details.length < 1){
                 return res.status(400).json({Message:"Unauthorized Access."});
