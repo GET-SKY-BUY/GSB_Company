@@ -32,7 +32,7 @@ async function Remove_Cart(n, ID) {
 
     try {
         document.getElementById("Loading").style.display = "flex";
-        const response = await fetch('/api/v1/cart/remove', {
+        await fetch('/api/v1/cart/remove', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,12 +40,18 @@ async function Remove_Cart(n, ID) {
             body: JSON.stringify({
                 ID: ID,
             }),
-        });
-
-        
-        document.getElementById("Loading").style.display = "none";
-        if (response.status === 200) {
-            const data = await response.json();
+        }).then((res) => {
+            document.getElementById("Loading").style.display = "none";
+            if(res.ok){
+                return res.json();
+            
+            };
+            return res.json().then((data) => {
+                let error = new Error(data.Message);
+                error.Message = data.Message;
+                throw error;
+            });
+        }).then((data) => {
             Message(data.Message, "Success");
             document.getElementById(`Cart_Number_${n}`).remove();
 
@@ -53,7 +59,13 @@ async function Remove_Cart(n, ID) {
             let b = document.getElementById("CartNumber1");
             a.innerHTML = data.N;
             b.innerHTML = data.N;
-        };
+        }).catch((err) => {
+            if(err.Message){
+                Message(err.Message, "Warning");
+                return 
+            };
+            Message("Something went wrong", "Warning");
+        });
     } catch (error) {
         
         document.getElementById("Loading").style.display = "none";
@@ -66,7 +78,7 @@ async function Option_Change(n, ID) {
     try {
         
         document.getElementById("Loading").style.display = "flex";
-        const response = await fetch('/api/v1/cart/update/option', {
+        await fetch('/api/v1/cart/update/option', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,14 +87,29 @@ async function Option_Change(n, ID) {
                 Option: document.getElementById(`Choose_${n}`).value,
                 ID: ID,
             }),
-        });
-
-        document.getElementById("Loading").style.display = "none";
-        if (response.status === 200) {
+        }).then((res) => {
+            document.getElementById("Loading").style.display = "none";
+            if(res.ok){
+                return res.json();
             
-            const data = await response.json();
+            };
+            return res.json().then((data) => {
+                let error = new Error(data.Message);
+                error.Message = data.Message;
+                throw error;
+            });
+        }).then((data) => {
             Message(data.Message, "Success");
-        };
+            location.reload();
+        }).catch((err) => {
+            if(err.Message){
+                Message(err.Message, "Warning");
+                location.reload();
+                return 
+            };
+            Message("Something went wrong", "Warning");
+            location.reload();
+        });
     } catch (error) {
         
         document.getElementById("Loading").style.display = "none";
@@ -96,7 +123,7 @@ async function Qty_Change(n, ID) {
     try {
         
         document.getElementById("Loading").style.display = "flex";
-        const response = await fetch('/api/v1/cart/update/quantity', {
+        await fetch('/api/v1/cart/update/quantity', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,14 +132,29 @@ async function Qty_Change(n, ID) {
                 Quantity: document.getElementById(`Qt_${n}`).value,
                 ID: ID,
             }),
-        });
-
-        document.getElementById("Loading").style.display = "none";
-        if (response.status === 200) {
+        }).then((res) => {
+            document.getElementById("Loading").style.display = "none";
+            if(res.ok){
+                return res.json();
             
-            const data = await response.json();
+            };
+            return res.json().then((data) => {
+                let error = new Error(data.Message);
+                error.Message = data.Message;
+                throw error;
+            });
+        }).then((data) => {
             Message(data.Message, "Success");
-        };
+            location.reload();
+        }).catch((err) => {
+            if(err.Message){
+                Message(err.Message, "Warning");
+                location.reload();
+                return 
+            };
+            Message("Something went wrong", "Warning");
+            location.reload();
+        });
     } catch (error) {
         
         document.getElementById("Loading").style.display = "none";

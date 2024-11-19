@@ -171,7 +171,7 @@ const Cart_Update_Option = async ( req , res , next ) => {
                     const element1 = hg.Varieties[i];
                     if(element1.Type == req.body.Option){
                         if(element1.Quantity < 1){
-                            return res.status(400).json({Message:"Out Of Stock"});
+                            return res.status(400).json({Message:"Out of stock"});
                         };
                         Found = true;
                         break;

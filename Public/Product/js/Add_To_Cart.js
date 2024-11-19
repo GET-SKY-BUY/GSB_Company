@@ -17,13 +17,13 @@ async function AddToCart(n){
         document.getElementById("Loading").style.display = "none";
         if(res.ok){
             return res.json();
-        }else{
-            return res.json().then((data) => {
-                let error = new Error(data.Message);
-                error.Message = data.Message;
-                throw error;
-            });
-        }
+        
+        };
+        return res.json().then((data) => {
+            let error = new Error(data.Message);
+            error.Message = data.Message;
+            throw error;
+        });
     }).then((data) => {
         Message(data.Message, "Success");
         let a = document.getElementById("CartNumber");
@@ -33,9 +33,9 @@ async function AddToCart(n){
     }).catch((err) => {
         if(err.Message){
             Message(err.Message, "Warning");
-        }else{
-            Message("Something went wrong", "Warning");
+            return 
         };
+        Message("Something went wrong", "Warning");
     });
 };
 

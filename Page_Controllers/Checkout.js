@@ -181,10 +181,16 @@ const Checkout_Cart = async ( req , res , next ) => {
                 if(Product.Verified == "Yes"){
 
 
+
+
+
+                    
                     // console.log(Product.Varieties);
                     let Options = "<option value=" + Cart[i].Variety + ">" + Cart[i].Variety + "</option>";
                     for (let i = 0; i < Product.Varieties.length; i++) {
-                        Options += `<option value="${Product.Varieties[i].Type}">${Product.Varieties[i].Type}</option>`;
+                        if(Product.Varieties[i].Quantity >= 1){
+                            Options += `<option value="${Product.Varieties[i].Type}">${Product.Varieties[i].Type}</option>`;
+                        };
                     };
                 
                     let Opt = Options;
@@ -193,14 +199,18 @@ const Checkout_Cart = async ( req , res , next ) => {
 
 
 
+
                     let Qt = `<option value="${Cart[i].Quantity}">${Cart[i].Quantity}</option>`;
                     let FFF = "";
+                    let fg = false;
                     for (let v = 0; v < Product.Varieties.length; v++) {
                         if (Product.Varieties[v].Type == Cart[i].Variety) {
 
-                            // if(Product.Varieties[v].Quantity < Cart[i].Quantity){
-                            //     Cart[i].Quantity = Product.Varieties[v].Quantity;
-                            // };
+                            if(Product.Varieties[v].Quantity < 1){
+                                fg = true;
+                                Qt = `<option disabled>Out Of stock</option>`;
+                                break;
+                            };
 
                             let total_len = Product.Varieties[v].Quantity;
                             // console.log(total_len);
@@ -211,13 +221,98 @@ const Checkout_Cart = async ( req , res , next ) => {
                         };
 
                     };
-                    Qt = Qt + FFF;
-                
-                
-                
+                    let GGG;
+                    let Inside;
+                    
+                    if (fg) {
+                        Inside = `
+                        
+                            <div>
+                                <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
+                                <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
+                                    ${Opt}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="Choose_Label" for="Qt_${i}">Quantity: </label>
+                                <span> OUT OF STOCK</span>
+                            </div>
+                            <div class="Remove_Div">
+                                <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
+                            </div>
+                        `;
+                    }else {
+                            
+                        Qt = Qt + FFF;
+                        GGG = Qt;
+                        Inside = `
+                        
+                            <div>
+                                <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
+                                <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
+                                    ${Opt}
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="Choose_Label" for="Qt_${i}">Quantity: </label>
+                                <select class="Choose_Select" id="Qt_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
+                                    ${GGG}
+                                </select>
+
+                            </div>
+                            <div class="Remove_Div">
+                                <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
+                            </div>
+                        `;
 
 
-                    let GGG = Qt;
+                    };
+
+
+
+
+
+
+
+
+
+
+                    let OOS = false;
+                    for (let i = 0; i < Product.Varieties.length; i++) {
+                        if(Product.Varieties[i].Quantity >= 1){
+                            OOS = true;
+                            break;
+                        };
+                    };
+
+                    if(!OOS){
+                        Inside = `
+                        
+                            <div style="color: red; font-size: 18px; font-weight: bold; "> OUT OF STOCK </div>
+                            <div class="Remove_Div">
+                                    <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
+                            </div>
+                        `;
+                    };
+
+
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+
+
+
+
+
+
+
                     p += `
                         <div class="Cart_Product" id="Cart_Number_${i}">
                             <div class="Cart_Image_Box">
@@ -231,24 +326,8 @@ const Checkout_Cart = async ( req , res , next ) => {
                                 <div class="Cart_Price">₹ ${INR(String(Product.Price.Our_Price))}</div>
 
                                 <div class="Cart_MRP">MRP: ${INR(String(Product.Price.MRP))}</div>
-
-                                <div>
-                                    <label class="Choose_Label" for="Choose_${i}">Choose option: </label>
-                                    <select class="Choose_Select" id="Choose_${i}" onchange="Option_Change(${i}, '${Cart[i].ID}')">
-                                        ${Opt}
-                                    </select>
-                                </div>
+                                ${Inside}
                                 
-                                <div>
-                                    <label class="Choose_Label" for="Qt_${i}">Choose Quantity: </label>
-                                    <select class="Choose_Select" id="Qt_${i}" onchange="Qty_Change(${i}, '${Cart[i].ID}')">
-                                        ${GGG}
-                                    </select>
-
-                                </div>
-                                <div class="Remove_Div">
-                                    <button type="button" onclick="Remove_Cart(${i},'${Cart[i].ID}')">Remove</button>
-                                </div>
                             </div>
                         </div>
                         `;
