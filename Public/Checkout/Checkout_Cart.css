@@ -141,3 +141,38 @@
 .Remove_Div button:focus {
     background-color: #ff8c7f;
 }
+
+
+
+
+
+
+
+
+@media screen and (max-width: 700px) {
+    .Main_Divv {
+        width: 100%;
+    }    
+}
+
+
+@media screen and (max-width: 500px) {
+    .Main_Divv {
+        padding: 20px;
+        padding-top: 10px;
+        margin: 20px auto;
+    }    
+}
+
+
+@media screen and (max-width: 420px) {
+    .Cart_Product {
+        flex-wrap: wrap;
+    }
+    .Cart_Image_Box img {
+        width: 100%;
+    }
+    .Cart_Main_Body {
+        padding: 0px;
+    }
+}

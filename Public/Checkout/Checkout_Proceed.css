@@ -17,7 +17,7 @@
     height: auto;
     padding: 20px;
     display: flex;
-    
+    justify-content: center;
 }
 
 .Address_Box h3 {
@@ -121,6 +121,7 @@
 #Final_Payment_Button {
     display: flex;
     justify-content: center;
+    margin: 15px auto;
     
 }
 
@@ -145,4 +146,55 @@
 }
 #Final_Payment_Button button:active{
     background-color: var(--secondaryActiv-color);    
+}
+
+
+@media screen and (max-width: 900px) {
+    .Check_Title {
+        margin-top: 20px;
+        margin-left: 15px;
+    }
+    .Main_Center {
+        width: 100%;
+    }
+    .Aside_1 {
+        width: 100%;
+        border: none;
+    }
+    .Aside_2 {
+        padding: 0px;
+        width: 100%;
+        border: none;
+    }
+    .MainCenterCenter {
+        padding: 0px;
+        flex-wrap: wrap;
+    }
+    .Main_Center {
+        padding: 0px;
+        border-radius: 0px;
+    }
+
+    .Address_Box h3 ,
+    .Product_List h3 ,
+    .Aside_2 h3 ,
+    .Address_Box address ,
+    .Payment_Box h3 {
+        margin-left: 15px;
+    }
+
+    .Product_List_Table {
+        width: 98%;
+        margin: 0px auto;
+    }
+
+    .Final_Main {
+        width: 98%;
+        margin: auto;
+    }
+
+    .Product_Table td, .Product_Table th {
+        padding: 3px;
+    }
+    
 }
