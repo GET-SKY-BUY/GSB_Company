@@ -85,6 +85,9 @@ const UserSchema = new Schema({
     },
     Cart:[
         {
+            ID:{
+                type: String,
+            },
             Product_ID: {
                 type: String,
                 ref: 'Products',
@@ -93,9 +96,6 @@ const UserSchema = new Schema({
                 type: Number,
             },
             Variety: {
-                type: String,
-            },
-            ID:{
                 type: String,
             },
             _id: false,
@@ -115,7 +115,10 @@ const UserSchema = new Schema({
         Earned:{type:Number},
         History:{type:Object},
     },
-    Favourite:{type:Object, default:[]},
+    Favourite:{
+        type:Object,
+        default:[]
+    },
     Wishlist:{type:Object},
     Notification:{type:Object},
     Bank:{
