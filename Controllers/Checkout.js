@@ -56,9 +56,34 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
 
 
 
-        
-        let Connection_Key;
 
+
+
+        
+        
+        if(Cart.length < 1){
+            return res.status(400).json({Message:"Cart is empty"});
+        };
+        
+        
+
+
+        let TotalA = 0;
+        for (let i = 0; i < Cart.length; i++) {
+            const Product = await Products.findById(Cart[i].Product_ID);
+            if(Product){
+                if(Product.Verified == "Yes"){
+                    TotalA += Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery*Cart[i].Quantity;
+                };
+            };
+        };
+        
+        
+        
+        
+        
+
+        let Connection_Key;
         while (true) {
             Connection_Key = Order_ID();
             const Connection_Exists = await Orders.findOne({Connection_ID: Connection_Key});
@@ -66,10 +91,7 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                 break;
             };
         };
-        
-        if(Cart.length < 1){
-            return res.status(400).json({Message:"Cart is empty"});
-        };
+
 
         let New_Orders = [];
         for (let i = 0; i < Cart.length; i++) {
@@ -88,9 +110,17 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                         return res.status(400).json({Message:"Product Quantity is not available"});
                     };
 
-                    if(Cart[i].Quantity > Product.Quantity){
-                        return res.status(400).json({Message:"Product Quantity is not available"});
-                    };
+                    
+                    
+                    for (let v = 0; v < Product.Varieties.length; v++) {
+                        if(Product.Varieties[v].Type == Cart_Selected.Variety){
+                            if(Product.Varieties[v].Quantity < 1){
+                                return res.status(400).json({Message:"One of the product in your cart is out of stock, remove the item from the cart then place your order."});
+                            };
+                            break;
+                        };
+                    }
+
 
 
                     let New_Id;
@@ -109,8 +139,8 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                         Status: "Order Placed",
                         Payment_Type: "COD",
                         Payment_Info: {
-                            Order_ID: null,
-                            Payment_ID: null,
+                            Order_ID: "",
+                            Payment_ID: "",
                             Payment_Success: false,
                             Payment_Status: null,
                         },
@@ -137,8 +167,8 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                         Total_Bill:{
                             Total_Product_MRPs: Product.Price.MRP*Cart[i].Quantity,
                             Total_Product_Price: Product.Price.Our_Price*Cart[i].Quantity,
-                            Total_Shipping_Cost: Product.Delivery,
-                            Grand_Total: Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery,
+                            Total_Shipping_Cost: Product.Delivery*Cart[i].Quantity,
+                            Grand_Total: Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery*Cart[i].Quantity,
                         },
                         createdAt: new Date(),
                     };
@@ -150,7 +180,12 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
 
         await Orders.insertMany(New_Orders).then( async () => {
             Got_User.Cart = [];
-            Got_User.Orders = [...Got_User.Orders, ...[Connection_Key]];
+            Got_User.Orders = [...Got_User.Orders, ...[{
+                Key: Connection_Key,
+                Date: new Date(),
+                Amount: TotalA,
+                Payment_Type: "COD",
+            }]];
             await Got_User.save().then(() => {
                 return res.status(200).json({Message:"Order Placed Successfully",Redirect:"/profile/orders"});
             });
@@ -235,7 +270,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
             const Product = await Products.findById(Cart[i].Product_ID);
             if(Product){
                 if(Product.Verified == "Yes"){
-                    TotalA += Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery;
+                    TotalA += Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery*Cart[i].Quantity;
                 };
             };
         };
@@ -269,9 +304,18 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                         return res.status(400).json({Message:"Product Quantity is not available"});
                     };
 
-                    if(Cart[i].Quantity > Product.Quantity){
-                        return res.status(400).json({Message:"Product Quantity is not available"});
-                    };
+                    
+                    
+                    
+                    for (let v = 0; v < Product.Varieties.length; v++) {
+                        if(Product.Varieties[v].Type == Cart_Selected.Variety){
+                            if(Product.Varieties[v].Quantity < 1){
+                                return res.status(400).json({Message:"One of the product in your cart is out of stock, remove the item from the cart then place your order."});
+                            };
+                            break;
+                        };
+                    }
+
 
 
                     let New_Id;
@@ -318,8 +362,8 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
                         Total_Bill:{
                             Total_Product_MRPs: Product.Price.MRP*Cart[i].Quantity,
                             Total_Product_Price: Product.Price.Our_Price*Cart[i].Quantity,
-                            Total_Shipping_Cost: Product.Delivery,
-                            Grand_Total: Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery,
+                            Total_Shipping_Cost: Product.Delivery*Cart[i].Quantity,
+                            Grand_Total: Product.Price.Our_Price*Cart[i].Quantity + Product.Delivery*Cart[i].Quantity,
                         },
                         createdAt: new Date(),
                     };
@@ -349,7 +393,12 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
 
         // console.log(New_Orders);
         await Orders.insertMany(New_Orders).then( async () => {
-            Got_User.Orders = [...Got_User.Orders, ...[Connection_Key]];
+            Got_User.Orders = [...Got_User.Orders, ...[{
+                Key: Connection_Key,
+                Date: new Date(),
+                Amount: TotalA,
+                Payment_Type: "Prepaid",
+            }]];
             await Got_User.save().then(() => {
                 return res.status(200).json({Message:"Order Created successfully.", Option_For_Order: Option_For_Order});
             });
@@ -396,17 +445,17 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         let Got_Order_By_Id = await Payment_Instance.orders.fetch(razorpay_order_id);
 
         if(!Got_Order_By_Id){
-            return res.status(400).json({Message:"1. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
         // console.log(Got_Order_By_Id);
         if(Got_Order_By_Id.status !== "paid"){
-            return res.status(400).json({Message:"2. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
         if(Got_Order_By_Id.amount_due !== 0){
             return res.status(400).json({Message:"Haven't paid the full amount."});
         };
         if(Got_Order_By_Id.amount_paid !== Got_Order_By_Id.amount){
-            return res.status(400).json({Message:"3. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
 
 
@@ -414,18 +463,20 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
 
         let User_Orders = Got_User.Orders;
         if(User_Orders.length < 1){
-            return res.status(400).json({Message:"4. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
 
         let Order_Found = false;
         let Actual_Connection_ID = null;
+
         for(let i = 0; i < User_Orders.length; i++){
 
-            let Order_Details = await Orders.find({Connection_ID: User_Orders[i]});
+            let Order_Details = await Orders.find({Connection_ID: User_Orders[i].Key});
             
             if(Order_Details.length < 1){
-                return res.status(400).json({Message:"5. Unauthorized Access."});
+                return res.status(400).json({Message:"Unauthorized Access."});
             };
+
             for(let j = 0; j < Order_Details.length; j++){
                 const Order = Order_Details[j];
                 if(Order.Payment_Info.Order_ID == razorpay_order_id){
@@ -440,13 +491,13 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
         };
 
         if(!Actual_Connection_ID){
-            return res.status(400).json({Message:"6. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
 
         let Check = await Verify_Signature(razorpay_order_id , razorpay_payment_id , razorpay_signature);
 
         if(!Check){
-            return res.status(400).json({Message:"7. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access, invalid signature."});
         };
 
 
@@ -457,12 +508,12 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
                 Payment_ID : razorpay_payment_id,
                 Payment_Success : true,
                 Payment_Status : "Success",
-            }
+            };
             Order.Status = "Order placed - Payment Success";
             await Order.save();
         };
         Got_User.Cart = [];
-        // await Got_User.save(); // Uncomment this line if you want to save the cart
+        await Got_User.save();
         return res.status(200).json({Message:"Payment Successful - Order placed successful.",Redirect:"/profile/orders"});
     } catch (error) {
         next(error);
@@ -476,7 +527,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
 
         let User_Orders = Got_User.Orders;
         if(User_Orders.length < 1){
-            return res.status(400).json({Message:"4. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
 
         let Order_Found = false;
@@ -486,7 +537,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
             let Order_Details = await Orders.find({Connection_ID: User_Orders[i]});
             
             if(Order_Details.length < 1){
-                return res.status(400).json({Message:"5. Unauthorized Access."});
+                return res.status(400).json({Message:"Unauthorized Access."});
             };
             for(let j = 0; j < Order_Details.length; j++){
                 const Order = Order_Details[j];
@@ -502,7 +553,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
         };
 
         if(!Actual_Connection_ID){
-            return res.status(400).json({Message:"6. Unauthorized Access."});
+            return res.status(400).json({Message:"Unauthorized Access."});
         };
 
 
@@ -518,7 +569,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
             await Order.save();
         };
         Got_User.Cart = [];
-        // await Got_User.save(); // Uncomment this line if you want to save the cart
+        await Got_User.save();
         return res.status(200).json({Message:"Failed to make payment."});
     } catch (error) {
         next(error);
