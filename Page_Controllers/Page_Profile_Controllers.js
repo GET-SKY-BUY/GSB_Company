@@ -8,7 +8,9 @@ function formatDateString(dateString) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
-  
+
+const { Orders } = require("../Models.js");
+const INR = require("../utils/Number_INR.js");
 const axios = require("axios");
 
 const Home = async (req, res, next) =>  {
@@ -261,7 +263,115 @@ const Profile_Address = async ( req , res , next )=> {
         next(err);
     };
 };
-        
+
+
+const Profile_Orders = async ( req , res , next ) => {
+    try {
+        const Got_User = req.User;
+
+
+        const All_Orders = Got_User.Orders;
+
+
+
+        let New_Li = "";
+
+        for (let i = 0; i < All_Orders.length; i++) {
+            const Ref_Order = All_Orders[i];
+            let Order_No_List = await Orders.find({Connection_ID: Ref_Order.Key}).populate("Product.Product_ID").exec();
+            
+            let AA = `
+            
+                    <div class="Ref_No">
+                        <strong>Ref no: </strong> <span>${Ref_Order.Key}</span>
+                    </div>
+            `;
+
+
+            for (let j = 0; j < Order_No_List.length; j++) {
+                let Order = Order_No_List[j];
+
+
+                
+                
+                
+                const dateObject = new Date(Order.createdAt);
+                let Ord_Date = dateObject.toDateString();
+                const delDateObject = new Date(dateObject);
+                delDateObject.setDate(delDateObject.getDate() + 10);
+                let Del_Date = delDateObject.toDateString();
+                
+                New_Li += ` 
+                <div class="Order_List">
+                    ${AA}
+                    
+                    <div class="Main_Orders">
+                        <div class="Main_Order_No">
+                            <strong>Order no: </strong> <span>${Order._id} | <strong>Status: </strong> <span>${Order.Status}</span></span>
+                        </div>
+
+                        <div class="Products_Orders_Main">
+
+                            <div class="Top_Order_Part">
+                                <a href="/products/${Order.Product.Product_ID.URL}">
+                                    <img src="/product/files/image/${Order.Product.Product_ID.Image_Videos.Image[0]}" alt="${Order.Product.Title}">
+                                </a>
+                            </div>
+                            <div class="Top_Order_Title">
+                                <h4>
+                                    <a href="/products/${Order.Product.Product_ID.URL}" class="Anc">${Order.Product.Title}</a>
+                                </h4>
+                                <div class="Prices_Orders">
+                                    <span class="Cart_Price">₹ ${INR(String(Order.Product.Price.Our_Price))}</span>
+
+                                    <span class="Cart_MRP">MRP: ${INR(String(Order.Product.Price.MRP))}</span>
+
+                                    
+                                </div>
+                                <div>
+                                    <span><strong>Option: </strong> ${Order.Variety}</span><br>
+                                    <span><strong>Quantity: </strong> ${Order.Quantity}</span><br>
+                                    <span><strong>Payment Method: </strong>${Order.Payment_Type}</span><br>
+                                    <span><strong>Order Date: </strong> ${Ord_Date}</span><br>
+                                    <span><strong>Delivery Date: </strong> ${Del_Date}</span> <br>
+                                    <span><strong>Coins Earned: </strong>5</span> <br>
+                                    <span><strong>Total: </strong>₹ 26,999</span> <br>
+                                    <span><strong>Refund/Return: </strong> none</span> <br>
+                                    <span><a href="https://api.whatsapp.com/send?phone=919332525641&text=Hello%2C%0AI%20have%20an%20issue%20with%20an%20order.%0APlease%20resolve%20an%20issue.%0A%0A*Registered%20Email%3A*%20${encodeURIComponent(Got_User.Email)}%0A*Order%20no%3A*%${Order._id}%0A">Raise an issue with this order.</a></span> <br>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+                `;
+
+            }
+        };
+
+        if(New_Li == ""){
+            New_Li = `<p>You haven't placed any orders yet.</p>`;
+        }
+        res.status(200).render("Profile_Orders",{
+            First_Name: Got_User.Personal_Data.First_Name,
+            Last_Name: Got_User.Personal_Data.Last_Name,
+            Email: Got_User.Email,
+            List: New_Li,
+
+            CartNumber:Got_User.Cart.length,
+            Login:"",
+            Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
+        });
+    } catch (error) {
+        next(error);
+    };
+};
 
 
 module.exports = {
@@ -272,4 +382,5 @@ module.exports = {
     Profile_Favourite,
     Profile_Notification,
     Profile_Address,
+    Profile_Orders,
 }

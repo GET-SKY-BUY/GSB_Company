@@ -705,7 +705,27 @@ const Orders_Schema = new Schema({
         },
     },
     Product: {
-        type: Object,
+        Product_ID: {
+            type: String,
+            ref: 'Products',
+        },
+        Title: {
+            type: String,
+        },
+        Price: {
+            MRP: {
+                type: Number,
+            },
+            Selling_Price: {
+                type: Number,
+            },
+            Our_Price: {
+                type: Number,
+            }
+        },
+        Delivery: {
+            type: Number,
+        }
     },
     Variety: {
         type: String,

@@ -1,0 +1,128 @@
+
+
+.Main {
+    margin: 50px auto;
+    width: 90%;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 6px #ccc;
+    padding: 30px;
+}
+
+.Order_List {
+    border-radius: 10px ;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.Ref_No {
+    padding: 10px 0px;
+}
+
+.Main_Orders {
+    font-size: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+
+.Main_Order_No {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.Top_Order_Part img {
+    width: 150px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+
+.Products_Orders_Main {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.Top_Order_Title {
+    padding: 0px 10px;
+}
+.Top_Order_Title h4{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.Cart_Price {
+    font-size: 20px;
+    color: #333;
+}
+
+.Cart_MRP {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 14px;
+}
+
+.Prices_Orders {
+    margin: 3px 0px;
+}
+
+.Anc {
+    text-decoration: none;
+    color: #333;
+}
+.Anc:hover {
+    text-decoration: underline;
+    color: #474747;
+}
+
+
+
+
+
+
+/* Order Status CSS */
+.Delivered {
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.Dispatched {
+    background-color: #FF9800;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.Pending {
+    background-color: #FFC107;
+    color: #000;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+.Cancelled {
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+
+.Failed {
+    background-color: #F44336;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+.Placed {
+    background-color: #2196F3;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 5px;
+}

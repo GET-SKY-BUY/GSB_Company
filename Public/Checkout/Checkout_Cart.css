@@ -1,6 +1,8 @@
 
 .Main_Divv {
     width: 90%;
+    
+    box-shadow: 0 0 6px #ccc;
     /* box-shadow: 0px 0px 10px #bbb; */
     padding: 40px;
     background-color: #fff;

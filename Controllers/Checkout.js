@@ -599,6 +599,7 @@ const Checkout_Proceed_Payment_Failed = async ( req , res , next ) => {
                 Payment_Status : "Payment failed",
             }
             Order.Status = "Payment failed";
+            Order.Completed = true;
             await Order.save();
         };
         Got_User.Cart = [];
