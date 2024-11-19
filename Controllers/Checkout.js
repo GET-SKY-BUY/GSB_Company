@@ -7,7 +7,6 @@ const Order_ID = () => {
 };
 
 const { Payment_Instance , Verify_Signature } = require("./Payment_Functions.js");
-
 const Checkout_Proceed_COD = async ( req , res , next ) => {
     try {
         
@@ -115,11 +114,16 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                     for (let v = 0; v < Product.Varieties.length; v++) {
                         if(Product.Varieties[v].Type == Cart_Selected.Variety){
                             if(Product.Varieties[v].Quantity < 1){
+                                
                                 return res.status(400).json({Message:"One of the product in your cart is out of stock, remove the item from the cart then place your order."});
                             };
+                            Product.Varieties[v].Quantity -= Cart_Selected.Quantity;
+                            await Product.save();
                             break;
                         };
                     }
+
+                    // Email part left
 
 
 
@@ -173,6 +177,7 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                         createdAt: new Date(),
                     };
                     New_Orders.push(New_Order);
+                    
                 };
             };
         };
@@ -503,6 +508,32 @@ const Checkout_Final_Signature_Check = async ( req , res , next ) => {
 
         for(let i = 0; i < Actual_Connection_ID.length; i++){
             let Order = Actual_Connection_ID[i];
+
+
+            let Found_Product = await Products.findById(Order.Product.Product_ID);
+
+            
+            for (let v = 0; v < Found_Product.Varieties.length; v++) {
+                if(Found_Product.Varieties[v].Type == Order.Variety){
+
+
+
+                    // Emailing part left
+
+
+                    Found_Product.Varieties[v].Quantity -= Order.Quantity;
+                    await Found_Product.save();
+                    
+
+                    break;
+                };
+            };
+
+
+
+
+
+
             Order.Payment_Info = {
                 Order_ID: razorpay_order_id,
                 Payment_ID : razorpay_payment_id,
