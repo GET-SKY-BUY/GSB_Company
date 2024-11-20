@@ -112,12 +112,12 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
                     
                     
                     for (let v = 0; v < Product.Varieties.length; v++) {
-                        if(Product.Varieties[v].Type == Cart_Selected.Variety){
+                        if(Product.Varieties[v].Type == Cart[i].Variety){
                             if(Product.Varieties[v].Quantity < 1){
                                 
                                 return res.status(400).json({Message:"One of the product in your cart is out of stock, remove the item from the cart then place your order."});
                             };
-                            Product.Varieties[v].Quantity -= Cart_Selected.Quantity;
+                            Product.Varieties[v].Quantity -= Cart[i].Quantity;
                             await Product.save();
                             break;
                         };
