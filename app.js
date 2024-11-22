@@ -48,7 +48,6 @@ app.use("/api/v1/profile", require('./Routes/Profile.js'));
 app.use("/api/v1/additional", require('./Routes/Additional.js'));
 app.use("/api/v1/product", require('./Routes/Product.js'));
 app.use("/api/v1/cart", require('./Routes/Cart.js'));
-// app.use("/api/v1/order", require('./Routes/Additional.js'));
 app.use("/api/v1/checkout", require('./Routes/Checkout.js'));
 
 //--------------------------------------------------------------
@@ -58,7 +57,6 @@ app.use("/auth", require('./Page_Routes/Authentication.js'));
 app.use("/profile", require('./Page_Routes/Profile.js'));
 app.use("/products", require('./Page_Routes/Products.js'));
 app.use("/Checkout", require('./Page_Routes/Checkout.js'));
-// app.use("/payment", require('./Pages_Routes/Payment.js'));
 
 //--------------------------------------------------------------
 
@@ -112,7 +110,7 @@ app.use(cors(
     }
 ));
 
-// Setup middleware to remove the X-Robots-Tag header
+
 app.use((req, res, next) => {
     // res.removeHeader("X-Robots-Tag");
     res.set('X-Robots-Tag', 'index, follow'); 
@@ -141,6 +139,18 @@ app.get('/robots.txt', (req, res) => {
 
 const Check_User = require("./utils/Check_User.js");
 app.get("/", Check_User ,require("./Links/Home.js"))
+app.get("/search", Check_User , require("./Links/Search.js") )
+// Download app
+// About us
+// Help center
+// Contact us
+// Improve us
+// Customer care
+// Privacy policy
+// Terms and conditions
+// File a complaint
+// Report a problem
+// Shop - stores
 
 
 app.get("*", (req, res, next)=>{

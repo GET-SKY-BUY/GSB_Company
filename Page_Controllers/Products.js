@@ -4,6 +4,8 @@ const { Products } = require("../Models.js");
 
 const INR = require("../utils/Number_INR.js");
 
+const { Get_Categories , Get_Categories_Option } = require("../utils/Categories.js");
+
 
 const Products_Page = async ( req , res , next ) => {
     try {
@@ -107,6 +109,8 @@ const Products_Page = async ( req , res , next ) => {
             Product_Object["CartNumber"] = 0;
             Product_Object["Login"] = `<a title="login" href="/auth/login">Login</a>`;
             Product_Object["Logout"] =  ``;
+            Product_Object["Get_Categories_Option"] =  await Get_Categories_Option(next);
+
         };
         return res.status(200).render("Product_Page" , Product_Object );
 

@@ -27,15 +27,10 @@
                 <form action="/search" method="get">
                     <select name="Search_Type" id="Search_Type">
                         <option value="All">All</option>
-                        <option value="Men dresses">Men dresses</option>
-                        <option value="Women dresses">Women dresses</option>
-                        <option value="Kids cloths">Kids cloths</option>
-                        <option value="Kitchen">Kitchen</option>
-                        <option value="Home Decoration">Home Decoration</option>
-                        <option value="Electronics">Electronics</option>
+                        | !{Get_Categories_Option}
                     </select>
                     <div class="Sesessasfsafsfasff">
-                        <input id="Search_Input" type="text" placeholder="Search for Product, Shops or ID" autocomplete="off" spellcheck="false" name="Search">
+                        <input value="#{Search_Value}" id="Search_Input" type="text" placeholder="Search for Product, Shops or ID" autocomplete="off" spellcheck="false" name="Search">
                     </div>
                     <button id="Clear_Search" type="reset"><span>&#x2715;</span></button>
                     <button id="Submit_Button" type="submit"><span class="material-symbols-outlined">search</span></button>
@@ -96,10 +91,10 @@
                     </button>
                     <div id="More_Box">
                         <a title="Download App" href="/download_app">Download app</a>
+                        <a title="Setting" href="/about_us">About us</a>
                         <a title="Help Center" href="/help_center">Help center</a>
                         <a title="Contact us" href="/contact_us">Contact us</a>
                         <a title="Improve us" href="/improve_us">Improve us</a>
-                        <a title="Setting" href="/setting">Setting</a>
                         <a title="Customer care" href="/customer_care">Customer care</a>
                         <a title="Privacy & Policy" href="/privacy_and_policy">Privacy & policy</a>
                         <a title="Terms and conditions" href="/terms_and_conditions">Terms & conditions</a>

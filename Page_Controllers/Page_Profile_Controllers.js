@@ -12,6 +12,7 @@ function formatDateString(dateString) {
 const { Orders } = require("../Models.js");
 const INR = require("../utils/Number_INR.js");
 const axios = require("axios");
+const { Get_Categories , Get_Categories_Option } = require("../utils/Categories.js");
 
 const Home = async (req, res, next) =>  {
     try {
@@ -31,8 +32,9 @@ const Home = async (req, res, next) =>  {
             Gender: User.Personal_Data.Gender,
             Coins:Coins,
             Joined:Joined,
-            CartNumber: CartNumber,
             
+            CartNumber: CartNumber,
+            Get_Categories_Option : await Get_Categories_Option(next),
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
         });
@@ -62,6 +64,7 @@ const Setting = async (req, res, next) =>  {
             Beneficiary_Name: User.Bank.Beneficiary_Name,
             Account_Number: User.Bank.Account_Number,
             IFSC_Code: User.Bank.IFSC_Code,
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber: CartNumber,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -87,6 +90,7 @@ const Coins = async (req, res, next) =>  {
             CoinsEarned: Got_User.GSBCoins.Earned,
             CoinsHistory: History,
             
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -98,7 +102,7 @@ const Coins = async (req, res, next) =>  {
     };
 };
 
-const Profile_Wishlist = ( req , res , next )=> {
+const Profile_Wishlist = async ( req , res , next )=> {
     try{
         const User = req.User;
 
@@ -110,6 +114,7 @@ const Profile_Wishlist = ( req , res , next )=> {
             Email: User.Email,
             WishList: WishList,
             
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -118,7 +123,7 @@ const Profile_Wishlist = ( req , res , next )=> {
         next(err);
     };
 };
-const Profile_Favourite = ( req , res , next )=> {
+const Profile_Favourite = async ( req , res , next )=> {
     try{
         const User = req.User;
 
@@ -130,6 +135,7 @@ const Profile_Favourite = ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             Favourite: Favourite,
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -139,7 +145,7 @@ const Profile_Favourite = ( req , res , next )=> {
     };
 };
 
-const Profile_Notification = ( req , res , next )=> {
+const Profile_Notification = async ( req , res , next )=> {
     try{
         const User = req.User;
 
@@ -150,6 +156,7 @@ const Profile_Notification = ( req , res , next )=> {
             First_Name: User.Personal_Data.First_Name,
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
+            Get_Categories_Option : await Get_Categories_Option(next),
             Notification: Notification,
             CartNumber:User.Cart.length,
             Login:"",
@@ -255,6 +262,7 @@ const Profile_Address = async ( req , res , next )=> {
             Last_Name: User.Personal_Data.Last_Name,
             Email: User.Email,
             Address_Cards: Address_Cards,
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -364,6 +372,7 @@ const Profile_Orders = async ( req , res , next ) => {
             Email: Got_User.Email,
             List: New_Li,
 
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,

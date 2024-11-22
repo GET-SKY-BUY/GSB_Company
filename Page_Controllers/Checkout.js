@@ -4,6 +4,10 @@ const { Products } = require("../Models.js");
 
 const INR = require("../utils/Number_INR.js");
 
+
+const { Get_Categories , Get_Categories_Option } = require("../utils/Categories.js");
+
+
 const Checkout_Proceed = async ( req , res , next ) => {
     try {
         const Got_User = req.User;
@@ -141,6 +145,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
             Table: Table,
             Address:Address,
 
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
@@ -335,6 +340,7 @@ const Checkout_Cart = async ( req , res , next ) => {
 
         return res.status(200).render("Checkout_Cart", {
             Data_Of_Cart: p,
+            Get_Categories_Option : await Get_Categories_Option(next),
             CartNumber:Got_User.Cart.length,
             Login:"",
             Logout: `<a title="Logout" href="/api/v1/auth/logout">Logout</a>`,
