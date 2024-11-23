@@ -17,7 +17,6 @@ async function AddToCart(n){
         document.getElementById("Loading").style.display = "none";
         if(res.ok){
             return res.json();
-        
         };
         return res.json().then((data) => {
             let error = new Error(data.Message);
@@ -33,7 +32,10 @@ async function AddToCart(n){
     }).catch((err) => {
         if(err.Message){
             Message(err.Message, "Warning");
-            return 
+            setTimeout(() => {
+                window.location.href = "/auth/login";
+            }, 500);
+            return;
         };
         Message("Something went wrong", "Warning");
     });
@@ -76,6 +78,9 @@ async function BuyNow(n){
     }).catch((err) => {
         if(err.Message){
             Message(err.Message, "Warning");
+            setTimeout(() => {
+                window.location.href = "/auth/login";
+            }, 500);
         }else{
             Message("Something went wrong", "Warning");
         };
@@ -123,6 +128,9 @@ async function Favourite(n){
     }).catch((err) => {
         if(err.Message){
             Message(err.Message, "Warning");
+            setTimeout(() => {
+                window.location.href = "/auth/login";
+            }, 500);
         }else{
             Message("Something went wrong", "Warning");
         };
@@ -168,6 +176,9 @@ async function UnFavourite(n){
         Message(data.Message, "Success");
     }).catch((err) => {
         if(err.Message){
+            setTimeout(() => {
+                window.location.href = "/auth/login";
+            }, 500);
             Message(err.Message, "Warning");
         }else{
             Message("Something went wrong", "Warning");

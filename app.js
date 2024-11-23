@@ -134,7 +134,7 @@ app.use((err, req, res, next) => {
 
 app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
-    res.send(`User-agent: *\nDisallow: /private/`);
+    res.send(`User-agent: *\nDisallow: /checkout\nDisallow: /api/v1\nDisallow: /api/v1/auth\nDisallow: /api/v1/profile\nDisallow: /api/v1/additional\nDisallow: /api/v1/product\nDisallow: /api/v1/cart`);
 });
 
 const Check_User = require("./utils/Check_User.js");
