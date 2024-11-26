@@ -12,7 +12,10 @@ const Product_List = async ( req , res , next ) => {
         
         const Product1 = await Products.find({Verified:"Yes"});
         if(!Product1){
-            return res.status(200).json({Tags:""});
+            return res.status(400).json({Tags:""});
+        };
+        if(Product1.length < 1){
+            return res.status(400).json({Tags:""});
         };
         let a = "";
 
