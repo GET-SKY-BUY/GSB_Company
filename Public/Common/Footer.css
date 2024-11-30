@@ -1,4 +1,6 @@
-
+footer {
+    font-size: 14px;
+}
 #Footer_Container {
     display: flex;
     justify-content: center;
@@ -13,7 +15,8 @@
 
 .Fotter_Center {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    /* justify-content: space-between; */
     width: 90%;
     margin: auto;
     flex-wrap: wrap;
@@ -21,7 +24,7 @@
 }
 
 .Fotter_Center > div {
-    width: 150px;
+    width: 180px;
 }
 .Fotter_Center > div > h4{
     margin-bottom: 10px;

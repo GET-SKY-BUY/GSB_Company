@@ -4,7 +4,7 @@ const { Get_Categories , Get_Categories_Option } = require("../utils/Categories.
 
 const Contact_Us = async ( req , res , next) => {
     try {
-        if(!req.user){
+        if(!req.User){
             return res.status(200).render("Contact_Us",{
                 Get_Categories_Option : await Get_Categories_Option(next),
                 CartNumber:0,
