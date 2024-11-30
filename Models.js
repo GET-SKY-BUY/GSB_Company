@@ -749,6 +749,53 @@ const Orders_Schema = new Schema({
     },
 })
 
+const Contact_Us_Schema = new Schema({
+    _id: {
+        type: String,
+    },
+    User: {
+        type: String,
+        ref: 'Users',
+    },
+    Email: {
+        type: String,
+    },
+    Name: {
+        type: String,
+    },
+    Contact_Number: {
+        type: String,
+    },
+    WhatsAppNumber: {
+        type: String,
+    },
+    Gender: {
+        type: String,
+    },
+    Reason: {
+        type: String,
+        maxlength: 1000,
+    },
+    Managing_By: {
+        ID: {
+            type: String,
+        },
+        Problem: {
+            type: String,
+            maxlength: 1000,
+        }
+    },
+    Solved: {
+        type: Boolean,
+        default: false,
+    },
+    createdAt: {
+        type: Date,
+        default: new Date(),
+    },
+});
+
+
 
 
 
@@ -762,6 +809,7 @@ const Products = Model("Products", Product_Schema);
 const Categories = Model("Categories", categorySchema);
 const Searched_History = Model("Searched_Panel", Search_History_Schema);
 const Orders = Model("Orders", Orders_Schema);
+const Contact_Us = Model("Contact_Us", Contact_Us_Schema);
 
 
 
@@ -777,4 +825,5 @@ module.exports = {
     Categories,
     Searched_History,
     Orders,
+    Contact_Us,
 };

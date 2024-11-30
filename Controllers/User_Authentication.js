@@ -5,7 +5,7 @@ const { Valid_Email, Valid_Password , Valid_Mobile} = require("../utils/Validati
 const { Verify_Token , Generate_Token }= require("../utils/JWT.js");
 const { Password_Hash, Password_Compare } = require("../utils/Password.js");
 const { Get_Token , Get_OTP } = require("../utils/Auth.js");
-const Send_Mail = require("../utils/Send_Mail.js");
+const { Send_Mail } = require("../utils/Send_Mail.js");
 const Profile_ID = require("../utils/Profile_ID.js");
 
 const Cookie_Options_OTP = {
@@ -553,6 +553,12 @@ const Login = async ( req, res, next ) => {
                     subject: "Login Successful notification",
                     html: `Hello ${Found.Personal_Data.First_Name}, <br>You have been logged in to your account, if not done by you please change your password immediately.`,
                 });
+                if(!Status){
+                    return res.status(400).json({
+                        Status: "Failed",
+                        Message: "Unable to sent OTP."
+                    });
+                };
                 
                 res.clearCookie("Login_User",{
                     domain: process.env.PROJECT_DOMAIN,
@@ -604,6 +610,12 @@ const Change_Password = async (req, res, next) => {
                 subject: "Password changed",
                 html: `Hello ${Got_User.Personal_Data.First_Name}, <br>Your password changed successful, if not done by you please immediately change your password.`,
             });
+            if(!Status){
+                return res.status(400).json({
+                    Status: "Failed",
+                    Message: "Unable to sent OTP."
+                });
+            };
             return res.status(200).json({
                 Status: "Success",
                 Message: "Password changed successfully."

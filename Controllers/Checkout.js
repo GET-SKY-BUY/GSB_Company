@@ -84,7 +84,7 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
 
         let Connection_Key;
         while (true) {
-            Connection_Key = Order_ID();
+            Connection_Key = "Ref-" +Order_ID();
             const Connection_Exists = await Orders.findOne({Connection_ID: Connection_Key});
             if(!Connection_Exists){
                 break;
@@ -129,7 +129,7 @@ const Checkout_Proceed_COD = async ( req , res , next ) => {
 
                     let New_Id;
                     while (true) {
-                        New_Id = Order_ID();
+                        New_Id = "Ord-" + Order_ID();
                         const Order_Exists = await Orders.findById(New_Id);
                         if(!Order_Exists){
                             break;
@@ -251,7 +251,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
         let Connection_Key;
 
         while (true) {
-            Connection_Key = Order_ID();
+            Connection_Key = "Ref-" + Order_ID();
             const Connection_Exists = await Orders.findOne({Connection_ID: Connection_Key});
             if(!Connection_Exists){
                 break;
@@ -325,7 +325,7 @@ const Checkout_Proceed_Pay = async ( req , res , next ) => {
 
                     let New_Id;
                     while (true) {
-                        New_Id = Order_ID();
+                        New_Id = "Ord-" + Order_ID();
                         const Order_Exists = await Orders.findById(New_Id);
                         if(!Order_Exists){
                             break;

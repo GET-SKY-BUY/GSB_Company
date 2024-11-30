@@ -49,6 +49,7 @@ app.use("/api/v1/additional", require('./Routes/Additional.js'));
 app.use("/api/v1/product", require('./Routes/Product.js'));
 app.use("/api/v1/cart", require('./Routes/Cart.js'));
 app.use("/api/v1/checkout", require('./Routes/Checkout.js'));
+app.use("/api/v1/control/", require('./Routes/Control.js'));
 
 //--------------------------------------------------------------
 
@@ -140,13 +141,40 @@ app.get('/robots.txt', (req, res) => {
 const Check_User = require("./utils/Check_User.js");
 app.get("/", Check_User ,require("./Links/Home.js"))
 app.get("/search", Check_User , require("./Links/Search.js") )
+app.get("/contact_us" , Check_User , require("./Links/Contact_Us.js"));
+app.get("/privacy_and_policy" , (req, res) => {
+    let a = path.join(__dirname, "./Company/Privacy and policy - GET SKY BUY.pdf");
+    return res.sendFile(a);
+} )
+app.get("/terms_and_conditions" , (req, res) => {
+    let a = path.join(__dirname, "./Company/Terms and condition - GET SKY BUY.pdf");
+    return res.sendFile(a);
+} )
+app.get("/about_us" , (req, res) => {
+    return res.status(200).render("About_Us");
+} )
+app.get("/help_center" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+} )
+app.get("/download_app" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+} )
+app.get("/improve_us" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+} )
+app.get("/file_a_complaint" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+} )
+app.get("/report_a_problem" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+} )
+app.get("/customer_care" , (req, res) => {
+    return res.status(200).send("Coming soon <a href='/'>Go to home</a>");
+});
 // Download app
-// About us
-// Help center
 // Contact us
 // Improve us
 // Customer care
-// Privacy policy
 // Terms and conditions
 // File a complaint
 // Report a problem
