@@ -96,20 +96,19 @@ const Contact_UsA = async ( req , res , next ) => {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #eee;
             color: #333;
             line-height: 1.6;
         }
         .email-container {
             max-width: 600px;
             margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0px 3px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            text-align: center;
             color: #ff8c00;
         }
         table {
@@ -120,6 +119,18 @@ const Contact_UsA = async ( req , res , next ) => {
         table td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+        }
+        .Left{
+            border: 1px solid #ddd;
+            text-align: right;
+            padding: 5px;
+            width: 25%;
+        }
+        .Right{
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 5px;
+            width: 75%;
         }
         .footer {
             text-align: center;
@@ -142,36 +153,36 @@ const Contact_UsA = async ( req , res , next ) => {
         <h2>Contact Form Submission</h2>
         <table>
             <tr>
-                <td><strong>ID:</strong></td>
-                <td>${data._id}</td>
+                <td class="Left"><strong>Contact ID:</strong></td>
+                <td class="Right">${data._id}</td>
             </tr>
             <tr>
-                <td><strong>Email:</strong></td>
-                <td>${data.Email}</td>
+                <td class="Left"><strong>Email:</strong></td>
+                <td class="Right">${data.Email}</td>
             </tr>
             <tr>
-                <td><strong>Name:</strong></td>
-                <td>${data.Name}</td>
+                <td class="Left"><strong>Name:</strong></td>
+                <td class="Right">${data.Name}</td>
             </tr>
             <tr>
-                <td><strong>Contact Number:</strong></td>
-                <td>${data.Contact_Number}</td>
+                <td class="Left"><strong>Contact Number:</strong></td>
+                <td class="Right">${data.Contact_Number}</td>
             </tr>
             <tr>
-                <td><strong>WhatsApp Number:</strong></td>
-                <td>${data.WhatsAppNumber}</td>
+                <td class="Left"><strong>WhatsApp Number:</strong></td>
+                <td class="Right">${data.WhatsAppNumber}</td>
             </tr>
             <tr>
-                <td><strong>Reason:</strong></td>
-                <td>${Re}</td>
+                <td class="Left"><strong>Reason:</strong></td>
+                <td class="Right">${Re}</td>
             </tr>
             <tr>
-                <td><strong>Created On:</strong></td>
-                <td>${Da}</td>
+                <td class="Left"><strong>Created On:</strong></td>
+                <td class="Right">${Da}</td>
             </tr>
         </table>
-        <p>If you want to close this ticket, you can contact to this number via whats app: <a href="https://wa.me/919332525641">+919332525641</a></p>
-        <p>Please do-not reply to this mail, if require mail us here contact@getskybuy.in</p>
+        <p>If you want to close this contact or anything else, you can contact to this number via Whats App: <a href="https://wa.me/919332525641">+919332525641</a></p>
+        <p>Please do-not reply to this mail, if required, mail us at contact@getskybuy.in with Contact ID number</p>
         
         <div class="footer">
             <p>Thank you for contacting GET SKY BUY. We'll get back to you soon!</p>
