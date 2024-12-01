@@ -1,5 +1,14 @@
 ---
 deployment:
   tasks:
-    - export DEPLOY_PATH=/home/zipbuyin/GSB/GSB-Company
-    - /GS/Comp -r * $DEPLOY_PATH
+    - echo "Starting deployment for Node.js application..."
+    - export DEPLOY_PATH=/home/zipbuyin/PP
+    - echo "Deploying to $DEPLOY_PATH"
+    - mkdir -p $DEPLOY_PATH
+    - rsync -av --exclude='.git' --exclude='node_modules' . $DEPLOY_PATH/
+    - cd $DEPLOY_PATH
+    - echo "Installing dependencies..."
+    - npm install --production
+    - echo "Restarting application..."
+    - npx pm2 start app.js --name "nodeapp" --watch
+    - echo "Deployment completed!"
