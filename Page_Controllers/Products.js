@@ -112,6 +112,7 @@ const Products_Page = async ( req , res , next ) => {
             Product_Object["Get_Categories_Option"] =  await Get_Categories_Option(next);
 
         };
+        Product_Object["Img_Link"] = `/product/files/image/${Product.Image_Videos.Image[0]}`;
         return res.status(200).render("Product_Page" , Product_Object );
 
     } catch (error) {
