@@ -137,7 +137,7 @@ const Checkout_Proceed = async ( req , res , next ) => {
         };
         const Options = {
             TOTAL_PRICE: INR(String(Grand_Total - Total_Shipping_Cost)),
-            DISCOUNT: String(parseInt(((Total_MRP - Grand_Total - Total_Shipping_Cost)/Total_MRP)*100, 10)),
+            DISCOUNT: String(parseInt(((Total_MRP - (Grand_Total - Total_Shipping_Cost))/Total_MRP)*100, 10)),
             Grand_Total: INR(String(Grand_Total)),
             Total_Shipping: INR(String(Total_Shipping_Cost)),
             Total_Quantity: Total_Quantity,
