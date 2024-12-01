@@ -105,17 +105,17 @@ const Checkout_Proceed = async ( req , res , next ) => {
                         };
                     }
 
+                    // Total_Shipping_Cost += 0;
 
                     let DEL = Product.Delivery;
-
                     let DEL_Text = "Free";
 
                     let Total_Product_Price = Product.Price.Our_Price;
-                    Total_Shipping_Cost += 0;
                     Total_Product_Price = Cart_Selected.Quantity*Total_Product_Price;
+
                     if (DEL != 0) {
                         DEL_Text = `₹${INR(String(DEL))}/item`;
-                        Total_Product_Price += DEL;
+                        Total_Product_Price += DEL*Cart_Selected.Quantity;
                         Total_Shipping_Cost += DEL*Cart_Selected.Quantity;
                     };
 
