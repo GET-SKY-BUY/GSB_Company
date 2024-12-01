@@ -2,7 +2,7 @@
 deployment:
   tasks:
     - echo "Starting deployment for Node.js application..."
-    - export DEPLOY_PATH=/home/zipbuyin/Active
+    - export DEPLOY_PATH=/home/zipbuyin/Active/GSB_Company
     - echo "Deploying to $DEPLOY_PATH"
     - mkdir -p $DEPLOY_PATH
     - rsync -av --exclude='.git' --exclude='node_modules' . $DEPLOY_PATH/
