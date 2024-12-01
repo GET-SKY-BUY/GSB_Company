@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOY_PATH=/home/zipbuyin/GSB/GSB-Company
+    - /GS/Comp -r * $DEPLOY_PATH
