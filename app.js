@@ -58,6 +58,7 @@ app.use("/auth", require('./Page_Routes/Authentication.js'));
 app.use("/profile", require('./Page_Routes/Profile.js'));
 app.use("/products", require('./Page_Routes/Products.js'));
 app.use("/Checkout", require('./Page_Routes/Checkout.js'));
+app.use("/c",( req , res )=>{res.send("Hello")});
 
 //--------------------------------------------------------------
 
