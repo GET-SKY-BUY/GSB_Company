@@ -12,11 +12,9 @@ footer {
     padding: 10px;
 }
 
-
 .Fotter_Center {
     display: flex;
     justify-content: center;
-    /* justify-content: space-between; */
     width: 90%;
     margin: auto;
     flex-wrap: wrap;
