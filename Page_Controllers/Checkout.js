@@ -470,6 +470,8 @@ const Checkout_Proceed = async ( req , res , next ) => {
                 
             };
         };
+
+        return res.status(307).redirect("/checkout/proceed/cart");
         
     }catch (error) {
         next(error);
