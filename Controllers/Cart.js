@@ -43,7 +43,7 @@ const Buy_Now = async ( req , res , next ) => {
             return res.status(404).json({Message:"Product not found"});
         };
         if (Product1.Verified != "Yes"){
-            return res.status(400).json({Message:"Product not verified"});
+            return res.status(401).json({Message:"Product not verified"});
         };
         for (let index = 0; index < Product1.Varieties.length; index++) {
             const element = Product1.Varieties[index];
@@ -60,12 +60,12 @@ const Buy_Now = async ( req , res , next ) => {
                     Buy_Now:a
                 }});
                 return res.status(200).json({
-                    Message:"Product added, proceeding to checkout.",
+                    Message:"Product added to cart",
                     Len:a.length
                 });
             };
         };
-        return res.status(400).json({Message:"Product is out of stock."});
+        return res.status(401).json({Message:"Product is out of stock."});
     } catch (error) {
         next(error);
     };

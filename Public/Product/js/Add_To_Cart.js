@@ -72,7 +72,7 @@ async function BuyNow(n){
         Message(data.Message, "Success");
         // document.getElementById("Buy_Now").disabled = false;
         setTimeout(() => {
-            window.location.href = "/checkout/buy_now";
+            window.location.href = "/buy_now";
         }, 800);
         
     }).catch((err) => {
