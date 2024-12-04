@@ -77,9 +77,10 @@ Checkout.use(cookieParser(process.env.COOKIE_SECRET));
 
 module.exports = Checkout;
 
-const { Checkout_Proceed , Checkout_Cart } = require("../Page_Controllers/Checkout.js");
+const { Checkout_Proceed , Checkout_Cart , Checkout_Buy_Now } = require("../Page_Controllers/Checkout.js");
 
 const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
-Checkout.get("/proceed", Verify_User_Page , Checkout_Proceed );
+Checkout.get("/proceed/:Type", Verify_User_Page , Checkout_Proceed );
 Checkout.get("/cart", Verify_User_Page , Checkout_Cart );
+Checkout.get("/buy_now", Verify_User_Page , Checkout_Buy_Now );
