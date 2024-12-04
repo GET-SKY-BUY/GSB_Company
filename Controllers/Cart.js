@@ -48,7 +48,7 @@ const Buy_Now = async ( req , res , next ) => {
         for (let index = 0; index < Product1.Varieties.length; index++) {
             const element = Product1.Varieties[index];
             if(element.Quantity > 0){
-                let a = Got_User.Cart;
+                let a = [];
                 a.push({
                     ID: Date.now(),
                     Product_ID: req.body.ID.toUpperCase(),
@@ -60,8 +60,7 @@ const Buy_Now = async ( req , res , next ) => {
                     Buy_Now:a
                 }});
                 return res.status(200).json({
-                    Message:"Product added to cart",
-                    Len:a.length
+                    Message:"Product added to cart, proceed to buy now",
                 });
             };
         };
