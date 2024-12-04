@@ -57,7 +57,7 @@ const Buy_Now = async ( req , res , next ) => {
                 });
                 
                 await User.updateOne({_id:Got_User._id},{$set:{
-                    Buy_Now:a
+                    Cart:a
                 }});
                 return res.status(200).json({
                     Message:"Product added to cart, proceed to buy now",
