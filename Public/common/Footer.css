@@ -1,0 +1,65 @@
+footer {
+    font-size: 14px;
+}
+#Footer_Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    color: white;
+    width: 100%;
+    z-index: 100;
+    padding: 10px;
+}
+
+.Fotter_Center {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: auto;
+    flex-wrap: wrap;
+    height: fit-content;
+}
+
+.Fotter_Center > div {
+    width: 180px;
+}
+.Fotter_Center > div > h4{
+    margin-bottom: 10px;
+    text-decoration: underline;
+    text-align: center;
+}
+.Fotter_Center > div > a {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    transition: 120ms;
+    display: block;
+    padding: 5px;
+}
+
+.Fotter_Center > div > a:hover {
+    text-decoration: none;
+    color: rgb(255, 182, 64);
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+#Footer_Bottom {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #a2a2a2;
+    width: 100%;
+    background-color: #000000;
+    color: white;
+    font-size: 14px;
+    font-weight: 300;
+    
+}

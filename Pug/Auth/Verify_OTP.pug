@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification | GET SKY BUY</title>
+    <link rel="stylesheet" href="/verified/files/user_authentication/css/Verify_OTP.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+
+    
+    include ../Common/HeadPart.pug
+</head>
+<body>
+
+    
+    <div class="container">
+
+        <div class="BigBox" id="BigBox">
+            <div class="Logos">
+                <div class="Cccccc">
+                    <img src="/verified/files/images/GSB-Full-Logo.webp" alt="GsbLogo">
+                    <h2>Verify your account</h2>
+                    <p>Enter your One Time Password</p>
+                </div>
+            </div>
+            <div class="Box" id="Box">
+                <div id="Boxx">
+                        
+                    <div id="TitleDiv">
+                        <h3 id="TitleDivH3">Enter your OTP</h3>
+                    </div>
+
+                    <div id="FirstDiv" class="Div_Input">
+                        <input maxlength="6" id="OTP" class="InputText" title="Enter your OTP" type="text" spellcheck="false" placeholder=" " autocomplete="off" autofocus/>
+                        <label class="Div_Input_Label" id="OTP_Label" for="OTP">Enter your OTP</label>
+                    </div>
+                    <div class="Div_Input" id="Next_DivBtn">
+                        <button id="Next_Btn1" type="button" onclick="Resend();">Resend OTP, after 90 seconds</button>
+                        <button id="Next_Btn" type="button" onclick="Confirm()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/verified/files/common/message.js"></script>
+    <script src="/verified/files/user_authentication/js/Verify_OTP.js"></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+
+
+.Main {   
+    width: 100%;
+}
+
+
+.CenterMain {
+    margin:30px auto;
+    width: 90%;
+    display: flex;
+}
+
+
+.Side1 {
+    width: 230px;
+    background-color: rgba(224, 224, 224, 0.774);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: white;
+    height: min-content;
+}
+
+.Side1 ul{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.Side1 ul li {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.Side1 ul li a{
+    width: 100%;
+    text-align: center;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(236, 236, 236, 0.774);
+    margin: 3px auto;
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+}
+.Side1 ul li a:hover{
+
+    /* border: 1px solid #aaa; */
+    background-color: rgb(219, 219, 219);
+    color: black;
+}
+
+
+#Profile{
+    text-decoration: underline;
+    background-color: rgb(219, 219, 219);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.TopProfile {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+
+    height: 60px;
+
+}
+
+.TopProfileImg img{
+    height: 100%;
+    
+}
+
+
+
+.TopProfileData {
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+.TopProfileData div{
+    width: 100%;
+    text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Side2 {
+    width: calc(100% - 250px);
+    padding:30px;
+    margin: 10px;
+    border-radius: 10px;
+    
+    background-color: white;
+    /* background-color: rgba(224, 224, 224, 0.774); */
+}
+
+
+.H2Heading h2{
+    font-size: 24px;
+    color: black;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.table {
+    width: 100%;
+    font-size: 14px;
+}
+    
+.table table{
+    width: 100%;
+    border-collapse: collapse;
+    /* border: 1px solid #aaa; */
+    margin: 10px 0px;
+}
+.table table tr >td:nth-child(1){
+    width: 150px;
+    padding: 8px;
+    font-weight: bold;
+    /* border: 1px solid #aaa; */
+}
+/* .table table tr >td:nth-child(2){ */
+    /* border: 1px solid #aaa; */
+/* } */
+.table table tr >td:nth-child(2) input{
+    /* width: 150px; */
+    outline: none;
+    border: 0px;
+    border-bottom: 1px solid black;
+    padding: 4px 6px;
+    color: black;
+    border: none; 
+    background-color: transparent;
+}
+
+
+@media screen and (max-width: 720px){
+    .CenterMain{
+        width: 98%;
+    }
+    
+}
+@media screen and (max-width: 660px){
+    .Side1 {
+        width: 180px;
+    }
+    .Side2{
+        width: calc(100% - 200px);
+    }
+}
+@media screen and (max-width: 570px){
+    .CenterMain{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .Side1 {
+        width: 90%;
+        
+    }
+    .Side2{
+        width: 90%;
+        
+    }
+}
+@media screen and (max-width: 440px){
+    
+    .CenterMain{
+        margin: 0px;
+        width: 100%;
+        position: relative;
+        top: 0px;
+    }
+    .Side1 {
+        width: calc(100%);
+        border-radius: 0px;
+        margin: 0px;
+    }
+    .Side2{
+        
+        width: calc(100%);
+        border-radius: 0px;
+        margin: 15px 0px;
+        
+        
+    }
+}

@@ -1,0 +1,136 @@
+<link rel="stylesheet" href="/verified/files/common/Header.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<div id="BackgroundBlur"></div>
+
+<header class="Header" id="Header">
+    <div class="Cennttttttt">
+        <div id="Menuasfsafafsafsa">
+            <button type="button" onclick="OpenMenu()">
+                <span id="Menu_Icon" class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+        <div class="ImageAndH1">
+            <a id="Logo1" href="/?Source=Nav_Logo">
+                <img src="/verified/files/images/GSB-Full-Logo.webp" alt="GET SKY BUY Logo">
+            </a>
+            <a id="HeadingNav2" href="/?Source=Nav_Heading">
+                <div id="HeadingNav2Center">
+                    <h1 title="GET SKY BUY | Website">GET SKY BUY</h1>
+                    <span class="Exploresnow">Explore now</span>
+                    <span class="ExploresnowImge"><img src="/verified/files/images/GSB-Full-Logo.webp" alt="GET SKY BUY Logo"></span>
+                </div>
+            </a>
+        </div>
+        <div class="SearchStart">
+            <div class="MainSearchBox">
+                <form action="/search" method="get">
+                    <select name="Search_Type" id="Search_Type">
+                        <option value="All">All</option>
+                        | !{Get_Categories_Option}
+                    </select>
+                    <div class="Sesessasfsafsfasff">
+                        <input value="#{Search_Value}" id="Search_Input" type="text" placeholder="Search for Product, Shops or ID" autocomplete="off" spellcheck="false" name="Search">
+                    </div>
+                    <button id="Clear_Search" type="reset"><span>&#x2715;</span></button>
+                    <button id="Submit_Button" type="submit"><span class="material-symbols-outlined">search</span></button>
+                    <div id="SearchResult"></div>
+                </form>
+            </div>
+        </div>
+        <div id="jdasdkjjfjdf">
+            <button class="Nav_Btn" type="button" onclick="NavClicked(5)">
+                <span class="material-symbols-outlined gfd">shopping_cart</span>
+                <span id="CSfsfsdffsddhlsfhk">Cart</span>
+                <span id="CartNumber1">#{CartNumber}</span>
+            </button>
+        </div>
+        <div id="Nav" class="Nav">
+            <ul id="NavUl">
+                <div class="CloseBtnMenu"><button type="button" onclick="CloseMenu()"><span class="material-symbols-outlined">close</span></button></div>
+                <li class="LOOOOGO" style="margin-bottom: 20px;">
+                    <a href="/" title="GET SKY BUY - Home">
+                        <img src="/verified/files/images/GSB-Full-Logo.webp" alt="GSB LOGO">
+                    </a>
+                </li>
+                <li class="NavList" id="Homeeeee">
+                    <button class="Nav_Btn" type="button" onclick="NavClicked(99)">
+                        <span class="material-symbols-outlined gfd">home</span>
+                        <span>Home</span>
+                    </button>
+                </li>
+                <li class="NavList">
+                    <button class="Nav_Btn" type="button" onclick="NavClicked(1)">
+                        <span class="material-symbols-outlined gfd">store</span>
+                        <span>Store/Shop</span>
+                    </button>
+                </li>
+                <li id="Profile_List" class="NavList">
+                    <button class="Nav_Btn" type="button">
+                        <span class="material-symbols-outlined gfd">person</span>
+                        <span>Profile</span>
+                    </button>
+                    <div id="Profile_Box">
+                        | !{Login}
+                        <a title="My Profile" href="/profile">My Profile</a>
+                        <a title="Order" href="/profile/orders">Order</a>
+                        <a title="Return - Refund" href="/profile/return_refund">Return/Refund</a>
+                        <a title="Cart" href="/checkout/cart">Cart</a>
+                        <a title="Favourite" href="/profile/favourite">Favourite</a>
+                        <a title="Wishlist" href="/profile/wishlist">Wishlist</a>
+                        <a title="GSB - Coins" href="/profile/coins">GSB - Coins</a>
+                        <a title="Notification" href="/profile/Notification">Notification</a>
+                        <a title="Setting" href="/profile/setting">Setting</a>
+                        | !{Logout}
+                    </div>
+                </li>
+                <li id="More_List" class="NavList">
+                    <button class="Nav_Btn" type="button">
+                        <span class="material-symbols-outlined gfd">expand_more</span>
+                        <span>More</span>
+                    </button>
+                    <div id="More_Box">
+                        <a title="Download App" href="/download_app">Download app</a>
+                        <a title="Setting" href="/about_us">About us</a>
+                        <a title="Help Center" href="/help_center">Help center</a>
+                        <a title="Contact us" href="/contact_us">Contact us</a>
+                        <a title="Improve us" href="/improve_us">Improve us</a>
+                        <a title="Customer care" href="/customer_care">Customer care</a>
+                        <a title="Privacy & Policy" href="/privacy_and_policy">Privacy & policy</a>
+                        <a title="Terms and conditions" href="/terms_and_conditions">Terms & conditions</a>
+                        <a id="Sdasdalhdjshjfhasbf" title="File a complaint" href="/file_a_complaint">File a complaint</a>
+                        <a title="Report a problem" href="/report_a_problem">Report a problem</a>
+                    </div>
+                </li>
+                <li id="Favourite_List" class="NavList">
+                    <button class="Nav_Btn" type="button" onclick="NavClicked(4)">
+                        <span class="material-symbols-outlined gfd">favorite</span>
+                        <span>Favourite</span>
+                    </button>
+                </li>
+                <li id="Setting_List" class="NavList">
+                    <button class="Nav_Btn" type="button" onclick="NavClicked(98)">
+                        <span class="material-symbols-outlined gfd">settings</span>
+                        <span>Setting</span>
+                    </button>
+                </li>
+                <li class="NavList" id="CartButton">
+                    <button class="Nav_Btn" type="button" onclick="NavClicked(5)">
+                        <span class="material-symbols-outlined gfd">shopping_cart</span>
+                        <span>Cart</span></button>
+                        <span id="CartNumber">#{CartNumber}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Next nav part -->
+    </div>
+</header>
+
+<script src="/verified/files/common/Header.js"></script>
+
+
+
+
+

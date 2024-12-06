@@ -1,0 +1,180 @@
+
+.Main_Divv {
+    width: 90%;
+    
+    box-shadow: 0 0 6px #ccc;
+    /* box-shadow: 0px 0px 10px #bbb; */
+    padding: 40px;
+    background-color: #fff;
+    margin: 50px auto;
+    padding-bottom: 25px;
+
+}
+
+
+.Products_In_Cart {
+    /* border: 1px solid #ccc; */
+    border-radius: 15px;
+}
+
+.Cart_Product {
+    display: flex;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    margin: 5px auto;
+    padding: 10px;
+}
+
+/* .Cart_Image_Box {
+        
+} */
+.Cart_Image_Box a{
+    cursor: pointer;
+}
+.Cart_Image_Box img {
+    width: 150px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+
+
+
+
+.Cart_Main_Body {
+    padding: 0px 10px;
+}
+
+.Cart_Main_Body h4{
+    margin: 3px 0px;
+
+
+}
+.Cart_MRP {
+    text-decoration: line-through;
+    color: #888;
+    font-size: 14px;
+}
+
+.Cart_Price {
+    font-size: 20px;
+    color: #333;
+}
+
+
+.Choose_Label {
+    cursor: pointer;
+    font-size: 14px;
+}
+.Choose_Label:hover {
+    color: #333;
+}
+
+.Choose_Select {
+    margin: 2px 0px;
+    cursor: pointer;
+    
+    padding: 6px 10px;
+    border-radius: 6px;
+    min-width: 40px;
+    outline: none;
+    transition: 200ms;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.Choose_Select:hover {
+    border: 1px solid #ffc383;
+    background-color: #f5f5f5;
+}
+
+
+.Next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px;
+    margin-bottom: 0px;
+}
+.Next a{
+    margin: 10px auto;
+    text-align: center;
+
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    margin: 10px 0px;
+    outline: none;
+    transition: 200ms;
+    text-decoration: none;
+}
+
+
+
+.Next a:hover,
+.Next a:focus {
+    text-decoration: underline;
+    background-color: #ff8c7f;
+}
+
+
+
+.Remove_Div button{
+    margin: 10px auto;
+    text-align: center;
+
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0px;
+    outline: none;
+    transition: 200ms;
+}
+
+
+
+.Remove_Div button:hover,
+.Remove_Div button:focus {
+    background-color: #ff8c7f;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 700px) {
+    .Main_Divv {
+        width: 100%;
+    }    
+}
+
+
+@media screen and (max-width: 500px) {
+    .Main_Divv {
+        padding: 20px;
+        padding-top: 10px;
+        margin: 20px auto;
+    }    
+}
+
+
+@media screen and (max-width: 420px) {
+    .Cart_Product {
+        flex-wrap: wrap;
+    }
+    .Cart_Image_Box img {
+        width: 100%;
+    }
+    .Cart_Main_Body {
+        padding: 0px;
+    }
+}

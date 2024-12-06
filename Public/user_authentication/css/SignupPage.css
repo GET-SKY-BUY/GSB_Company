@@ -1,0 +1,610 @@
+:root {
+    --primary-color: #ff914d;
+    --Seconday-primary-color: #ff6f3f;
+    --secondary-color: #ffa56d;
+    --secondaryHov-color: #ffbc92;
+    --secondaryActiv-color: #ff8e48;
+}
+
+
+body {
+    z-index: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(244, 244, 244);
+}
+* {
+    box-sizing: border-box;
+    
+}
+
+
+
+
+
+
+
+
+.InputText {
+    outline: none;
+    border: 1px solid #4f4f4f;
+    padding: 12px 14px 12px 14px;
+    width: 100%;
+    border-radius: 4px;
+    transition: 200ms box-shadow;
+}
+
+.Div_Input {
+    margin: 8px auto;
+    position: relative;
+    top: 0px;
+}
+
+
+.InputText:hover, .InputText:focus {
+    
+    outline: none;
+    border: 2px solid var(--Seconday-primary-color);
+    box-shadow: 0 0 7px var(--secondaryHov-color);
+}
+
+
+.Div_Input_Label {
+    border-radius: 3px;
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    font-size: 13px;
+    transition: 100ms;
+    user-select: none;
+    /* cursor: text; */
+}
+
+#Mobile_Number {
+    padding-left: 32px;
+}
+
+#Mobile_Number_Label {
+    left: 35px;
+}
+#Number91 {
+    position: absolute;
+    font-size: 13px;
+    top: 14px;
+    left: 8px;
+}
+
+#Mobile_Number:not(:placeholder-shown) ~ .Div_Input_Label,
+#Mobile_Number:focus ~ label {
+    transition: 100ms;
+    position: absolute;
+    left: 10px;
+    padding: 0 4px;
+    top: -4px;
+    background-color: white;
+    font-size: 11px;
+}
+#Mobile_Number::-webkit-inner-spin-button,
+#Mobile_Number::-webkit-outer-spin-button {
+    appearance: none;
+    
+    
+}
+
+
+
+
+
+
+
+.container {
+    
+    margin: 0px auto;
+    /* padding-top: 30px; */
+    /* padding-bottom: 30px; */
+}
+
+
+input[type="date"] {
+    background-color: white;
+    font-family: Arial, sans-serif;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+
+#Gender {
+    cursor: pointer;
+    background-color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .InputText:focus {
+    border: 2px solid var(--primary-color);
+} */
+
+
+.InputText:focus ~ .Div_Input_Label{   
+    color: var(--primary-color);
+}
+.InputText:focus ~ .Div_Input_Label,
+.InputText:not(:placeholder-shown) ~ .Div_Input_Label {
+    transition: 100ms;
+    position: absolute;
+    left: 10px;
+    padding: 0 4px;
+    top: -4px;
+    background-color: white;
+    font-size: 11.5px;
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#TitleDiv {
+    width: 100%;
+}
+
+#TitleDivH3 {
+    text-align: left; margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 85vh;
+}
+
+.Box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+
+    /* width: 300px; */
+    background-color: white;
+    border-radius: 10px;
+    /* box-shadow: 0 0 6px #aaa; */
+}
+
+
+#Next_DivBtn {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+
+#Next_Btn {
+    border: none;
+    transition: 200ms;
+    background-color: #0c60e9;
+    /* font-weight: bold; */
+    /* padding: 50px; */
+    border-radius: 50px;
+    padding: 8px 20px;
+    
+    color: white;
+    cursor: pointer;
+    user-select: none;  
+}
+
+
+#Next_Btn:focus,
+#Next_Btn:hover {
+    background-color: #0c54c7;
+
+}
+
+#Next_Btn1 {
+    border: none;
+    transition: 200ms;
+    background-color: #0c60e9;
+    /* font-weight: bold; */
+    /* padding: 50px; */
+    border-radius: 50px;
+    padding: 8px 20px;
+    
+    color: white;
+    cursor: pointer;
+    user-select: none;  
+}
+
+
+#Next_Btn1:focus,
+#Next_Btn1:hover {
+    background-color: #0c54c7;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Create_Password {
+    padding-right: 43px;
+}
+
+
+#ShowPassword {
+    
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50px;
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    
+}
+
+#ShowPassword span{
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 50%;
+    transition: 200ms background-color;
+    background-color: #f0f0f0;
+    font-size: 20px;
+    user-select: none;
+
+}
+
+
+#ShowPassword span:hover{
+    background-color: #cacaca;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.BigBox {
+    width: 80vw;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow:  0 0 4px #aaa;
+    /* height: 330px; */
+    padding: 70px 0px;
+    
+}
+#Boxx {
+    margin: auto;
+    
+    width: 80%;
+
+}
+
+.BigBox > div:nth-child(1){
+    width: 40%;
+}
+.BigBox > div:nth-child(2){
+    width: 60%;
+}
+
+.Cccccc img{
+    width: 50px;
+}
+.Cccccc h2, .Cccccc p{
+    width:fit-content;
+    margin-bottom: 0px;
+}
+
+.Cccccc h2 {
+    margin-top: 8px;
+    
+}
+.Logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Cccccc {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 80%;
+
+}
+
+
+
+@media screen and (max-width: 450px) {
+
+    .BigBox {
+        width: 98vw;
+    }
+}
+@media screen and (max-width: 900px) {
+    .BigBox {
+        
+        flex-direction: column;
+    }
+    .Box {
+        display: flex;
+        flex-direction: left;
+        align-items: start;
+    }
+    /* .Logos , .Box { */
+    #Boxx{
+        width: 80%;
+
+    } 
+    #BigBox > div{
+        width: 100%;
+    }    
+    .Div_Input {
+        margin: 8px 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* #Gender */
+
+
+
+
+#FirstDiv {
+    display: block;
+}
+#LastDiv {
+    display: block;
+}
+#MobileDiv {
+    display: none;
+}
+#EmailDiv {
+    display: none;
+}
+#GenderDiv {
+    display: none;
+}
+#DOBDiv {
+    display: none;
+}
+#CreateDiv {
+    display: none;
+}
+#ConfirmDiv {
+    display: none;
+}

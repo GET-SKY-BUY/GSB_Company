@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification  - GET SKY BUY</title>
+
+    include ../Common/HeadPart.pug
+
+
+    <link rel="stylesheet" href="/verified/files/profile/css/Profile_Notification.css">
+</head>
+<body>
+    
+    include ../Common/Header.pug
+    <main class="Main">
+        <div class="CenterMain">
+
+        
+            include ./Profile_Aside.pug
+
+
+            <div class="Side2">
+                <div class="H2Heading">
+                    <h2>Notifications</h2>
+                </div>
+                <hr>
+
+                <div class="TopProfile">
+                    <div class="TopProfileImg">
+                        <img src="/verified/files/images/Profile_Image.webp" alt="Personal icon">
+                    </div>
+                    <div class="TopProfileData">
+                        <div><strong>#{First_Name} #{Last_Name}</strong></div>
+                        <div>#{Email}</div>
+                    </div>
+                </div>
+
+                <div class="MainnnnnBox">
+                    <p>You don't have any type of notification.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    include ../Common/Footer.pug
+    <script src="/verified/files/common/message.js"></script>
+</body>
+</html>

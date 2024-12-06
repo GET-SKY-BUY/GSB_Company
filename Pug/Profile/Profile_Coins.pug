@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coins - GET SKY BUY</title>
+
+    include ../Common/HeadPart.pug
+
+
+    <link rel="stylesheet" href="/verified/files/profile/css/Profile_Coins.css">
+</head>
+<body>
+    
+    include ../Common/Header.pug
+    <main class="Main">
+        <div class="CenterMain">
+
+        
+            include ./Profile_Aside.pug
+
+
+            <div class="Side2">
+                <div class="H2Heading">
+                    <h2>GBS Coins</h2>
+                </div>
+                <hr>
+
+                <div class="TopProfile">
+                    <div class="TopProfileImg">
+                        <img src="/verified/files/images/Profile_Image.webp" alt="Personal icon">
+                    </div>
+                    <div class="TopProfileData">
+                        <div><strong>#{First_Name} #{Last_Name}</strong></div>
+                        <div>#{Email}</div>
+                    </div>
+                </div>
+
+                <div class="CoinsBox">
+                    <div class="CoinsTextBox">
+                        <div class="CoinsText">Total Coins Available: </div>
+                        <div class="CoinsNumber"> #{CoinsAvailable}</div>
+                    </div>
+                    <div class="CoinsTextBox">
+                        <div class="CoinsText">Total Coins Earned: </div>
+                        <div class="CoinsNumber"> #{CoinsEarned}</div>
+                    </div>
+                    <div class="CoinsTextBoxHistory">
+                        <div class="CoinsText"><u>History</u></div>
+                        <p>You have no history</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+    include ../Common/Footer.pug
+    <script src="/verified/files/common/message.js"></script>
+</body>
+</html>

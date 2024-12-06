@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create your account | GET SKY BUY</title>
+    <link rel="stylesheet" href="/verified/files/user_authentication/css/SignupPage.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+
+    include ../Common/HeadPart.pug
+</head>
+<body>
+    
+    <div class="container">
+
+        <div class="BigBox" id="BigBox">
+            <div class="Logos">
+                <div class="Cccccc">
+
+                    <img src="/verified/files/images/GSB-Full-Logo.webp" alt="GsbLogo">
+                    <h2>Create your account</h2>
+                    <p>Enter your details</p>
+                </div>
+
+            </div>
+
+            <div class="Box" id="Box">
+                <div id="Boxx">
+                        
+                    <div id="TitleDiv">
+                        <h3 id="TitleDivH3">Enter your name</h3>
+                    </div>
+
+                    <div id="FirstDiv" class="Div_Input">
+                        <input id="First_Name" class="InputText" title="First name" type="text" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="First_Name_Label" for="First_Name">First name</label>
+                        
+                    </div>
+                    <div  id="LastDiv" class="Div_Input">
+                        <input id="Last_Name" class="InputText" title="Last name" type="text" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="Last_Name_Label" for="Last_Name">Last name</label>
+                    </div>
+                    <div  id="MobileDiv" class="Div_Input">
+                        <div id="Number91">+91</div>
+                        <input id="Mobile_Number" class="InputText" title="Mobile number" type="number" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="Mobile_Number_Label" for="Mobile_Number">Mobile number</label>
+                    </div>
+                    <div  id="EmailDiv" class="Div_Input">
+                        <input id="Email" class="InputText" title="Email" type="text" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="Email_Label" for="Email">Email</label>
+                    </div>
+                    <div  id="GenderDiv" class="Div_Input">
+                        <!-- <input id="DOB" class="InputText" title="DOB" type="date" spellcheck="false" placeholder=" "> -->
+                        <select id="Gender" class="InputText">
+                            <option value="">---- Select option ----</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label class="Div_Input_Label" id="Gender_Label" for="InputText">Gender</label>
+                    </div>
+                    
+                    <div  id="DOBDiv" class="Div_Input">
+                        <input id="DOB" class="InputText" title="DOB" type="date" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="DOB_Label" for="DOB">DOB</label>
+                    </div>
+
+
+                    <div  id="CreateDiv" class="Div_Input">
+                        <input id="Create_Password" class="InputText" title="Create password" type="password" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="Create_Password_Label" for="Create_Password">Create password</label>
+                        <div id="ShowPassword"><span class="material-symbols-outlined" id="ShowClick" onclick="ShowClick(1);">visibility_off</span></div>
+                    </div>
+                    <div  id="ConfirmDiv" class="Div_Input">
+                        <input id="Confirm_Password" class="InputText" title="Confirm password" type="password" spellcheck="false" placeholder=" " />
+                        <label class="Div_Input_Label" id="Confirm_Password_Label" for="Confirm_Password">Confirm password</label>
+                    </div>
+                    <div class="Div_Input" id="Next_DivBtn">
+                        <button id="Next_Btn1" type="button" onclick="window.location.replace('/auth/login')">Already Have and account?</button>
+                        <button id="Next_Btn" type="button" onclick="Next(1)">Next</button>
+                    </div>
+                
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/verified/files/common/message.js"></script>
+    <script src="/verified/files/user_authentication/js/SignupPage.js"></script>
+</body>
+</html>
