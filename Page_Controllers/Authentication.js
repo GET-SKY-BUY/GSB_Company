@@ -236,8 +236,187 @@ const Login = async ( req, res, next ) => {
         next(err)
     };
 };
+
+const Forgot_Password = async ( req , res , next ) => {
+    try {
+
+        let User1 = req.signedCookies.User;
+        if(!User1) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
+            return res.status(200).render('Forgot_Password');
+        };
+
+        let Verify = Verify_Token(User1);
+        if(!Verify) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
+            return res.status(200).render('Forgot_Password');
+        };
+        
+        // Check if the user exists
+        await User.findById(Verify.ID).then( user => {
+            if (!user) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Forgot_Password');
+            };
+
+            if(!(user.LoggedIn.Token === Verify.Token)) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Forgot_Password');    
+            };
+
+            if(user.Verified === "No") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Forgot_Password');
+            };
+
+            if(user.Ban === "Yes") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Forgot_Password');
+            };
+        });
+
+        return res.status(200).redirect("/");
+
+    } catch ( error ) {
+        next(error);
+    };
+};
+
+const Reset_Password = async ( req , res , next ) => {
+    try {
+
+        
+        let User1 = req.signedCookies.User;
+        if(!User1) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
+            return res.status(200).render('Reset_Password');
+        };
+
+        let Verify = Verify_Token(User1);
+        if(!Verify) {
+            res.clearCookie("User",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            });
+            return res.status(200).render('Reset_Password');
+        };
+        
+        // Check if the user exists
+        await User.findById(Verify.ID).then( user => {
+            if (!user) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Reset_Password');
+            };
+
+            if(!(user.LoggedIn.Token === Verify.Token)) {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Reset_Password');    
+            };
+
+            if(user.Verified === "No") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Reset_Password');
+            };
+
+            if(user.Ban === "Yes") {
+                res.clearCookie("User",{
+                    domain: process.env.PROJECT_DOMAIN,
+                    path: "/",
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    signed: true,
+                    sameSite: "strict",
+                });
+                return res.status(200).render('Reset_Password');
+            };
+        });
+
+        return res.status(200).redirect("/");
+
+    } catch ( error ) {
+        next(error);
+    };
+};
+
 module.exports = {
     Signup,
     Verify_OTP,
     Login,
+    Forgot_Password,
+    Reset_Password,
+
 };

@@ -8,7 +8,7 @@ Auth.use(cookieParser(Cookie_Secret));
 
 const  Verify_User_Page  = require("../utils/Verify_User_Page.js");
 
-const { Signup, Verify_OTP , Login } = require("../Page_Controllers/Authentication.js");
+const { Signup, Verify_OTP , Login , Forgot_Password , Reset_Password } = require("../Page_Controllers/Authentication.js");
 
 
 
@@ -49,7 +49,6 @@ Auth.use(cors(
     {
         origin: [
             Project_URL,
-            "http://localhost:80",
             "https://www.google.com",
             "https://google.com",
             "https://bing.com",
@@ -77,4 +76,6 @@ Auth.use(bodyParser.json());
 Auth.get("/signup", Signup);
 Auth.get("/verify-otp", Verify_OTP);
 Auth.get("/login", Login);
+Auth.get("/forgot-password", Forgot_Password);
+Auth.get("/reset-password", Reset_Password);
 module.exports = Auth;
