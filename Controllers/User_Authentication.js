@@ -682,7 +682,7 @@ const Forgot_Password = async ( req , res , next ) => {
         });
 
         await Found.save().then(()=>{
-            return res.status(201).cookie("OTP",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "OTP sent successfully."});
+            return res.status(201).cookie("OTP_TOKEN",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "OTP sent successfully."});
         });
 
     } catch ( error ) {
@@ -690,6 +690,115 @@ const Forgot_Password = async ( req , res , next ) => {
     };
 };
 
+const Reset_Password = async ( req , res , next ) => {
+    try {
+        const Token = req.signedCookies["OTP_TOKEN"];
+        const { OTP } = req.body.OTP;
+
+        const Verify_To = Verify_Token(Token);
+
+        if(!Verify_To){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Unauthorized"
+            });
+        };
+
+        let User_Found = await User.findById(Verify_To.ID);
+
+        if(!User_Found){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "No user found."
+            });
+        };
+
+        if(!OTP){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "OTP not found."
+            });
+        };
+
+        if(parseInt(OTP,10) == NaN){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid OTP."
+            });
+        };
+
+        if(OTP.length != 6){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid OTP."
+            });
+        };
+
+        if(User_Found.Auth.Token != Verify_To.Token){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Unauthorized access"
+            });
+        };
+
+        if(User_Found.Auth.OTP_Expiry < new Date()){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "OTP expired."
+            })
+        };
+
+        if(User_Found.Auth.OTP != OTP){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Incorrect OTP"
+            });
+        };
+
+        User_Found.Auth.OTP = "";
+        User_Found.Auth.OTP_Expiry = new Date();
+        User_Found.Auth.Token = "";
+
+        await User_Found.save();
+        
+        
+        let Status = await Send_Mail({
+            from: "Password changed" + "<" + process.env.MAIL_ID + ">",
+            to: User_Found.Email,
+            subject: "Password change - GET SKY BUY",
+            html: `Hello ${User_Found.Personal_Data.First_Name}, <br>Your password has been changed, if not done by you please change your password`,
+        });
+
+        if(!Status){
+            return res.status(201).clearCookie("OTP_TOKEN",{
+                domain: process.env.PROJECT_DOMAIN,
+                path: "/",
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                signed: true,
+                sameSite: "strict",
+            }).json({
+                Status: "Partially completed",
+                Message: "Password changed but unable to sent confirmation mail."
+            })
+        };
+
+        return res.status(201).clearCookie("OTP_TOKEN",{
+            domain: process.env.PROJECT_DOMAIN,
+            path: "/",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: "strict",
+        }).json({
+            Status: "Success",
+            Message: "Password changed successfully."
+        });
+
+    } catch ( error ) {
+        next(error);
+    };
+};
 
 
 
@@ -701,4 +810,5 @@ module.exports = {
     Login,
     Change_Password,
     Forgot_Password,
+    Reset_Password,
 };
