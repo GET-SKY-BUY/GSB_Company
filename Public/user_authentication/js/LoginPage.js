@@ -51,6 +51,7 @@ async function Login() {
             body:JSON.stringify(Sent)
         }).then((response)=>{
             
+            document.getElementById("Loading").style.display = "none";
             if (response.ok) {
                 return response.json();
             }else if(response.status == 201){
@@ -73,15 +74,11 @@ async function Login() {
             }
         }).then(data=>{
             
-            document.getElementById("Loading").style.display = "none";
             Message(data.Message,"Success");
             setTimeout(() => {
-                document.getElementById("Loading").style.display = "none";
                 location.reload();
-            }, 2000);
+            }, 800);
         }).catch(e=>{
-            document.getElementById("Loading").style.display = "none";
-            document.getElementById("Loading").style.display = "none";
             document.getElementById("Next_Btn").disabled = false;
             
             if (e.Message) {

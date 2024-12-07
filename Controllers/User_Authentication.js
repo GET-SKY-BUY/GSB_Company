@@ -694,6 +694,7 @@ const Reset_Password = async ( req , res , next ) => {
     try {
         const Token = req.signedCookies["OTP_TOKEN"];
         const { OTP } = req.body.OTP;
+        const { New_Password } = req.body.New_Password;
 
         const Verify_To = Verify_Token(Token);
 
@@ -754,14 +755,23 @@ const Reset_Password = async ( req , res , next ) => {
                 Message: "Incorrect OTP"
             });
         };
+        
+        if(!Valid_Password(New_Password)){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid password, password must be contain atleast 8 character and combination of numbers and alphabets."
+            });    
+        };
 
+        const NewSave_Pass = await Password_Hash(New_Password);
+        
+        User_Found.Password = NewSave_Pass;
         User_Found.Auth.OTP = "";
         User_Found.Auth.OTP_Expiry = new Date();
         User_Found.Auth.Token = "";
 
         await User_Found.save();
-        
-        
+                
         let Status = await Send_Mail({
             from: "Password changed" + "<" + process.env.MAIL_ID + ">",
             to: User_Found.Email,
