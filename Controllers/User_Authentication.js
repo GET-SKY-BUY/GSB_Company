@@ -626,6 +626,69 @@ const Change_Password = async (req, res, next) => {
     };
 };
 
+const Forgot_Password = async ( req , res , next ) => {
+    try {
+        const Email = req.body.Email;
+
+        if(!Email){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+
+        if(!Valid_Email(Email)){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Invalid data."
+            });
+        };
+
+        let Found = await User.findOne({Email: Email});
+
+        if(!Found){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "You don't have an account."
+            });
+        };
+
+        let Save_Token = await Get_Token();
+        let OTP = await Get_OTP();
+
+        let OTP_Expiry = new Date(Number(Date.now() + (5* 60* 1000))); 
+
+        Found.Auth.OTP = OTP;
+        Found.Auth.OTP_Expiry = OTP_Expiry;
+        Found.Auth.Token = Save_Token;
+
+        let Status = await Send_Mail({
+            from: "Forgot Password - GSB" + "<" + process.env.MAIL_ID + ">",
+            to: Found.Email,
+            subject: "Forgot Password - GET SKY BUY",
+            html: `Hello ${Found.Personal_Data.First_Name}, <br>Your OTP is ${OTP}. <br><br>It is valid for 5 minutes.`,
+        });
+
+        if(!Status){
+            return res.status(400).json({
+                Status: "Failed",
+                Message: "Unable to sent OTP."
+            });
+        };
+        
+        const JWT_TOKEN = Generate_Token({
+            ID: Found._id,
+            Token: Save_Token
+        });
+
+        await Found.save().then(()=>{
+            return res.status(201).cookie("OTP",JWT_TOKEN,Cookie_Options_OTP).json({Status: "Success", Message: "OTP sent successfully."});
+        });
+
+    } catch ( error ) {
+        next(error);
+    };
+};
 
 
 
@@ -637,4 +700,5 @@ module.exports = {
     OTP_Resend,
     Login,
     Change_Password,
+    Forgot_Password,
 };
