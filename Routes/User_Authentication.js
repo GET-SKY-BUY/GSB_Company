@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const Cookie_Secret = process.env.COOKIE_SECRET;
 const Auth = express.Router();
-const { Signup , Verify_OTP , OTP_Resend , Login , Change_Password , Forgot_Password , Reset_Password } = require("../Controllers/User_Authentication.js");
+const { Signup , Verify_OTP , OTP_Resend , Login , Change_Password , Forgot_Password , Reset_Password , Logout } = require("../Controllers/User_Authentication.js");
 const Verify_User_API  = require("../utils/Verify_User_API.js");
 module.exports = Auth;
 
@@ -73,3 +73,4 @@ Auth.post("/login", Login);
 Auth.put("/change-password", Verify_User_API , Change_Password);
 Auth.post("/forgot-password", Forgot_Password);
 Auth.post("/reset-password", Reset_Password);
+Auth.get("/logout", Logout);

@@ -602,18 +602,18 @@ const Change_Password = async (req, res, next) => {
         };
         let Hashed_Password = await Password_Hash(Parse.New_Password);
         Got_User.Password = Hashed_Password;
-        Got_User.save().then( async ()=>{
+        await Got_User.save().then( async ()=>{
             
             let Status = await Send_Mail({
                 from: "Password alert" + "<" + process.env.MAIL_ID + ">",
-                to: New_User.Email,
+                to: Got_User.Email,
                 subject: "Password changed",
                 html: `Hello ${Got_User.Personal_Data.First_Name}, <br>Your password changed successful, if not done by you please immediately change your password.`,
             });
             if(!Status){
                 return res.status(400).json({
                     Status: "Failed",
-                    Message: "Unable to sent OTP."
+                    Message: "Password changed successfully, but unable to sent OTP."
                 });
             };
             return res.status(200).json({
@@ -693,8 +693,8 @@ const Forgot_Password = async ( req , res , next ) => {
 const Reset_Password = async ( req , res , next ) => {
     try {
         const Token = req.signedCookies["OTP_TOKEN"];
-        const { OTP } = req.body.OTP;
-        const { New_Password } = req.body.New_Password;
+        const OTP  = req.body.OTP;
+        const New_Password = req.body.New_Password;
 
         const Verify_To = Verify_Token(Token);
 
@@ -810,6 +810,24 @@ const Reset_Password = async ( req , res , next ) => {
     };
 };
 
+const Logout = async ( req , res , next ) => {
+    try {
+
+        res.clearCookie("User",{
+            domain: process.env.PROJECT_DOMAIN,
+            path: "/",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: "strict",
+        });
+
+        return res.status(307).redirect("/auth/login");
+
+    } catch ( error ) {
+        next(error);
+    }
+};
 
 
 
@@ -821,4 +839,5 @@ module.exports = {
     Change_Password,
     Forgot_Password,
     Reset_Password,
+    Logout,
 };
