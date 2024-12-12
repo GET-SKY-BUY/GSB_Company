@@ -350,7 +350,7 @@ const Profile_Orders = async ( req , res , next ) => {
                                     <span><strong>Order Date: </strong> ${Ord_Date}</span><br>
                                     <span><strong>Delivery Date: </strong> ${Del_Date}</span> <br>
                                     <span><strong>Coins Earned: </strong>${Order.GSB_Coins.Coins}</span> <br>
-                                    <span><strong>Total: </strong>₹ ${String(INR(Order.Total_Bill.Grand_Total))}</span> <br>
+                                    <span><strong>Total: </strong>₹ ${INR(String(Order.Total_Bill.Grand_Total))}</span> <br>
                                     <span><strong>Refund/Return: </strong> ${Return}</span> <br>
                                     <span><a href="/contact_us">Raise an issue with this order.</a></span> <br>
                                 </div>
