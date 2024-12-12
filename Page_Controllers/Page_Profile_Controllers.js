@@ -309,6 +309,13 @@ const Profile_Orders = async ( req , res , next ) => {
                 delDateObject.setDate(delDateObject.getDate() + 10);
                 let Del_Date = delDateObject.toDateString();
                 
+                let Return =  "No return or replaced requested";
+
+                if(Order.Return_Refund.Request_Type){
+                    Return = Order.Return_Refund.Request_Type;
+                };
+
+
                 New_Li += ` 
                 <div class="Order_List">
                     ${AA}
@@ -342,19 +349,15 @@ const Profile_Orders = async ( req , res , next ) => {
                                     <span><strong>Payment Method: </strong>${Order.Payment_Type}</span><br>
                                     <span><strong>Order Date: </strong> ${Ord_Date}</span><br>
                                     <span><strong>Delivery Date: </strong> ${Del_Date}</span> <br>
-                                    <span><strong>Coins Earned: </strong>5</span> <br>
-                                    <span><strong>Total: </strong>₹ 26,999</span> <br>
-                                    <span><strong>Refund/Return: </strong> none</span> <br>
-                                    <span><a href="https://api.whatsapp.com/send?phone=919332525641&text=Hello%2C%0AI%20have%20an%20issue%20with%20an%20order.%0APlease%20resolve%20an%20issue.%0A%0A*Registered%20Email%3A*%20${encodeURIComponent(Got_User.Email)}%0A*Order%20no%3A*%${Order._id}%0A">Raise an issue with this order.</a></span> <br>
+                                    <span><strong>Coins Earned: </strong>${Order.GSB_Coins.Coins}</span> <br>
+                                    <span><strong>Total: </strong>₹ ${String(INR(Order.Total_Bill.Grand_Total))}</span> <br>
+                                    <span><strong>Refund/Return: </strong> ${Return}</span> <br>
+                                    <span><a href="/contact_us">Raise an issue with this order.</a></span> <br>
                                 </div>
                             </div>
 
 
                         </div>
-
-
-
-
                     </div>
 
                 </div>
