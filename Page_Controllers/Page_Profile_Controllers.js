@@ -306,7 +306,7 @@ const Profile_Orders = async ( req , res , next ) => {
                 const dateObject = new Date(Order.createdAt);
                 let Ord_Date = dateObject.toDateString();
                 const delDateObject = new Date(dateObject);
-                delDateObject.setDate(delDateObject.getDate() + 10);
+                delDateObject.setDate(delDateObject.getDate() + 7);
                 let Del_Date = delDateObject.toDateString();
                 
                 let Return =  "No return or replaced requested";
