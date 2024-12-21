@@ -44,7 +44,6 @@ Additional.use(cors(
     {
         origin: [
             Project_URL,
-            "http://localhost:80",
             "https://www.google.com",
             "https://google.com",
             "https://bing.com",
